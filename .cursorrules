@@ -1,0 +1,62 @@
+# Atomic Design Mimarisi Kuralları
+
+## Proje Yapısı
+- src/
+  - components/ - Atomic Design bileşenleri
+    - atom/ - Temel UI bileşenleri
+    - molecule/ - Atomların birleşiminden oluşan bileşenler
+    - organism/ - Karmaşık bileşenler
+    - template/ - Sayfa düzenleri
+    - page/ - Sayfalar
+    - screen/ - Ekranlar
+  - assets/ - Resimler, fontlar, vb. statik dosyalar
+  - hooks/ - Custom React hooks
+  - utils/ - Yardımcı fonksiyonlar
+  - helpers/ - Yardımcı sınıflar ve fonksiyonlar
+  - services/ - API istekleri, veri işlemleri
+  - index.ts - Ana dışa aktarım dosyası
+
+## Bileşen Yapısı
+- Tüm bileşenler atomic design prensibine göre organize edilmelidir:
+  - atoms: En temel UI bileşenleri (Button, Input, Text, Icon, vb.)
+  - molecules: Atomların birleşiminden oluşan bileşenler (Form, SearchBar, Card, vb.)
+  - organisms: Moleküllerin ve atomların birleşiminden oluşan karmaşık bileşenler (Header, Footer, ProductList, vb.)
+  - templates: Sayfa düzenini belirleyen bileşenler
+  - pages: Gerçek içerikle doldurulmuş sayfalar
+  - screens: Uygulama ekranları
+
+## Dosya Yapısı
+Her bileşen aşağıdaki dosya yapısına sahip olmalıdır:
+```
+src/components/{atom|molecule|organism|template|page|screen}/ComponentName/
+  ├── ComponentName.component.tsx  # Bileşenin kendisi
+  ├── ComponentName.style.ts       # Stil tanımlamaları
+  ├── ComponentName.type.ts        # Tip tanımlamaları
+  ├── index.ts                     # Dışa aktarım dosyası
+  └── __test__/                    # Test dosyaları
+      ├── ComponentName.test.tsx   # Test dosyası
+      └── __snapshots__/           # Snapshot testleri
+```
+
+## İsimlendirme Kuralları
+- Bileşen dosyaları: PascalCase.component.tsx
+- Stil dosyaları: PascalCase.style.ts
+- Tip dosyaları: PascalCase.type.ts
+- Test dosyaları: PascalCase.test.tsx
+- Dışa aktarım dosyaları: index.ts
+- Hook dosyaları: useHookName.ts
+- Yardımcı fonksiyonlar: camelCase.ts
+- Servis dosyaları: camelCase.service.ts
+
+## Kod Standartları
+- Her bileşen kendi tiplerini ve stillerini içermelidir
+- Bileşenler mümkün olduğunca saf (pure) ve yeniden kullanılabilir olmalıdır
+- Atomlar diğer atomlara bağımlı olmamalıdır
+- Moleküller sadece atomlara bağımlı olabilir
+- Organizmalar atomlara ve moleküllere bağımlı olabilir
+- Şablonlar, sayfalar ve ekranlar tüm bileşen türlerine bağımlı olabilir
+
+## Test Kuralları
+- Her bileşen için birim testleri yazılmalıdır
+- Snapshot testleri kullanılmalıdır
+- Testler, bileşenin tüm varyantlarını ve durumlarını kapsamalıdır 
