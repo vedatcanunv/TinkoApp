@@ -1,12 +1,55 @@
 import { StyleSheet, Dimensions } from "react-native";
+import { COLORS } from "../../../helpers/colors";
+import { LAYOUT } from "../../../helpers/layout";
 
 const { width, height } = Dimensions.get("window");
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: COLORS.background,
+    paddingBottom: 0,
+  },
+  headerContainer: {
+    padding: 16,
+    paddingBottom: 0,
+    backgroundColor: COLORS.background,
+  },
+  headerContent: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 16,
+  },
+  headerAddButton: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: COLORS.primary,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  headerAddButtonText: {
+    color: COLORS.white,
+    fontSize: 20,
+    fontWeight: "500",
+  },
+  listContentContainer: {
     paddingHorizontal: 16,
+    paddingBottom: 40,
+    backgroundColor: COLORS.background,
+  },
+  listContentContainerEmpty: {
+    paddingHorizontal: 16,
+    paddingBottom: 40,
+    backgroundColor: COLORS.background,
+    flexGrow: 1,
+  },
+  listStyle: {
+    backgroundColor: COLORS.background,
+  },
+  listFooter: {
+    height: 20,
   },
   header: {
     flexDirection: "row",
@@ -14,7 +57,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 16,
     borderBottomWidth: 1,
-    borderBottomColor: "#F2F2F7",
+    borderBottomColor: COLORS.grayLighter,
     marginBottom: 16,
   },
   movieList: {
@@ -22,11 +65,11 @@ export const styles = StyleSheet.create({
   },
   movieCard: {
     flexDirection: "row",
-    backgroundColor: "#FFFFFF",
+    backgroundColor: COLORS.white,
     borderRadius: 8,
     marginBottom: 16,
     padding: 12,
-    shadowColor: "#000",
+    shadowColor: COLORS.black,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -41,7 +84,7 @@ export const styles = StyleSheet.create({
   posterPlaceholder: {
     width: 80,
     height: 120,
-    backgroundColor: "#F2F2F7",
+    backgroundColor: COLORS.grayLighter,
     borderRadius: 8,
     justifyContent: "center",
     alignItems: "center",
@@ -58,7 +101,7 @@ export const styles = StyleSheet.create({
     marginTop: 8,
   },
   genreTag: {
-    backgroundColor: "#F2F2F7",
+    backgroundColor: COLORS.grayLighter,
     borderRadius: 4,
     paddingHorizontal: 8,
     paddingVertical: 4,
@@ -68,7 +111,7 @@ export const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: "#F2F2F7",
+    backgroundColor: COLORS.grayLighter,
     justifyContent: "center",
     alignItems: "center",
   },

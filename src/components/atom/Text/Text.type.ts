@@ -1,32 +1,35 @@
 import { TextProps as RNTextProps } from "react-native";
 
-export type TextVariant =
-  | "h1"
-  | "h2"
-  | "h3"
-  | "subtitle"
-  | "body"
-  | "bodySmall"
-  | "caption";
+export type TextSize = "s" | "m" | "l" | "xl" | "xxl" | "xxxl" | "display";
+
+export type TextWeight = "regular" | "medium" | "semibold" | "bold";
 
 export type TextColor =
   | "default"
   | "primary"
   | "secondary"
+  | "info"
   | "success"
-  | "danger"
   | "warning"
+  | "danger"
   | "light"
+  | "lighter"
   | "white";
 
-export type TextAlign = "left" | "center" | "right";
+export type TextAlign = "left" | "center" | "right" | "justify";
 
 export interface TextProps extends RNTextProps {
   /**
-   * Metin varyantı
-   * @default "body"
+   * Yazı tipi boyutu
+   * @default "m"
    */
-  variant?: TextVariant;
+  size?: TextSize;
+
+  /**
+   * Yazı tipi ağırlığı
+   * @default "regular"
+   */
+  weight?: TextWeight;
 
   /**
    * Metin rengi
@@ -44,6 +47,30 @@ export interface TextProps extends RNTextProps {
    * Ek stil özellikleri
    */
   style?: RNTextProps["style"];
+
+  /**
+   * Altı çizili metin
+   * @default false
+   */
+  underline?: boolean;
+
+  /**
+   * Büyük harfli metin
+   * @default false
+   */
+  uppercase?: boolean;
+
+  /**
+   * Küçük harfli metin
+   * @default false
+   */
+  lowercase?: boolean;
+
+  /**
+   * İlk harfleri büyük metin
+   * @default false
+   */
+  capitalize?: boolean;
 
   /**
    * Metin içeriği

@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
+  ActivityIndicator,
   View,
   FlatList,
+  Text as RNText,
   TouchableOpacity,
-  Image,
-  ActivityIndicator,
 } from "react-native";
-import { styles } from "./HomeScreen.style";
-import { HomeScreenProps, Movie } from "./HomeScreen.type";
-import { Text, Button } from "../../../components/atom";
+import { Button, ScreenContainer, Text } from "../../../components/atom";
+import { Movie, MovieCard } from "../../../components/molecule/MovieCard";
 import { mockDataService } from "../../../services";
+import { styles } from "./HomeScreen.style";
+import { HomeScreenProps } from "./HomeScreen.type";
+import { COLORS } from "../../../helpers/colors";
 
 export const HomeScreen: React.FC<HomeScreenProps> = ({
   onMoviePress,
@@ -26,8 +28,21 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         setError(null);
         // Gerçek uygulamada API isteği yapılır
         // Şimdilik mock veri kullanıyoruz
-        const response = await mockDataService.getWatchedMovies();
-        setMovies(response.data.results);
+        const response = (await mockDataService.getWatchedMovies()) as any;
+
+        // API verilerini Movie tipine dönüştürme
+        const formattedMovies: Movie[] = response.data.results.map(
+          (item: any) => ({
+            id: item.id,
+            title: item.title,
+            year: new Date(item.release_date).getFullYear(),
+            genres: item.genres,
+            posterUrl: item.poster_path,
+            rating: item.vote_average,
+          })
+        );
+
+        setMovies(formattedMovies);
       } catch (err) {
         console.error("Film verileri alınırken hata oluştu:", err);
         setError(
@@ -41,53 +56,26 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
     fetchMovies();
   }, []);
 
-  const renderMovieItem = ({ item }: { item: Movie }) => (
-    <TouchableOpacity
-      style={styles.movieCard}
-      onPress={() => onMoviePress(item.id)}
-    >
-      <View style={styles.posterContainer}>
-        <View style={styles.posterPlaceholder}>
-          <Text variant="h3" color="light">
-            {item.title.charAt(0)}
-          </Text>
-        </View>
-      </View>
-      <View style={styles.movieInfo}>
-        <Text variant="subtitle" numberOfLines={1} style={styles.movieTitle}>
-          {item.title}
-        </Text>
-        <Text variant="caption" color="light">
-          {new Date(item.release_date).getFullYear()}
-        </Text>
-        <View style={styles.genreContainer}>
-          {item.genres.slice(0, 2).map((genre) => (
-            <View key={genre.id} style={styles.genreTag}>
-              <Text variant="caption" color="light">
-                {genre.name}
-              </Text>
-            </View>
-          ))}
-        </View>
-      </View>
-    </TouchableOpacity>
-  );
+  // MovieCard bileşeninden filmi alıp onMoviePress'e film ID'sini iletecek fonksiyon
+  const handleMoviePress = (movie: Movie) => {
+    onMoviePress(movie.id as number);
+  };
 
   if (loading) {
     return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#007AFF" />
-        <Text variant="body" color="light" style={styles.loadingText}>
+      <ScreenContainer style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color={COLORS.primary} />
+        <Text size="l" color="light" style={styles.loadingText}>
           Filmler yükleniyor...
         </Text>
-      </View>
+      </ScreenContainer>
     );
   }
 
   if (error) {
     return (
-      <View style={styles.errorContainer}>
-        <Text variant="body" color="danger" style={styles.errorText}>
+      <ScreenContainer style={styles.errorContainer}>
+        <Text size="l" color="danger" style={styles.errorText}>
           {error}
         </Text>
         <Button
@@ -97,8 +85,20 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             // Gerçek uygulamada burada API isteği tekrar yapılır
             mockDataService
               .getWatchedMovies()
-              .then((response) => {
-                setMovies(response.data.results);
+              .then((response: any) => {
+                // API verilerini Movie tipine dönüştürme
+                const formattedMovies: Movie[] = response.data.results.map(
+                  (item: any) => ({
+                    id: item.id,
+                    title: item.title,
+                    year: new Date(item.release_date).getFullYear(),
+                    genres: item.genres,
+                    posterUrl: item.poster_path,
+                    rating: item.vote_average,
+                  })
+                );
+
+                setMovies(formattedMovies);
                 setError(null);
               })
               .catch((err) => {
@@ -114,42 +114,53 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           variant="outline"
           style={styles.retryButton}
         />
-      </View>
+      </ScreenContainer>
     );
   }
 
+  // Boş liste gösterimi
+  const renderEmptyList = () => (
+    <View style={styles.emptyContainer}>
+      <Text size="m" color="light" style={styles.emptyText}>
+        Henüz izlediğiniz film bulunmuyor.
+      </Text>
+    </View>
+  );
+
+  // Film kartı renderlaması
+  const renderMovieItem = ({ item }: { item: Movie }) => (
+    <MovieCard movie={item} onPress={handleMoviePress} />
+  );
+
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text variant="h2" color="primary">
-          İzlediğim Filmler
-        </Text>
-        <TouchableOpacity style={styles.addButton} onPress={onAddPress}>
-          <Text variant="h3" color="primary">
-            +
+    <ScreenContainer style={[styles.container]}>
+      <View style={styles.headerContainer}>
+        <View style={styles.headerContent}>
+          <Text size="xxxl" weight="bold" color="primary">
+            Tinko
           </Text>
-        </TouchableOpacity>
+        </View>
       </View>
 
       <FlatList
         data={movies}
         renderItem={renderMovieItem}
         keyExtractor={(item) => item.id.toString()}
-        contentContainerStyle={styles.movieList}
+        ListEmptyComponent={renderEmptyList}
+        ListFooterComponent={() => <View style={styles.listFooter} />}
         showsVerticalScrollIndicator={false}
-        ListEmptyComponent={
-          <View style={styles.emptyContainer}>
-            <Text variant="body" color="light" style={styles.emptyText}>
-              Henüz izlediğiniz film bulunmuyor.
-            </Text>
-            <Button
-              title="Film Ekle"
-              onPress={onAddPress}
-              style={styles.addMovieButton}
-            />
-          </View>
+        contentContainerStyle={
+          movies.length === 0
+            ? styles.listContentContainerEmpty
+            : styles.listContentContainer
         }
+        style={styles.listStyle}
+        removeClippedSubviews={false}
+        bounces={movies.length > 4 ? true : false}
+        overScrollMode="never"
+        windowSize={5}
+        initialNumToRender={5}
       />
-    </View>
+    </ScreenContainer>
   );
 };

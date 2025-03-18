@@ -1,18 +1,20 @@
 import { StyleSheet, Dimensions } from "react-native";
+import { COLORS } from "../../../helpers/colors";
+import { LAYOUT } from "../../../helpers/layout";
 
 const { width, height } = Dimensions.get("window");
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: COLORS.background,
     justifyContent: "center",
   },
   header: {
     paddingHorizontal: 16,
     paddingVertical: 16,
     borderBottomWidth: 1,
-    borderBottomColor: "#F2F2F7",
+    borderBottomColor: COLORS.grayLighter,
   },
   scrollContainer: {
     flex: 1,
@@ -27,7 +29,7 @@ export const styles = StyleSheet.create({
   },
   statBox: {
     flex: 1,
-    backgroundColor: "#F9F9F9",
+    backgroundColor: COLORS.grayExtraLight,
     borderRadius: 8,
     padding: 16,
     alignItems: "center",
@@ -40,7 +42,7 @@ export const styles = StyleSheet.create({
     marginBottom: 16,
   },
   sectionContent: {
-    backgroundColor: "#F9F9F9",
+    backgroundColor: COLORS.grayExtraLight,
     borderRadius: 8,
     padding: 16,
   },
@@ -49,13 +51,13 @@ export const styles = StyleSheet.create({
   },
   statBar: {
     height: 8,
-    backgroundColor: "#E5E5EA",
+    backgroundColor: COLORS.grayLight,
     borderRadius: 4,
     marginBottom: 4,
   },
   statBarFill: {
     height: 8,
-    backgroundColor: "#007AFF",
+    backgroundColor: COLORS.primary,
     borderRadius: 4,
   },
   statLabelContainer: {
@@ -71,7 +73,7 @@ export const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: "#E5E5EA",
+    backgroundColor: COLORS.grayLight,
     justifyContent: "center",
     alignItems: "center",
     marginRight: 12,
@@ -81,7 +83,7 @@ export const styles = StyleSheet.create({
   },
   actionsContainer: {
     padding: 16,
-    paddingBottom: 32,
+    paddingBottom: LAYOUT.TAB_BAR_HEIGHT + 40,
   },
   actionButton: {
     marginBottom: 12,

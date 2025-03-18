@@ -1,66 +1,71 @@
 import { StyleSheet } from "react-native";
+import { COLORS } from "../../../helpers/colors";
+import { SPACING, TYPOGRAPHY, VISUAL } from "../../../helpers/styleKit";
 
 export const styles = StyleSheet.create({
+  // Button base style
   button: {
-    borderRadius: 8,
+    borderRadius: VISUAL.RADIUS.MEDIUM,
+    paddingHorizontal: SPACING.REGULAR,
+    paddingVertical: SPACING.MEDIUM,
     justifyContent: "center",
     alignItems: "center",
-    width: "100%",
-    marginVertical: 10,
-    elevation: 3,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
+    flexDirection: "row",
   },
-  // Varyantlar
+  // Button variants
   primary: {
-    backgroundColor: "#007AFF",
+    backgroundColor: COLORS.primary,
   },
   secondary: {
-    backgroundColor: "#5856D6",
+    backgroundColor: COLORS.secondary,
   },
   outline: {
     backgroundColor: "transparent",
     borderWidth: 1,
-    borderColor: "#007AFF",
+    borderColor: COLORS.primary,
   },
   transparent: {
     backgroundColor: "transparent",
   },
-  // Boyutlar
+  // Button sizes
   small: {
-    paddingVertical: 8,
-    paddingHorizontal: 16,
+    paddingHorizontal: SPACING.MEDIUM,
+    paddingVertical: SPACING.SMALL,
   },
   medium: {
-    paddingVertical: 12,
-    paddingHorizontal: 24,
+    paddingHorizontal: SPACING.REGULAR,
+    paddingVertical: SPACING.MEDIUM,
   },
   large: {
-    paddingVertical: 16,
-    paddingHorizontal: 32,
+    paddingHorizontal: SPACING.LARGE,
+    paddingVertical: SPACING.REGULAR,
   },
-  // Metin stilleri
-  text: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: "#FFFFFF",
-  },
-  primaryText: {
-    color: "#FFFFFF",
-  },
-  secondaryText: {
-    color: "#FFFFFF",
-  },
-  outlineText: {
-    color: "#007AFF",
-  },
-  transparentText: {
-    color: "#007AFF",
-  },
-  // Durumlar
+  // Button states
   disabled: {
     opacity: 0.5,
+  },
+  text: {
+    fontSize: TYPOGRAPHY.FONT_SIZE.REGULAR,
+    fontWeight: TYPOGRAPHY.FONT_WEIGHT.MEDIUM,
+  },
+  // Text colors based on button variant
+  primaryText: {
+    color: COLORS.white,
+  },
+  secondaryText: {
+    color: COLORS.white,
+  },
+  outlineText: {
+    color: COLORS.primary,
+  },
+  transparentText: {
+    color: COLORS.primary,
+  },
+  // Icon styles
+  iconLeft: {
+    marginRight: SPACING.SMALL,
+  },
+  iconRight: {
+    marginLeft: SPACING.SMALL,
   },
 });

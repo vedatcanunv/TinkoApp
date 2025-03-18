@@ -51,10 +51,10 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.headerContainer}>
-          <Text variant="h2" color="primary" style={styles.title}>
+          <Text size="xxxl" weight="bold" color="primary" style={styles.title}>
             Hoş Geldiniz
           </Text>
-          <Text variant="bodySmall" color="light" style={styles.subtitle}>
+          <Text size="s" color="light" style={styles.subtitle}>
             Film ve dizileri takip etmek için giriş yapın
           </Text>
         </View>
@@ -103,7 +103,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                 style={styles.forgotPasswordContainer}
                 onPress={() => console.log("Şifremi unuttum")}
               >
-                <Text variant="bodySmall" color="primary">
+                <Text size="s" color="primary">
                   Şifremi Unuttum
                 </Text>
               </TouchableOpacity>
@@ -122,11 +122,11 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
         </Formik>
 
         <View style={styles.footerContainer}>
-          <Text variant="bodySmall" color="light">
+          <Text size="s" color="light">
             Hesabınız yok mu?
           </Text>
           <TouchableOpacity onPress={onSignUpPress}>
-            <Text variant="bodySmall" color="primary" style={styles.signUpText}>
+            <Text size="s" color="primary" style={styles.signUpText}>
               Kayıt Ol
             </Text>
           </TouchableOpacity>

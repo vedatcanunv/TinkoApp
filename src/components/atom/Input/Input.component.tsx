@@ -1,84 +1,117 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, memo } from "react";
 import { View, TextInput, TouchableOpacity } from "react-native";
 import { styles } from "./Input.style";
-import { InputProps } from "./Input.type";
+import { InputProps, InputVariant, InputSize } from "./Input.type";
 import { Text } from "../Text";
+import { COLORS } from "../../../helpers/colors";
 
-export const Input: React.FC<InputProps> = ({
-  label,
-  placeholder,
-  value,
-  onChangeText,
-  onBlur,
-  error,
-  secureTextEntry,
-  style,
-  ...props
-}) => {
-  const [isFocused, setIsFocused] = useState(false);
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+export const Input = memo(
+  ({
+    label,
+    placeholder,
+    value,
+    onChangeText,
+    onBlur,
+    error,
+    secureTextEntry,
+    variant = "default",
+    size = "medium",
+    disabled = false,
+    leftIcon,
+    rightIcon,
+    style,
+    ...props
+  }: InputProps) => {
+    const [isFocused, setIsFocused] = useState(false);
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
-  const handleFocus = () => {
-    setIsFocused(true);
-    if (props.onFocus) {
-      props.onFocus();
-    }
-  };
+    const handleFocus = useCallback(
+      (e: any) => {
+        setIsFocused(true);
+        if (props.onFocus) {
+          props.onFocus(e);
+        }
+      },
+      [props.onFocus]
+    );
 
-  const handleBlur = (e: any) => {
-    setIsFocused(false);
-    if (onBlur) {
-      onBlur(e);
-    }
-  };
+    const handleBlur = useCallback(
+      (e: any) => {
+        setIsFocused(false);
+        if (onBlur) {
+          onBlur(e);
+        }
+      },
+      [onBlur]
+    );
 
-  const togglePasswordVisibility = () => {
-    setIsPasswordVisible(!isPasswordVisible);
-  };
+    const togglePasswordVisibility = useCallback(() => {
+      setIsPasswordVisible((prev) => !prev);
+    }, []);
 
-  return (
-    <View style={[styles.container, style]}>
-      {label && (
-        <Text variant="bodySmall" color="light" style={styles.label}>
-          {label}
-        </Text>
-      )}
-      <View
-        style={[
-          styles.inputContainer,
-          isFocused && styles.focusedInput,
-          error && styles.errorInput,
-        ]}
-      >
-        <TextInput
-          style={styles.input}
-          placeholder={placeholder}
-          value={value}
-          onChangeText={onChangeText}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          secureTextEntry={secureTextEntry && !isPasswordVisible}
-          placeholderTextColor="#8E8E93"
-          {...props}
-        />
+    const getVariantStyle = (variant: InputVariant) => {
+      return styles[variant];
+    };
 
-        {secureTextEntry && (
-          <TouchableOpacity
-            style={styles.eyeIcon}
-            onPress={togglePasswordVisibility}
-            hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
-          >
-            <Text variant="body" color="light">
-              {isPasswordVisible ? "👁️" : "👁️‍🗨️"}
-            </Text>
-          </TouchableOpacity>
+    const getSizeStyle = (size: InputSize) => {
+      return styles[size];
+    };
+
+    return (
+      <View style={[styles.container, style]}>
+        {label && (
+          <Text size="m" weight="medium" color="light" style={styles.label}>
+            {label}
+          </Text>
+        )}
+        <View
+          style={[
+            styles.inputContainer,
+            getVariantStyle(variant),
+            getSizeStyle(size),
+            isFocused && styles.focused,
+            error && styles.hasError,
+            disabled && styles.disabled,
+          ]}
+        >
+          {leftIcon && <View style={styles.leftIcon}>{leftIcon}</View>}
+
+          <TextInput
+            style={styles.input}
+            placeholder={placeholder}
+            value={value}
+            onChangeText={onChangeText}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            secureTextEntry={secureTextEntry && !isPasswordVisible}
+            placeholderTextColor={COLORS.textLighter}
+            autoCorrect={false}
+            autoCapitalize="none"
+            editable={!disabled}
+            {...props}
+          />
+
+          {rightIcon && <View style={styles.rightIcon}>{rightIcon}</View>}
+
+          {secureTextEntry && (
+            <TouchableOpacity
+              style={styles.rightIcon}
+              onPress={togglePasswordVisibility}
+              hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
+              disabled={disabled}
+            >
+              <Text size="m" color="light">
+                {isPasswordVisible ? "👁️" : "👁️‍🗨️"}
+              </Text>
+            </TouchableOpacity>
+          )}
+        </View>
+        {error && (
+          <Text size="s" color="danger" style={styles.errorText}>
+            {error}
+          </Text>
         )}
       </View>
-      {error && (
-        <Text variant="caption" color="danger" style={styles.errorText}>
-          {error}
-        </Text>
-      )}
-    </View>
-  );
-};
+    );
+  }
+);

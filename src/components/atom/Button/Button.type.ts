@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import { TouchableOpacityProps } from "react-native";
 
 export type ButtonVariant = "primary" | "secondary" | "outline" | "transparent";
@@ -37,4 +38,14 @@ export interface ButtonProps extends TouchableOpacityProps {
    * @default false
    */
   loading?: boolean;
+
+  /**
+   * Butonun sol tarafında görüntülenecek ikon
+   */
+  iconLeft?: ReactNode;
+
+  /**
+   * Butonun sağ tarafında görüntülenecek ikon
+   */
+  iconRight?: ReactNode;
 }

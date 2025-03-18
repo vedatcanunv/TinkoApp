@@ -1,46 +1,62 @@
 import { StyleSheet } from "react-native";
+import { COLORS } from "../../../helpers/colors";
+import { SPACING, TYPOGRAPHY, VISUAL } from "../../../helpers/styleKit";
 
 export const styles = StyleSheet.create({
   container: {
-    marginBottom: 16,
+    width: "100%",
+    marginBottom: SPACING.REGULAR,
   },
   label: {
-    marginBottom: 8,
+    fontSize: TYPOGRAPHY.FONT_SIZE.MEDIUM,
+    fontWeight: TYPOGRAPHY.FONT_WEIGHT.MEDIUM,
+    color: COLORS.textPrimary,
+    marginBottom: SPACING.TINY,
   },
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
     borderWidth: 1,
-    borderRadius: 8,
-    backgroundColor: "#F9F9F9",
-    borderColor: "#E5E5EA",
-    paddingHorizontal: 12,
+    borderColor: COLORS.inputBorder,
+    borderRadius: VISUAL.RADIUS.MEDIUM,
+    backgroundColor: COLORS.inputBackground,
+    paddingHorizontal: SPACING.MEDIUM,
     height: 48,
     position: "relative",
   },
-  focusedInput: {
-    borderColor: "#007AFF",
-  },
-  errorInput: {
-    borderColor: "#FF3B30",
-  },
   input: {
     flex: 1,
-    fontSize: 16,
-    color: "#000000",
     height: "100%",
+    color: COLORS.textPrimary,
+    fontSize: TYPOGRAPHY.FONT_SIZE.REGULAR,
+    fontWeight: TYPOGRAPHY.FONT_WEIGHT.REGULAR,
+  },
+  iconContainer: {
+    paddingHorizontal: SPACING.TINY,
+  },
+  errorText: {
+    color: COLORS.danger,
+    fontSize: TYPOGRAPHY.FONT_SIZE.SMALL,
+    marginTop: SPACING.TINY,
   },
   // Variants
   default: {
-    borderColor: "#E5E5EA",
+    backgroundColor: COLORS.inputBackground,
   },
   outline: {
-    borderColor: "#007AFF",
+    backgroundColor: "transparent",
+    borderWidth: 1,
+    borderColor: COLORS.borderDefault,
+  },
+  underline: {
+    borderWidth: 0,
+    borderBottomWidth: 1,
+    borderRadius: 0,
     backgroundColor: "transparent",
   },
   filled: {
     borderColor: "transparent",
-    backgroundColor: "#F2F2F7",
+    backgroundColor: COLORS.inputFilledBackground,
   },
   // Sizes
   small: {
@@ -48,36 +64,28 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 12,
   },
   medium: {
-    height: 44,
+    height: 48,
     paddingHorizontal: 16,
   },
   large: {
-    height: 52,
+    height: 56,
     paddingHorizontal: 20,
   },
   // States
   focused: {
-    borderColor: "#007AFF",
+    borderColor: COLORS.primary,
   },
-  error: {
-    borderColor: "#FF3B30",
+  hasError: {
+    borderColor: COLORS.danger,
   },
   disabled: {
-    opacity: 0.5,
+    opacity: 0.6,
   },
   // Icons
   leftIcon: {
-    marginRight: 8,
+    marginRight: SPACING.SMALL,
   },
   rightIcon: {
-    marginLeft: 8,
-  },
-  errorText: {
-    marginTop: 4,
-  },
-  eyeIcon: {
-    padding: 8,
-    justifyContent: "center",
-    alignItems: "center",
+    marginLeft: SPACING.SMALL,
   },
 });

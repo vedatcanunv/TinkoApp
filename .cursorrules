@@ -14,6 +14,12 @@
   - utils/ - Yardımcı fonksiyonlar
   - helpers/ - Yardımcı sınıflar ve fonksiyonlar
   - services/ - API istekleri, veri işlemleri
+  - navigation/ - Navigasyon bileşenleri
+    - Root/ - Ana navigasyon
+    - Main/ - Ana tab navigasyonu
+    - Auth/ - Kimlik doğrulama navigasyonu
+    - Home/ - Ana sayfa navigasyonu
+    - Profile/ - Profil navigasyonu
   - index.ts - Ana dışa aktarım dosyası
 
 ## Bileşen Yapısı
@@ -38,6 +44,14 @@ src/components/{atom|molecule|organism|template|page|screen}/ComponentName/
       └── __snapshots__/           # Snapshot testleri
 ```
 
+Her navigasyon bileşeni aşağıdaki dosya yapısına sahip olmalıdır:
+```
+src/navigation/{NavigationType}/
+  ├── NavigationType.tsx           # Navigasyon bileşeninin kendisi
+  ├── NavigationType.style.ts      # Stil tanımlamaları
+  ├── NavigationType.type.ts       # Tip tanımlamaları
+```
+
 ## İsimlendirme Kuralları
 - Bileşen dosyaları: PascalCase.component.tsx
 - Stil dosyaları: PascalCase.style.ts
@@ -47,6 +61,9 @@ src/components/{atom|molecule|organism|template|page|screen}/ComponentName/
 - Hook dosyaları: useHookName.ts
 - Yardımcı fonksiyonlar: camelCase.ts
 - Servis dosyaları: camelCase.service.ts
+- Navigasyon dosyaları: PascalCaseNavigation.tsx
+- Navigasyon stil dosyaları: PascalCaseNavigation.style.ts
+- Navigasyon tip dosyaları: PascalCaseNavigation.type.ts
 
 ## Kod Standartları
 - Her bileşen kendi tiplerini ve stillerini içermelidir
@@ -55,6 +72,22 @@ src/components/{atom|molecule|organism|template|page|screen}/ComponentName/
 - Moleküller sadece atomlara bağımlı olabilir
 - Organizmalar atomlara ve moleküllere bağımlı olabilir
 - Şablonlar, sayfalar ve ekranlar tüm bileşen türlerine bağımlı olabilir
+
+## Stil Standartları
+- Stillerin doğrudan bileşen dosyasında tanımlanması yerine ayrı .style.ts dosyalarında tanımlanması gerekmektedir
+- Her bileşen, kendi özel stillerini içeren bir style dosyasına sahip olmalıdır
+- Stil dosyaları, StyleSheet.create() kullanılarak oluşturulmalı ve doğrudan bileşen dosyasından import edilmelidir
+- StyleSheet tanımı bileşen dosyasında değil, ayrı .style.ts dosyasında yapılmalıdır
+- styles objesini export eden stil dosyaları, ilgili bileşen tarafından import edilmelidir
+- Navigasyon bileşenleri için de aynı stil prensibi geçerlidir, her navigasyon bileşeni kendi stil dosyasına sahip olmalıdır
+
+## Navigasyon Standartları
+- Tüm navigasyon türleri ayrı klasörlerde organize edilmelidir
+- Her navigasyon türü kendi tiplerini ve stillerini içermelidir
+- Stack, Tab ve Drawer navigasyonları uygun şekilde ayrılmalıdır
+- Bileşen yapılarına benzer şekilde, navigasyon yapıları da stillerini harici dosyalardan almalıdır
+- Navigasyon bileşenleri, dışarıdan sağlanan bileşenlerin nasıl render edileceğine karar vermelidir
+- Özel tab bar ve navigasyon tasarımları için, stil tanımları ilgili navigasyon stil dosyasına taşınmalıdır
 
 ## Test Kuralları
 - Her bileşen için birim testleri yazılmalıdır

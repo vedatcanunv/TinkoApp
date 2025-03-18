@@ -1,75 +1,106 @@
 import { StyleSheet } from "react-native";
+import { COLORS } from "../../../helpers/colors";
+import { TYPOGRAPHY } from "../../../helpers/styleKit";
 
 export const styles = StyleSheet.create({
-  base: {
-    fontFamily: "System",
+  // Font weights
+  regular: {
+    fontWeight: TYPOGRAPHY.FONT_WEIGHT.REGULAR,
   },
-  // Varyantlar
-  h1: {
-    fontSize: 32,
-    fontWeight: "bold",
-    lineHeight: 40,
+  medium: {
+    fontWeight: TYPOGRAPHY.FONT_WEIGHT.MEDIUM,
   },
-  h2: {
-    fontSize: 24,
-    fontWeight: "bold",
-    lineHeight: 32,
+  semibold: {
+    fontWeight: TYPOGRAPHY.FONT_WEIGHT.SEMIBOLD,
   },
-  h3: {
-    fontSize: 20,
-    fontWeight: "bold",
-    lineHeight: 28,
+  bold: {
+    fontWeight: TYPOGRAPHY.FONT_WEIGHT.BOLD,
   },
-  subtitle: {
-    fontSize: 18,
-    fontWeight: "600",
-    lineHeight: 24,
-  },
-  body: {
-    fontSize: 16,
-    lineHeight: 24,
-  },
-  bodySmall: {
-    fontSize: 14,
-    lineHeight: 20,
-  },
-  caption: {
-    fontSize: 12,
+  // Font sizes
+  s: {
+    fontSize: TYPOGRAPHY.FONT_SIZE.SMALL,
     lineHeight: 16,
   },
-  // Renkler
-  colorDefault: {
-    color: "#000000",
+  m: {
+    fontSize: TYPOGRAPHY.FONT_SIZE.MEDIUM,
+    lineHeight: 20,
   },
-  colorPrimary: {
-    color: "#007AFF",
+  l: {
+    fontSize: TYPOGRAPHY.FONT_SIZE.REGULAR,
+    lineHeight: 24,
   },
-  colorSecondary: {
-    color: "#5856D6",
+  xl: {
+    fontSize: TYPOGRAPHY.FONT_SIZE.LARGE,
+    lineHeight: 28,
   },
-  colorSuccess: {
-    color: "#34C759",
+  xxl: {
+    fontSize: TYPOGRAPHY.FONT_SIZE.XL,
+    lineHeight: 32,
   },
-  colorDanger: {
-    color: "#FF3B30",
+  xxxl: {
+    fontSize: TYPOGRAPHY.FONT_SIZE.XXL,
+    lineHeight: 36,
   },
-  colorWarning: {
-    color: "#FF9500",
+  display: {
+    fontSize: 32,
+    lineHeight: 40,
+    fontWeight: TYPOGRAPHY.FONT_WEIGHT.BOLD,
   },
-  colorLight: {
-    color: "#8E8E93",
+  // Colors
+  default: {
+    color: COLORS.textDefault,
   },
-  colorWhite: {
-    color: "#FFFFFF",
+  primary: {
+    color: COLORS.primary,
   },
-  // Hizalama
-  alignLeft: {
+  secondary: {
+    color: COLORS.secondary,
+  },
+  info: {
+    color: COLORS.info,
+  },
+  success: {
+    color: COLORS.success,
+  },
+  warning: {
+    color: COLORS.warning,
+  },
+  danger: {
+    color: COLORS.danger,
+  },
+  light: {
+    color: COLORS.textLight,
+  },
+  lighter: {
+    color: COLORS.textLighter,
+  },
+  white: {
+    color: COLORS.white,
+  },
+  // Text align
+  left: {
     textAlign: "left",
   },
-  alignCenter: {
+  center: {
     textAlign: "center",
   },
-  alignRight: {
+  right: {
     textAlign: "right",
+  },
+  justify: {
+    textAlign: "justify",
+  },
+  // Additional styles
+  underline: {
+    textDecorationLine: "underline",
+  },
+  uppercase: {
+    textTransform: "uppercase",
+  },
+  lowercase: {
+    textTransform: "lowercase",
+  },
+  capitalize: {
+    textTransform: "capitalize",
   },
 });

@@ -3,6 +3,7 @@ import { View, ActivityIndicator, Image } from "react-native";
 import { styles } from "./SplashScreen.style";
 import { SplashScreenProps } from "./SplashScreen.type";
 import { Text } from "../../../components/atom";
+import { COLORS } from "../../../helpers/colors";
 
 export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
   useEffect(() => {
@@ -18,18 +19,27 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
     <View style={styles.container}>
       <View style={styles.logoContainer}>
         <View style={styles.logoPlaceholder}>
-          <Text variant="h1" color="primary">
+          <Text size="display" weight="bold" color="primary">
             T
           </Text>
         </View>
-        <Text variant="h1" color="primary" style={styles.appName}>
+        <Text
+          size="display"
+          weight="bold"
+          color="primary"
+          style={styles.appName}
+        >
           Tinko
         </Text>
-        <Text variant="subtitle" color="light" style={styles.tagline}>
+        <Text size="xl" weight="semibold" color="light" style={styles.tagline}>
           Film ve Dizi Takip Uygulaması
         </Text>
       </View>
-      <ActivityIndicator size="large" color="#007AFF" style={styles.loader} />
+      <ActivityIndicator
+        size="large"
+        color={COLORS.primary}
+        style={styles.loader}
+      />
     </View>
   );
 };

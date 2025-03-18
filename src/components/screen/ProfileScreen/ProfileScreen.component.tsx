@@ -12,8 +12,9 @@ import {
   GenreStats,
   PersonStats,
 } from "./ProfileScreen.type";
-import { Text, Button } from "../../../components/atom";
+import { Text, Button, ScreenContainer } from "../../../components/atom";
 import { mockDataService } from "../../../services";
+import { COLORS } from "../../../helpers/colors";
 
 export const ProfileScreen: React.FC<ProfileScreenProps> = ({
   onLogout,
@@ -31,7 +32,9 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
         setError(null);
         // Gerçek uygulamada API isteği yapılır
         // Şimdilik mock veri kullanıyoruz
-        const response = await mockDataService.getUserStats();
+        const response = (await mockDataService.getUserStats()) as {
+          data: UserStats;
+        };
         setUserStats(response.data);
       } catch (err) {
         console.error("Kullanıcı istatistikleri alınırken hata oluştu:", err);
@@ -55,8 +58,8 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
           />
         </View>
         <View style={styles.statLabelContainer}>
-          <Text variant="bodySmall">{genre.name}</Text>
-          <Text variant="bodySmall">{genre.percentage}%</Text>
+          <Text size="m">{genre.name}</Text>
+          <Text size="m">{genre.percentage}%</Text>
         </View>
       </View>
     ));
@@ -66,13 +69,13 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
     return persons.map((person) => (
       <View key={person.id} style={styles.personItem}>
         <View style={styles.personImagePlaceholder}>
-          <Text variant="body" color="light">
+          <Text size="l" color="light">
             {person.name.charAt(0)}
           </Text>
         </View>
         <View style={styles.personInfo}>
-          <Text variant="bodySmall">{person.name}</Text>
-          <Text variant="caption" color="light">
+          <Text size="m">{person.name}</Text>
+          <Text size="s" color="light">
             {person.count} film
           </Text>
         </View>
@@ -82,19 +85,19 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
 
   if (loading) {
     return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#007AFF" />
-        <Text variant="body" color="light" style={styles.loadingText}>
+      <ScreenContainer style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color={COLORS.primary} />
+        <Text size="l" color="light" style={styles.loadingText}>
           Profil bilgileri yükleniyor...
         </Text>
-      </View>
+      </ScreenContainer>
     );
   }
 
   if (error) {
     return (
-      <View style={styles.errorContainer}>
-        <Text variant="body" color="danger" style={styles.errorText}>
+      <ScreenContainer style={styles.errorContainer}>
+        <Text size="l" color="danger" style={styles.errorText}>
           {error}
         </Text>
         <Button
@@ -104,8 +107,9 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
             // Gerçek uygulamada burada API isteği tekrar yapılır
             mockDataService
               .getUserStats()
-              .then((response) => {
-                setUserStats(response.data);
+              .then((response: unknown) => {
+                const typedResponse = response as { data: UserStats };
+                setUserStats(typedResponse.data);
                 setError(null);
               })
               .catch((err) => {
@@ -124,14 +128,14 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
           variant="outline"
           style={styles.retryButton}
         />
-      </View>
+      </ScreenContainer>
     );
   }
 
   return (
-    <View style={styles.container}>
+    <ScreenContainer>
       <View style={styles.header}>
-        <Text variant="h2" color="primary">
+        <Text size="xxxl" weight="bold" color="primary">
           Profilim
         </Text>
       </View>
@@ -143,25 +147,25 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
         <View style={styles.statsContainer}>
           <View style={styles.statsRow}>
             <View style={styles.statBox}>
-              <Text variant="h3" color="primary">
+              <Text size="xxxl" color="primary">
                 {userStats?.totalWatchedMovies || 0}
               </Text>
-              <Text variant="bodySmall" color="light">
+              <Text size="m" color="light">
                 İzlenen Film
               </Text>
             </View>
             <View style={styles.statBox}>
-              <Text variant="h3" color="primary">
+              <Text size="xxxl" color="primary">
                 {userStats?.totalWatchedTVShows || 0}
               </Text>
-              <Text variant="bodySmall" color="light">
+              <Text size="m" color="light">
                 İzlenen Dizi
               </Text>
             </View>
           </View>
 
           <View style={styles.sectionContainer}>
-            <Text variant="subtitle" style={styles.sectionTitle}>
+            <Text size="xl" weight="semibold" style={styles.sectionTitle}>
               Favori Türler
             </Text>
             <View style={styles.sectionContent}>
@@ -171,7 +175,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
           </View>
 
           <View style={styles.sectionContainer}>
-            <Text variant="subtitle" style={styles.sectionTitle}>
+            <Text size="xl" weight="semibold" style={styles.sectionTitle}>
               Favori Oyuncular
             </Text>
             <View style={styles.sectionContent}>
@@ -181,7 +185,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
           </View>
 
           <View style={styles.sectionContainer}>
-            <Text variant="subtitle" style={styles.sectionTitle}>
+            <Text size="xl" weight="semibold" style={styles.sectionTitle}>
               Favori Yönetmenler
             </Text>
             <View style={styles.sectionContent}>
@@ -210,6 +214,6 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
           />
         </View>
       </ScrollView>
-    </View>
+    </ScreenContainer>
   );
 };

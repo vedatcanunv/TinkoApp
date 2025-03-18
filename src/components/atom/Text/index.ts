@@ -1,2 +1,8 @@
 export { Text } from "./Text.component";
-export type { TextProps, TextVariant, TextColor, TextAlign } from "./Text.type";
+export type {
+  TextProps,
+  TextSize,
+  TextWeight,
+  TextColor,
+  TextAlign,
+} from "./Text.type";

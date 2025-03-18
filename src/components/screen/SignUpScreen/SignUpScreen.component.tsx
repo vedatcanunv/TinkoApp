@@ -65,10 +65,10 @@ export const SignUpScreen: React.FC<SignUpScreenProps> = ({
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.headerContainer}>
-          <Text variant="h2" color="primary" style={styles.title}>
+          <Text size="xxxl" weight="bold" color="primary" style={styles.title}>
             Hesap Oluştur
           </Text>
-          <Text variant="bodySmall" color="light" style={styles.subtitle}>
+          <Text size="s" color="light" style={styles.subtitle}>
             Film ve dizileri takip etmek için hesap oluşturun
           </Text>
         </View>
@@ -175,11 +175,11 @@ export const SignUpScreen: React.FC<SignUpScreenProps> = ({
         </Formik>
 
         <View style={styles.footerContainer}>
-          <Text variant="bodySmall" color="light">
+          <Text size="s" color="light">
             Zaten hesabınız var mı?
           </Text>
           <TouchableOpacity onPress={onLoginPress}>
-            <Text variant="bodySmall" color="primary" style={styles.loginText}>
+            <Text size="s" color="primary" style={styles.loginText}>
               Giriş Yap
             </Text>
           </TouchableOpacity>

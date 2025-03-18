@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { COLORS } from "../../../helpers/colors";
 
 export const styles = StyleSheet.create({
   container: {
@@ -20,27 +21,27 @@ export const styles = StyleSheet.create({
   },
   // Colors
   colorDefault: {
-    color: "#000000",
+    color: COLORS.textDefault,
   },
   colorPrimary: {
-    color: "#007AFF",
+    color: COLORS.primary,
   },
   colorSecondary: {
-    color: "#5856D6",
+    color: COLORS.secondary,
   },
   colorSuccess: {
-    color: "#34C759",
+    color: COLORS.success,
   },
   colorDanger: {
-    color: "#FF3B30",
+    color: COLORS.danger,
   },
   colorWarning: {
-    color: "#FF9500",
+    color: COLORS.warning,
   },
   colorLight: {
-    color: "#8E8E93",
+    color: COLORS.grayDark,
   },
   colorWhite: {
-    color: "#FFFFFF",
+    color: COLORS.white,
   },
 });
