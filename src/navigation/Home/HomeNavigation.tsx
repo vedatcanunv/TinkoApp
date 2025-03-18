@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { SafeAreaView } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { HomeScreen } from "../../components/screen/HomeScreen/HomeScreen.component";
@@ -16,9 +16,8 @@ const HomeScreenWrapper = ({ navigation }: any) => {
   };
 
   const handleAddPress = () => {
-    // Film arama sayfasına yönlendir
+    // Film ekle butonuna tıklandığında
     console.log("Film ekle butonuna tıklandı");
-    // Gelecekte: navigation.navigate("SearchMovie");
   };
 
   return (
@@ -35,7 +34,6 @@ export const HomeNavigation: React.FC = () => {
       <Stack.Screen name="Home" component={HomeScreenWrapper} />
       {/* Gelecekte eklenecek diğer ekranlar */}
       {/* <Stack.Screen name="MovieDetail" component={MovieDetailScreenWrapper} /> */}
-      {/* <Stack.Screen name="SearchMovie" component={SearchMovieScreenWrapper} /> */}
     </Stack.Navigator>
   );
 };

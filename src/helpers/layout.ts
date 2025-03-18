@@ -11,7 +11,7 @@ export const LAYOUT = {
   HOME_INDICATOR_HEIGHT: isIphoneX ? 25 : 0,
 
   // TabBar yüksekliği
-  TAB_BAR_HEIGHT: 75,
+  TAB_BAR_HEIGHT: 60,
 
   // Toplam bottom padding (TabBar + home indicator + ekstra boşluk)
   BOTTOM_PADDING: 95,

@@ -1,21 +1,20 @@
-import React from "react";
-import { View, TouchableOpacity, Text, Platform } from "react-native";
+import React, { useRef } from "react";
+import { View, Pressable, InteractionManager, Text } from "react-native";
+import { SearchMovieModal } from "../../organism/SearchMovieModal";
 import { styles } from "./TabBar.style";
 import { TabBarProps, TabIconProps } from "./TabBar.type";
 import * as IconModule from "react-native-vector-icons/Ionicons";
 import { COLORS } from "../../../helpers/colors";
 
-// Typescript sorunu için Cast işlemi
+// Typescript için Cast işlemi
 const Ionicons = IconModule.default as any;
 
 // Vector Icons kullanan Home ve Profile ikonları
-const HomeIcon = ({ focused, color }: TabIconProps) => (
-  <View
-    style={[styles.iconContainer, focused ? styles.activeIconContainer : null]}
-  >
+export const HomeIcon = ({ focused, color }: TabIconProps) => (
+  <View style={[styles.iconContainer]}>
     <Ionicons
       name={focused ? "home" : "home-outline"}
-      size={28}
+      size={25}
       color={
         color || (focused ? COLORS.tabBarActiveTint : COLORS.tabBarInactiveTint)
       }
@@ -23,13 +22,11 @@ const HomeIcon = ({ focused, color }: TabIconProps) => (
   </View>
 );
 
-const ProfileIcon = ({ focused, color }: TabIconProps) => (
-  <View
-    style={[styles.iconContainer, focused ? styles.activeIconContainer : null]}
-  >
+export const ProfileIcon = ({ focused, color }: TabIconProps) => (
+  <View style={[styles.iconContainer]}>
     <Ionicons
       name={focused ? "person" : "person-outline"}
-      size={28}
+      size={25}
       color={
         color || (focused ? COLORS.tabBarActiveTint : COLORS.tabBarInactiveTint)
       }
@@ -37,26 +34,72 @@ const ProfileIcon = ({ focused, color }: TabIconProps) => (
   </View>
 );
 
-// Tab Bar Component
 export const TabBar: React.FC<TabBarProps> = ({
   state,
   descriptors,
   navigation,
 }) => {
+  const [searchModalVisible, setSearchModalVisible] = React.useState(false);
+  // Birden fazla basışı engellemek için ref kullanıyoruz
+  const isProcessingRef = useRef(false);
+
+  // + Butonuna basıldığında modal açma
+  const handleAddButtonPress = () => {
+    // Eğer zaten bir işlem yapılıyorsa çıkış yapıyoruz
+    if (isProcessingRef.current) {
+      console.log(
+        "TabBar: İşlem zaten devam ediyor, tekrar buton basışı görmezden gelindi"
+      );
+      return;
+    }
+
+    console.log("TabBar: + butonuna basıldı");
+    isProcessingRef.current = true;
+
+    // UI thread'i blokelemeden modal'ı açıyoruz
+    InteractionManager.runAfterInteractions(() => {
+      setSearchModalVisible(true);
+      console.log("TabBar: Modal açıldı");
+      // İşlem tamamlandı
+      isProcessingRef.current = false;
+    });
+  };
+
+  // Modal kapanınca
+  const handleCloseSearchModal = () => {
+    // Eğer zaten bir işlem yapılıyorsa çıkış yapıyoruz
+    if (isProcessingRef.current) {
+      return;
+    }
+
+    isProcessingRef.current = true;
+
+    // UI thread'i blokelemeden modal'ı kapatıyoruz
+    InteractionManager.runAfterInteractions(() => {
+      setSearchModalVisible(false);
+      console.log("TabBar: Modal kapatıldı");
+      // İşlem tamamlandı
+      isProcessingRef.current = false;
+    });
+  };
+
   return (
     <View style={styles.tabBarContainer}>
       {/* Tab bar içeriği */}
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
         const label =
-          typeof options.tabBarLabel === "string"
+          options.tabBarLabel !== undefined
             ? options.tabBarLabel
-            : typeof options.title === "string"
+            : options.title !== undefined
               ? options.title
               : route.name;
 
         const isFocused = state.index === index;
 
+        const icon = options.tabBarIcon;
+
+        // Tab'e tıklandığında
         const onPress = () => {
           const event = navigation.emit({
             type: "tabPress",
@@ -69,48 +112,74 @@ export const TabBar: React.FC<TabBarProps> = ({
           }
         };
 
+        // Tab'e uzun basıldığında
+        const onLongPress = () => {
+          navigation.emit({
+            type: "tabLongPress",
+            target: route.key,
+          });
+        };
+
         // 2 element gösterilecek, HomeTab ve ProfileTab
         if (index === 0 || index === 1) {
           return (
-            <TouchableOpacity
-              key={index}
+            <Pressable
+              key={route.key}
+              accessibilityRole="button"
+              accessibilityState={isFocused ? { selected: true } : {}}
+              accessibilityLabel={options.tabBarAccessibilityLabel}
               onPress={onPress}
-              style={styles.tabItem}
-              activeOpacity={0.7}
+              onLongPress={onLongPress}
+              style={({ pressed }) => [
+                styles.tabItem,
+                {
+                  opacity: pressed ? 0.7 : 1,
+                },
+              ]}
             >
-              {options.tabBarIcon &&
-                options.tabBarIcon({
+              {/* İkon */}
+              {icon &&
+                icon({
                   focused: isFocused,
                   color: isFocused
                     ? COLORS.tabBarActiveTint
                     : COLORS.tabBarInactiveTint,
-                  size: 24,
+                  size: 30,
                 })}
+
+              {/* Etiket */}
               <Text
                 style={[
                   styles.tabLabel,
                   isFocused ? styles.activeTabLabel : null,
                 ]}
               >
-                {label}
+                {String(label)}
               </Text>
-            </TouchableOpacity>
+            </Pressable>
           );
         }
         return null;
       })}
 
       {/* Orta + butonu */}
-      <TouchableOpacity
-        style={styles.addButton}
-        onPress={() => console.log("Film veya dizi ekle butonuna tıklandı")}
-        activeOpacity={0.8}
+      <Pressable
+        style={({ pressed }) => [
+          styles.addButton,
+          {
+            transform: [{ scale: pressed ? 0.95 : 1 }],
+          },
+        ]}
+        onPress={handleAddButtonPress}
       >
-        <Ionicons name="add" size={28} color={COLORS.white} />
-      </TouchableOpacity>
+        <Ionicons name="add" size={37} color={COLORS.white} />
+      </Pressable>
+
+      {/* Film Arama Modalı */}
+      <SearchMovieModal
+        visible={searchModalVisible}
+        onClose={handleCloseSearchModal}
+      />
     </View>
   );
 };
-
-// Tab bar için hazır ikonlar
-export { HomeIcon, ProfileIcon };

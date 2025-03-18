@@ -1,6 +1,7 @@
 import { StyleSheet, Dimensions } from "react-native";
 import { COLORS } from "../../../helpers/colors";
 import { LAYOUT } from "../../../helpers/layout";
+import { SPACING, TYPOGRAPHY, VISUAL } from "../../../helpers/styleKit";
 
 const { width, height } = Dimensions.get("window");
 
@@ -21,6 +22,67 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 16,
   },
+  categoryFilterContainer: {
+    marginBottom: 16,
+  },
+  categoryScrollView: {
+    marginBottom: 8,
+  },
+  categoryScrollContent: {
+    paddingHorizontal: 0,
+    paddingLeft: 16,
+    paddingRight: 16,
+    paddingBottom: 4,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
+  },
+  categoryButton: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    marginRight: 8,
+    marginLeft: 0,
+    minWidth: 80,
+    borderRadius: VISUAL.RADIUS.SMALL,
+    backgroundColor: COLORS.backgroundDark,
+    borderWidth: 1,
+    borderColor: COLORS.grayLight,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  categoryButtonSelected: {
+    backgroundColor: COLORS.primary,
+    borderColor: COLORS.primary,
+  },
+  genreScrollView: {
+    marginBottom: 8,
+  },
+  genreScrollContent: {
+    paddingHorizontal: 0,
+    paddingLeft: 16,
+    paddingRight: 16,
+    paddingBottom: 4,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
+  },
+  genreButton: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    marginRight: 8,
+    marginLeft: 0,
+    minWidth: 80,
+    borderRadius: VISUAL.RADIUS.SMALL,
+    backgroundColor: COLORS.backgroundDark,
+    borderWidth: 1,
+    borderColor: COLORS.grayLight,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  genreButtonSelected: {
+    backgroundColor: COLORS.primary,
+    borderColor: COLORS.primary,
+  },
   headerAddButton: {
     width: 32,
     height: 32,
@@ -35,15 +97,20 @@ export const styles = StyleSheet.create({
     fontWeight: "500",
   },
   listContentContainer: {
-    paddingHorizontal: 16,
+    paddingHorizontal: SPACING.MEDIUM,
     paddingBottom: 40,
     backgroundColor: COLORS.background,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
   },
   listContentContainerEmpty: {
-    paddingHorizontal: 16,
+    paddingHorizontal: SPACING.MEDIUM,
     paddingBottom: 40,
     backgroundColor: COLORS.background,
     flexGrow: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
   listStyle: {
     backgroundColor: COLORS.background,
@@ -101,19 +168,35 @@ export const styles = StyleSheet.create({
     marginTop: 8,
   },
   genreTag: {
-    backgroundColor: COLORS.grayLighter,
-    borderRadius: 4,
+    backgroundColor: COLORS.primary,
+    borderRadius: 8,
     paddingHorizontal: 8,
-    paddingVertical: 4,
+    paddingVertical: 2,
     marginRight: 8,
+    marginBottom: 8,
+    elevation: 2,
+    shadowColor: COLORS.black,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.5,
+  },
+  genreTagText: {
+    color: COLORS.white,
+    fontWeight: "bold",
+    fontSize: 12,
   },
   addButton: {
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: COLORS.grayLighter,
+    backgroundColor: COLORS.primary,
     justifyContent: "center",
     alignItems: "center",
+    elevation: 4,
+    shadowColor: COLORS.black,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
   },
   loadingContainer: {
     flex: 1,
@@ -148,5 +231,54 @@ export const styles = StyleSheet.create({
   },
   addMovieButton: {
     minWidth: 120,
+  },
+  mediaItem: {
+    marginBottom: SPACING.MEDIUM,
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  loadingMoreContainer: {
+    paddingVertical: 16,
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+  },
+  loadingMoreText: {
+    marginLeft: 8,
+    textAlign: "center",
+  },
+  columnWrapper: {
+    justifyContent: "space-between",
+    paddingHorizontal: SPACING.TINY,
+  },
+  loadingOverlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(0,0,0,0.7)",
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 1000,
+  },
+  loadingOverlayContent: {
+    backgroundColor: COLORS.backgroundDark,
+    borderRadius: VISUAL.RADIUS.MEDIUM,
+    padding: SPACING.LARGE,
+    minWidth: width * 0.7,
+    maxWidth: width * 0.8,
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: COLORS.black,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
+    elevation: 8,
+  },
+  loadingOverlayText: {
+    marginTop: SPACING.MEDIUM,
+    textAlign: "center",
+    maxWidth: "90%",
   },
 });
