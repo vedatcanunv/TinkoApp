@@ -10,3 +10,25 @@ export interface SplashScreenProps {
    */
   duration?: number;
 }
+
+export interface IconPosition {
+  top?: number;
+  left?: number;
+  right?: number;
+  bottom?: number;
+}
+
+export interface CameraIconProps {
+  delay?: number;
+  position: IconPosition;
+}
+
+export interface DirectorChairIconProps {
+  delay?: number;
+  position: IconPosition;
+}
+
+export interface ClapperIconProps {
+  delay?: number;
+  position: IconPosition;
+}

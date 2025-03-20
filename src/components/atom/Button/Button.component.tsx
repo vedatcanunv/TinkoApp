@@ -1,8 +1,9 @@
 import React, { memo } from "react";
-import { TouchableOpacity, Text, ActivityIndicator, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
+import { COLORS } from "../../../helpers/colors";
+import { Loading } from "../Loading/Loading.component";
 import { styles } from "./Button.style";
 import { ButtonProps, ButtonVariant } from "./Button.type";
-import { COLORS } from "../../../helpers/colors";
 
 export const Button: React.FC<ButtonProps> = memo(
   ({
@@ -33,6 +34,17 @@ export const Button: React.FC<ButtonProps> = memo(
       }
     };
 
+    // Loading için uygun rengi belirle
+    const getLoadingColor = (variant: ButtonVariant) => {
+      switch (variant) {
+        case "outline":
+        case "transparent":
+          return COLORS.primary;
+        default:
+          return COLORS.white;
+      }
+    };
+
     return (
       <TouchableOpacity
         style={[
@@ -48,12 +60,9 @@ export const Button: React.FC<ButtonProps> = memo(
         {...props}
       >
         {loading ? (
-          <ActivityIndicator
-            color={
-              variant === "outline" || variant === "transparent"
-                ? COLORS.primary
-                : COLORS.white
-            }
+          <Loading
+            size={size === "large" ? "medium" : "small"}
+            color={getLoadingColor(variant)}
           />
         ) : (
           <>

@@ -5,3 +5,5 @@ export * from "./Icon";
 export * from "./Tag";
 export * from "./ScreenContainer";
 export * from "./Modal";
+export * from "./Loading/Loading.component";
+export * from "./Error/Error.component";

@@ -1,20 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { ScrollView, View } from "react-native";
 import {
-  View,
-  ScrollView,
-  TouchableOpacity,
-  ActivityIndicator,
-} from "react-native";
+  Button,
+  Loading,
+  ScreenContainer,
+  Text,
+} from "../../../components/atom";
+import { mockDataService } from "../../../services";
 import { styles } from "./ProfileScreen.style";
 import {
-  ProfileScreenProps,
-  UserStats,
   GenreStats,
   PersonStats,
+  ProfileScreenProps,
+  UserStats,
 } from "./ProfileScreen.type";
-import { Text, Button, ScreenContainer } from "../../../components/atom";
-import { mockDataService } from "../../../services";
-import { COLORS } from "../../../helpers/colors";
 
 export const ProfileScreen: React.FC<ProfileScreenProps> = ({
   onLogout,
@@ -85,12 +84,9 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
 
   if (loading) {
     return (
-      <ScreenContainer style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color={COLORS.primary} />
-        <Text size="l" color="light" style={styles.loadingText}>
-          Profil bilgileri yükleniyor...
-        </Text>
-      </ScreenContainer>
+      <View style={styles.loadingContainer}>
+        <Loading size="large" color="primary" text="Profil yükleniyor..." />
+      </View>
     );
   }
 

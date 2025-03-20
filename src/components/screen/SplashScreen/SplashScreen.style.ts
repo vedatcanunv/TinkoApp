@@ -1,45 +1,68 @@
 import { StyleSheet, Dimensions } from "react-native";
+import { COLORS } from "../../../helpers/colors";
 
-const { width, height } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
     alignItems: "center",
+    justifyContent: "center",
     backgroundColor: "#FFFFFF",
   },
-  logoContainer: {
+  gradientBackground: {
+    flex: 1,
+    width: "100%",
     alignItems: "center",
-    marginBottom: 40,
+    justifyContent: "center",
   },
-  logoPlaceholder: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    backgroundColor: "#F2F2F7",
+  logoContainer: {
+    height: 300,
+    width: width,
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 24,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 6,
-    elevation: 5,
+    position: "relative",
   },
-  titleContainer: {
+  logoContent: {
+    alignItems: "center",
+    justifyContent: "center",
+    position: "relative",
+    zIndex: 10,
+  },
+  logoText: {
+    fontSize: 48,
+    fontWeight: "700",
+    color: COLORS.primary,
+    letterSpacing: 1,
+  },
+  backdrop: {
+    position: "absolute",
+    width: 300,
+    height: 300,
+    borderRadius: 150,
+    backgroundColor: "rgba(25, 118, 210, 0.15)",
+    zIndex: 1,
+  },
+  dotsContainer: {
+    position: "absolute",
+    width: 380,
+    height: 380,
+    justifyContent: "center",
     alignItems: "center",
   },
-  appName: {
-    marginBottom: 8,
+  dot: {
+    position: "absolute",
+    backgroundColor: COLORS.primary,
+    borderRadius: 25,
+    shadowColor: COLORS.primary,
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 2,
   },
-  tagline: {
-    textAlign: "center",
-  },
-  loader: {
-    marginTop: 40,
+  lottieAnimation: {
+    width: 250,
+    height: 250,
+    position: "absolute",
   },
 });

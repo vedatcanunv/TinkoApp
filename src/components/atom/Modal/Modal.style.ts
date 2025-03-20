@@ -37,4 +37,12 @@ export const styles = StyleSheet.create({
     alignSelf: "center",
     marginBottom: SPACING.MEDIUM,
   },
+  dragHandleContainer: {
+    width: "100%",
+    paddingVertical: 12,
+    alignItems: "center",
+    borderBottomWidth: 1,
+    borderBottomColor: COLORS.borderLight,
+    marginBottom: SPACING.MEDIUM,
+  },
 });

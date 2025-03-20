@@ -1,5 +1,11 @@
 import React, { useRef } from "react";
-import { View, Pressable, InteractionManager, Text } from "react-native";
+import {
+  View,
+  Pressable,
+  InteractionManager,
+  Text,
+  Platform,
+} from "react-native";
 import { SearchMovieModal } from "../../organism/SearchMovieModal";
 import { styles } from "./TabBar.style";
 import { TabBarProps, TabIconProps } from "./TabBar.type";
@@ -14,7 +20,7 @@ export const HomeIcon = ({ focused, color }: TabIconProps) => (
   <View style={[styles.iconContainer]}>
     <Ionicons
       name={focused ? "home" : "home-outline"}
-      size={25}
+      size={Platform.OS === "android" ? 26 : 25}
       color={
         color || (focused ? COLORS.tabBarActiveTint : COLORS.tabBarInactiveTint)
       }
@@ -26,7 +32,7 @@ export const ProfileIcon = ({ focused, color }: TabIconProps) => (
   <View style={[styles.iconContainer]}>
     <Ionicons
       name={focused ? "person" : "person-outline"}
-      size={25}
+      size={Platform.OS === "android" ? 26 : 25}
       color={
         color || (focused ? COLORS.tabBarActiveTint : COLORS.tabBarInactiveTint)
       }
@@ -56,13 +62,14 @@ export const TabBar: React.FC<TabBarProps> = ({
     console.log("TabBar: + butonuna basıldı");
     isProcessingRef.current = true;
 
-    // UI thread'i blokelemeden modal'ı açıyoruz
-    InteractionManager.runAfterInteractions(() => {
-      setSearchModalVisible(true);
-      console.log("TabBar: Modal açıldı");
-      // İşlem tamamlandı
+    // Doğrudan setState kullanmak daha güvenli olabilir, InteractionManager'ı kaldıralım
+    setSearchModalVisible(true);
+    console.log("TabBar: Modal açıldı");
+
+    // Kısa bir gecikme sonra isProcessingRef'i sıfırlıyoruz
+    setTimeout(() => {
       isProcessingRef.current = false;
-    });
+    }, 500);
   };
 
   // Modal kapanınca
@@ -74,13 +81,14 @@ export const TabBar: React.FC<TabBarProps> = ({
 
     isProcessingRef.current = true;
 
-    // UI thread'i blokelemeden modal'ı kapatıyoruz
-    InteractionManager.runAfterInteractions(() => {
-      setSearchModalVisible(false);
-      console.log("TabBar: Modal kapatıldı");
-      // İşlem tamamlandı
+    // Doğrudan setState kullanmak daha güvenli olabilir
+    setSearchModalVisible(false);
+    console.log("TabBar: Modal kapatıldı");
+
+    // Kısa bir gecikme sonra isProcessingRef'i sıfırlıyoruz
+    setTimeout(() => {
       isProcessingRef.current = false;
-    });
+    }, 500);
   };
 
   return (
@@ -136,6 +144,15 @@ export const TabBar: React.FC<TabBarProps> = ({
                   opacity: pressed ? 0.7 : 1,
                 },
               ]}
+              android_ripple={
+                Platform.OS === "android"
+                  ? {
+                      color: COLORS.primary + "20", // %20 opaklık ile
+                      borderless: false,
+                      radius: 24,
+                    }
+                  : undefined
+              }
             >
               {/* İkon */}
               {icon &&
@@ -144,7 +161,7 @@ export const TabBar: React.FC<TabBarProps> = ({
                   color: isFocused
                     ? COLORS.tabBarActiveTint
                     : COLORS.tabBarInactiveTint,
-                  size: 30,
+                  size: Platform.OS === "android" ? 28 : 30,
                 })}
 
               {/* Etiket */}
@@ -171,8 +188,21 @@ export const TabBar: React.FC<TabBarProps> = ({
           },
         ]}
         onPress={handleAddButtonPress}
+        android_ripple={
+          Platform.OS === "android"
+            ? {
+                color: COLORS.white,
+                borderless: true,
+                radius: 28,
+              }
+            : undefined
+        }
       >
-        <Ionicons name="add" size={37} color={COLORS.white} />
+        <Ionicons
+          name="add"
+          size={Platform.OS === "android" ? 34 : 37}
+          color={COLORS.white}
+        />
       </Pressable>
 
       {/* Film Arama Modalı */}

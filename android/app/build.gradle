@@ -86,7 +86,7 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.tinkoapp"
+    namespace 'com.tinkoapp'
     defaultConfig {
         applicationId 'com.tinkoapp'
         minSdkVersion rootProject.ext.minSdkVersion
