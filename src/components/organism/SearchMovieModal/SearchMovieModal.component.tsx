@@ -12,17 +12,17 @@ import {
   Image,
   Animated,
   ScrollView,
-  ActivityIndicator,
-  InteractionManager,
   Modal,
   TouchableOpacity,
+  TouchableHighlight,
   TextInput,
   StatusBar,
   ImageBackground,
   Platform,
   Dimensions,
+  InteractionManager,
 } from "react-native";
-import { Input, Text, Button } from "../../atom";
+import { Input, Text, Button, Loading } from "../../atom";
 import { Modal as CustomModal } from "../../atom/Modal";
 import { MediaCard } from "../../molecule/MediaCard";
 import { styles, detailStyles } from "./SearchMovieModal.style";
@@ -370,9 +370,15 @@ export const SearchMovieModal: React.FC<SearchMovieModalProps> = ({
   // Detay kartını kapat
   const handleCloseDetail = useCallback(() => {
     console.log("SearchMovieModal: Detay kartı kapatılıyor");
+
+    // Hemen kapatma hissini vermek için
     setDetailCardVisible(false);
-    // Animasyon bitiminde seçili medyayı sıfırla
-    setTimeout(() => setSelectedMedia(null), 300);
+
+    // Animasyon bitiminde medya bilgisini sıfırla
+    setTimeout(() => {
+      console.log("SearchMovieModal: Seçili medya sıfırlanıyor");
+      setSelectedMedia(null);
+    }, 300);
   }, []);
 
   // İzlendi olarak işaretle
@@ -422,8 +428,8 @@ export const SearchMovieModal: React.FC<SearchMovieModalProps> = ({
     return (
       <Modal
         visible={!!selectedMedia}
-        animationType="slide"
-        transparent={false}
+        animationType="fade"
+        transparent={true}
         statusBarTranslucent
         onRequestClose={handleCloseDetail}
       >
@@ -446,34 +452,47 @@ export const SearchMovieModal: React.FC<SearchMovieModalProps> = ({
             >
               <View style={detailStyles.overlayBackground} />
             </ImageBackground>
-
-            {/* Kapat Butonu - Üst kısıma sabitlendi */}
-            <Pressable
-              style={detailStyles.closeButtonContainer}
-              onPress={handleCloseDetail}
-            >
-              <Ionicons name="close" size={24} color={COLORS.white} />
-            </Pressable>
           </View>
 
           {/* Ana İçerik */}
           <ScrollView
             style={detailStyles.contentContainer}
             contentContainerStyle={detailStyles.contentScrollContainer}
-            showsVerticalScrollIndicator={false}
+            showsVerticalScrollIndicator={true}
+            scrollEnabled={true}
+            bounces={true}
+            alwaysBounceVertical={false}
+            decelerationRate="fast"
+            overScrollMode="never"
+            keyboardShouldPersistTaps="handled"
+            scrollEventThrottle={16}
+            indicatorStyle="white"
+            fadingEdgeLength={0}
+            removeClippedSubviews={true}
           >
             {/* Poster ve Temel Bilgiler */}
             <View style={detailStyles.posterAndInfoContainer}>
               <View style={detailStyles.posterContainer}>
-                <Image
-                  source={{
-                    uri:
-                      selectedMedia.posterUrl ||
-                      "https://picsum.photos/id/870/300/450",
-                  }}
-                  style={detailStyles.poster}
-                  resizeMode="cover"
-                />
+                {selectedMedia.posterUrl ? (
+                  <Image
+                    source={{
+                      uri: selectedMedia.posterUrl,
+                    }}
+                    style={detailStyles.poster}
+                    resizeMode="cover"
+                  />
+                ) : (
+                  <View
+                    style={[
+                      detailStyles.poster,
+                      { backgroundColor: COLORS.grayLight },
+                    ]}
+                  >
+                    <Text style={{ color: COLORS.white, textAlign: "center" }}>
+                      Resim Yok
+                    </Text>
+                  </View>
+                )}
               </View>
 
               <View style={detailStyles.infoContainer}>
@@ -525,29 +544,30 @@ export const SearchMovieModal: React.FC<SearchMovieModalProps> = ({
             </View>
 
             {/* Özet Bölümü - Her zaman görünsün */}
-            <View style={detailStyles.summaryContainer}>
+            <View style={[detailStyles.summaryContainer, { marginBottom: 15 }]}>
               <Text style={detailStyles.summaryTitle}>Özet</Text>
               <Text style={detailStyles.summaryText}>
-                {selectedMedia.summary
-                  ? selectedMedia.summary
-                  : `${selectedMedia.title}, ${selectedMedia.type === "tv" ? "Pembe Dizi" : ""} ${selectedMedia.genres
-                      ?.map((g) => g.name)
-                      .join(
-                        " ve "
-                      )} türlerinde ${selectedMedia.type === "movie" ? "bir film" : "bir dizi"}. ${
-                      selectedMedia.director
-                        ? `Yapımın yönetmenliğini ${selectedMedia.director} üstleniyor.`
-                        : ""
-                    } ${
-                      selectedMedia.cast && selectedMedia.cast.length > 0
-                        ? `Başrollerinde ${selectedMedia.cast.join(", ")} gibi ünlü isimler yer alıyor.`
-                        : ""
-                    }`}
+                {selectedMedia.summary ? (
+                  selectedMedia.summary
+                ) : (
+                  <>
+                    {`${selectedMedia.title}, `}
+                    {selectedMedia.type === "tv" ? "Pembe Dizi" : ""}
+                    {` ${selectedMedia.genres?.map((g) => g.name).join(" ve ")} türlerinde `}
+                    {selectedMedia.type === "movie" ? "bir film" : "bir dizi"}
+                    {". "}
+                    {selectedMedia.director &&
+                      `Yapımın yönetmenliğini ${selectedMedia.director} üstleniyor. `}
+                    {selectedMedia.cast &&
+                      selectedMedia.cast.length > 0 &&
+                      `Başrollerinde ${selectedMedia.cast.join(", ")} gibi ünlü isimler yer alıyor.`}
+                  </>
+                )}
               </Text>
             </View>
 
             {/* Yapım Bilgileri */}
-            <View style={[detailStyles.sectionContainer, { marginBottom: 80 }]}>
+            <View style={[detailStyles.sectionContainer, { marginBottom: 70 }]}>
               <Text style={detailStyles.sectionTitle}>Yapım Bilgileri</Text>
 
               {/* Yönetmen */}
@@ -609,27 +629,32 @@ export const SearchMovieModal: React.FC<SearchMovieModalProps> = ({
                 <View style={detailStyles.infoRow}>
                   <Text style={detailStyles.infoLabel}>Orijinal Dil:</Text>
                   <Text style={detailStyles.infoValue}>
-                    {selectedMedia.originalLanguage === "en"
-                      ? "İngilizce"
-                      : selectedMedia.originalLanguage === "tr"
-                        ? "Türkçe"
-                        : selectedMedia.originalLanguage === "ja"
-                          ? "Japonca"
-                          : selectedMedia.originalLanguage === "ko"
-                            ? "Korece"
-                            : selectedMedia.originalLanguage === "fr"
-                              ? "Fransızca"
-                              : selectedMedia.originalLanguage === "de"
-                                ? "Almanca"
-                                : selectedMedia.originalLanguage === "es"
-                                  ? "İspanyolca"
-                                  : selectedMedia.originalLanguage === "it"
-                                    ? "İtalyanca"
-                                    : selectedMedia.originalLanguage === "ru"
-                                      ? "Rusça"
-                                      : selectedMedia.originalLanguage === "pt"
-                                        ? "Portekizce"
-                                        : selectedMedia.originalLanguage.toUpperCase()}
+                    {(() => {
+                      switch (selectedMedia.originalLanguage) {
+                        case "en":
+                          return "İngilizce";
+                        case "tr":
+                          return "Türkçe";
+                        case "ja":
+                          return "Japonca";
+                        case "ko":
+                          return "Korece";
+                        case "fr":
+                          return "Fransızca";
+                        case "de":
+                          return "Almanca";
+                        case "es":
+                          return "İspanyolca";
+                        case "it":
+                          return "İtalyanca";
+                        case "ru":
+                          return "Rusça";
+                        case "pt":
+                          return "Portekizce";
+                        default:
+                          return selectedMedia.originalLanguage.toUpperCase();
+                      }
+                    })()}
                   </Text>
                 </View>
               )}
@@ -674,29 +699,63 @@ export const SearchMovieModal: React.FC<SearchMovieModalProps> = ({
 
           {/* Alt Butonlar - Scroll view dışına taşındı */}
           <View style={detailStyles.actionsContainer}>
-            <Pressable
-              style={detailStyles.secondaryButton}
-              onPress={handleCloseDetail}
-              android_ripple={{ color: "rgba(0,0,0,0.1)" }}
-            >
-              <Text
-                style={[detailStyles.buttonText, { color: COLORS.primary }]}
+            {Platform.OS === "android" ? (
+              <Pressable
+                style={[detailStyles.secondaryButton, { flex: 1.5 }]}
+                onPress={handleCloseDetail}
+                android_ripple={{
+                  color: COLORS.primary,
+                  borderless: true,
+                  foreground: true,
+                }}
               >
-                Kapat
-              </Text>
-            </Pressable>
+                <Text
+                  style={[
+                    detailStyles.buttonText,
+                    { color: COLORS.primary, fontSize: 16 },
+                  ]}
+                >
+                  Kapat
+                </Text>
+              </Pressable>
+            ) : (
+              <TouchableHighlight
+                style={[detailStyles.secondaryButton, { flex: 1.5 }]}
+                onPress={handleCloseDetail}
+                underlayColor="rgba(0,0,0,0.1)"
+                activeOpacity={0.6}
+              >
+                <Text
+                  style={[
+                    detailStyles.buttonText,
+                    { color: COLORS.primary, fontSize: 16 },
+                  ]}
+                >
+                  Kapat
+                </Text>
+              </TouchableHighlight>
+            )}
             <Pressable
               style={detailStyles.primaryButton}
               onPress={handleMarkAsWatched}
-              android_ripple={{ color: "rgba(255,255,255,0.1)" }}
+              android_ripple={{
+                color: "rgba(255,255,255,0.3)",
+                borderless: true,
+                foreground: true,
+              }}
             >
               <Ionicons
                 name="checkmark-circle"
-                size={20}
+                size={24}
                 color={COLORS.white}
                 style={detailStyles.buttonIcon}
               />
-              <Text style={[detailStyles.buttonText, { color: COLORS.white }]}>
+              <Text
+                style={[
+                  detailStyles.buttonText,
+                  { color: COLORS.white, fontSize: 18 },
+                ]}
+              >
                 İzledim
               </Text>
             </Pressable>
@@ -712,7 +771,7 @@ export const SearchMovieModal: React.FC<SearchMovieModalProps> = ({
 
     return (
       <View style={{ paddingVertical: 20, alignItems: "center" }}>
-        <ActivityIndicator size="small" color={COLORS.primary} />
+        <Loading size="small" color="primary" />
         <Text
           style={{ marginTop: 8, fontSize: 14, color: COLORS.textSecondary }}
         >
@@ -762,7 +821,7 @@ export const SearchMovieModal: React.FC<SearchMovieModalProps> = ({
         <View style={{ flex: 1 }}>
           {loading ? (
             <View style={styles.loadingContainer}>
-              <ActivityIndicator size="large" color={COLORS.primary} />
+              <Loading size="large" color="primary" />
               <Text size="m" color="light" style={styles.loadingText}>
                 {searchQuery ? "Aranıyor..." : "İçerik yükleniyor..."}
               </Text>
@@ -789,13 +848,21 @@ export const SearchMovieModal: React.FC<SearchMovieModalProps> = ({
               numColumns={2}
               contentContainerStyle={styles.mediaList}
               columnWrapperStyle={styles.mediaGridContainer}
-              showsVerticalScrollIndicator={false}
+              showsVerticalScrollIndicator={true}
               onEndReached={handleLoadMore}
-              onEndReachedThreshold={0.3}
+              onEndReachedThreshold={0.5}
               ListFooterComponent={renderFooter}
               initialNumToRender={10}
               maxToRenderPerBatch={5}
               windowSize={7}
+              scrollEnabled={true}
+              scrollEventThrottle={16}
+              indicatorStyle="black"
+              onRefresh={() => {
+                console.log("Refreshing...");
+                handleClearSearch();
+              }}
+              refreshing={loading}
             />
           )}
         </View>

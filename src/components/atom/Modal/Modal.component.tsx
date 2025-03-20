@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   View,
   Modal as RNModal,
@@ -7,6 +7,8 @@ import {
   Dimensions,
   Pressable,
   ScrollView,
+  PanResponder,
+  PanResponderInstance,
 } from "react-native";
 import { styles } from "./Modal.style";
 import { ModalProps } from "./Modal.type";
@@ -23,17 +25,72 @@ export const Modal: React.FC<ModalProps> = ({
   contentContainerStyle,
   closeOnBackdropPress = true,
 }) => {
-  const translateY = new Animated.Value(height);
-  const backdropOpacityAnim = new Animated.Value(0);
+  const translateY = useRef(new Animated.Value(height)).current;
+  const backdropOpacityAnim = useRef(new Animated.Value(0)).current;
+  // Modal'ın yüksekliğini takip etmek için state
+  const [currentHeight, setCurrentHeight] = useState(modalHeight);
+  const initialTouchY = useRef(0);
+
+  // Panresponder oluşturma
+  const panResponder = useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onPanResponderGrant: (_, gestureState) => {
+        // İlk dokunma pozisyonunu kaydet
+        initialTouchY.current = gestureState.y0;
+      },
+      onPanResponderMove: (_, gestureState) => {
+        // Sürükleme mesafesini hesapla
+        const dragDistance = Math.max(
+          0,
+          gestureState.moveY - initialTouchY.current
+        );
+
+        // Modal'ı hareket ettir
+        translateY.setValue(dragDistance);
+
+        // Yüksekliği güncelle (aşağı sürüklendiğinde küçült)
+        if (dragDistance > 0) {
+          const newHeight = Math.max(
+            20,
+            modalHeight - (dragDistance / height) * 100
+          );
+          setCurrentHeight(newHeight);
+        }
+      },
+      onPanResponderRelease: (_, gestureState) => {
+        // Eğer belirli bir mesafeden fazla aşağı sürüklenirse modal'ı kapat
+        const CLOSE_THRESHOLD = 150;
+
+        if (gestureState.dy > CLOSE_THRESHOLD) {
+          onClose();
+        } else {
+          // Modal'ı eski konumuna geri getir
+          Animated.spring(translateY, {
+            toValue: 0,
+            useNativeDriver: true,
+            friction: 8,
+          }).start();
+
+          // Yüksekliği sıfırla
+          setCurrentHeight(modalHeight);
+        }
+      },
+    })
+  ).current;
 
   useEffect(() => {
     if (visible) {
+      // Modal'ı sıfırla
+      translateY.setValue(height);
+      setCurrentHeight(modalHeight);
+
       // Modal açılırken animasyon
       Animated.parallel([
-        Animated.timing(translateY, {
+        Animated.spring(translateY, {
           toValue: 0,
-          duration: 300,
           useNativeDriver: true,
+          friction: 8,
         }),
         Animated.timing(backdropOpacityAnim, {
           toValue: backdropOpacity,
@@ -56,7 +113,7 @@ export const Modal: React.FC<ModalProps> = ({
         }),
       ]).start();
     }
-  }, [visible, backdropOpacity]);
+  }, [visible, backdropOpacity, modalHeight]);
 
   const handleBackdropPress = () => {
     if (closeOnBackdropPress) {
@@ -88,17 +145,19 @@ export const Modal: React.FC<ModalProps> = ({
             styles.contentContainer,
             {
               transform: [{ translateY }],
-              height: `${modalHeight}%`,
+              height: `${currentHeight}%`,
             },
             contentContainerStyle,
           ]}
         >
-          <Pressable
-            onPress={onClose}
-            style={{ paddingVertical: 10, alignItems: "center" }}
+          {/* Sürüklenebilir tutamak */}
+          <View
+            {...panResponder.panHandlers}
+            style={styles.dragHandleContainer}
           >
             <View style={styles.dragHandle} />
-          </Pressable>
+          </View>
+
           {children}
         </Animated.View>
       </View>

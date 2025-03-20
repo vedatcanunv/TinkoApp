@@ -1,8 +1,6 @@
-import { CompositeScreenProps } from "@react-navigation/native";
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
+import { CompositeScreenProps } from "@react-navigation/native";
 import { StackScreenProps } from "@react-navigation/stack";
-import { HomeTabParamList } from "../Home/HomeNavigation.type";
-import { ProfileTabParamList } from "../Profile/ProfileNavigation.type";
 import { RootStackParamList } from "../Root/RootNavigation.type";
 
 // Main Tab için tip tanımlamaları

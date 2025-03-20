@@ -1,15 +1,15 @@
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
 import { View } from "react-native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { MainTabParamList } from "./MainNavigation.type";
+import {
+  HomeIcon,
+  ProfileIcon,
+  TabBar,
+} from "../../components/organism/TabBar";
 import { HomeNavigation } from "../Home/HomeNavigation";
 import { ProfileNavigation } from "../Profile/ProfileNavigation";
 import { styles } from "./MainNavigation.style";
-import {
-  TabBar,
-  HomeIcon,
-  ProfileIcon,
-} from "../../components/organism/TabBar";
+import { MainTabParamList } from "./MainNavigation.type";
 
 const Tab = createBottomTabNavigator<MainTabParamList>();
 

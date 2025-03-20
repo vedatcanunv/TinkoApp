@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { SafeAreaView } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
+import React from "react";
+import { SafeAreaView } from "react-native";
 import { HomeScreen } from "../../components/screen/HomeScreen/HomeScreen.component";
-import { HomeTabParamList } from "./HomeNavigation.type";
 import { styles } from "./HomeNavigation.style";
+import { HomeTabParamList } from "./HomeNavigation.type";
 
 const Stack = createStackNavigator<HomeTabParamList>();
 

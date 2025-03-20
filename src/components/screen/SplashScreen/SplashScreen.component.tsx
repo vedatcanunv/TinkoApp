@@ -1,45 +1,35 @@
 import React, { useEffect } from "react";
-import { View, ActivityIndicator, Image } from "react-native";
-import { styles } from "./SplashScreen.style";
+import { Dimensions } from "react-native";
+import { tmdbService } from "../../../services";
 import { SplashScreenProps } from "./SplashScreen.type";
-import { Text } from "../../../components/atom";
-import { COLORS } from "../../../helpers/colors";
+
+const { width } = Dimensions.get("window");
 
 export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
+  // Bileşen yüklenir yüklenmez doğrudan ana sayfaya geçiş yap
   useEffect(() => {
-    // 2 saniye sonra splash screen'i kapat
-    const timer = setTimeout(() => {
-      onFinish();
-    }, 2000);
+    // API isteklerini arka planda başlat ama beklemeden ana sayfaya geç
+    fetchInitialData();
 
-    return () => clearTimeout(timer);
-  }, [onFinish]);
+    // Hemen ana sayfaya geç
+    onFinish();
+  }, []);
 
-  return (
-    <View style={styles.container}>
-      <View style={styles.logoContainer}>
-        <View style={styles.logoPlaceholder}>
-          <Text size="display" weight="bold" color="primary">
-            T
-          </Text>
-        </View>
-        <Text
-          size="display"
-          weight="bold"
-          color="primary"
-          style={styles.appName}
-        >
-          Tinko
-        </Text>
-        <Text size="xl" weight="semibold" color="light" style={styles.tagline}>
-          Film ve Dizi Takip Uygulaması
-        </Text>
-      </View>
-      <ActivityIndicator
-        size="large"
-        color={COLORS.primary}
-        style={styles.loader}
-      />
-    </View>
-  );
+  // API verilerini getir (arka planda çalışacak)
+  const fetchInitialData = async () => {
+    try {
+      // Paralel olarak tüm gerekli verileri getir
+      await Promise.all([
+        tmdbService.getPopularMovies(),
+        tmdbService.getPopularInTurkey(),
+        tmdbService.getMovieGenres(),
+        tmdbService.getTVGenres(),
+      ]);
+    } catch (error) {
+      console.error("Veri yüklenirken hata oluştu:", error);
+    }
+  };
+
+  // Boş bir view döndür - zaten görünmeyecek
+  return null;
 };

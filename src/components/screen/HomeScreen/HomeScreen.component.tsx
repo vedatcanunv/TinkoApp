@@ -1,27 +1,22 @@
-import React, { useEffect, useState, useCallback, useRef } from "react";
-import {
-  ActivityIndicator,
-  View,
-  FlatList,
-  Pressable,
-  RefreshControl,
-  ScrollView,
-  Dimensions,
-} from "react-native";
-import { Button, ScreenContainer, Text } from "../../../components/atom";
-import { MediaContent } from "../../../components/molecule/MediaCard/MediaCard.type";
-import { MediaCard } from "../../../components/molecule/MediaCard";
-import { SearchMovieModal } from "../../organism/SearchMovieModal";
-import { tmdbService } from "../../../services";
-import { styles } from "./HomeScreen.style";
-import { HomeScreenProps } from "./HomeScreen.type";
-import { COLORS } from "../../../helpers/colors";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import React, { useCallback, useEffect, useState } from "react";
+import { FlatList, RefreshControl, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as IconModule from "react-native-vector-icons/Ionicons";
 import {
-  useNavigation,
-  NavigationProp,
-  ParamListBase,
-} from "@react-navigation/native";
+  Button,
+  Loading,
+  ScreenContainer,
+  Text,
+} from "../../../components/atom";
+import { MediaCard } from "../../../components/molecule/MediaCard";
+import { MediaContent } from "../../../components/molecule/MediaCard/MediaCard.type";
+import { COLORS } from "../../../helpers/colors";
+import { tmdbService } from "../../../services";
+import { MediaDetailCard } from "../../organism/MediaDetailCard";
+import { SearchMovieModal } from "../../organism/SearchMovieModal";
+import { styles } from "./HomeScreen.style";
+import { HomeScreenProps } from "./HomeScreen.type";
 
 // Typescript için Cast işlemi
 const Ionicons = IconModule.default as any;
@@ -46,12 +41,10 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [searchModalVisible, setSearchModalVisible] = useState(false);
   const [hasMoreData, setHasMoreData] = useState(true);
-
-  // SearchMovieModal'ı aç/kapat
-  const handleOpenSearchModal = () => {
-    setSearchModalVisible(true);
-    onAddPress(); // Üst bileşene bildir
-  };
+  const [selectedMedia, setSelectedMedia] = useState<MediaContent | null>(null);
+  const [detailCardVisible, setDetailCardVisible] = useState(false);
+  const [detailLoading, setDetailLoading] = useState(false);
+  const insets = useSafeAreaInsets();
 
   const handleCloseSearchModal = () => {
     setSearchModalVisible(false);
@@ -156,14 +149,58 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
     [] // media bağımlılığını kaldırdık
   );
 
-  // MediaContent tipindeki veriyi alıp onMoviePress'e film ID'sini iletecek fonksiyon
-  const handleMediaPress = (media: MediaContent) => {
-    if (media.type === "movie") {
-      navigation.navigate("MovieDetails", { movieId: media.id });
-    } else if (media.type === "tv") {
-      navigation.navigate("TVShowDetails", { tvShowId: media.id });
+  // MediaContent tipindeki veriyi alıp detay kartı gösterecek fonksiyon
+  const handleMediaPress = useCallback(async (media: MediaContent) => {
+    setDetailLoading(true);
+    setSelectedMedia(media);
+    setDetailCardVisible(true);
+
+    try {
+      let detailResult: MediaContent | null = null;
+
+      // Film veya dizi olmasına göre detay bilgisini getir
+      if (media.type === "movie") {
+        detailResult = await tmdbService.getMovieDetails(media.id as number);
+      } else {
+        detailResult = await tmdbService.getTVShowDetails(media.id as number);
+      }
+
+      if (detailResult) {
+        setSelectedMedia(detailResult);
+      }
+    } catch (err) {
+      console.error(`${media.title} detayları alınırken hata:`, err);
+      // Hata durumunda mevcut medya bilgisiyle devam et
+    } finally {
+      setDetailLoading(false);
     }
-  };
+  }, []);
+
+  // Detay kartını kapat
+  const handleCloseDetail = useCallback(() => {
+    console.log("HomeScreen: Detay kartı kapatılıyor");
+
+    // Hemen kapatma hissini vermek için
+    setDetailCardVisible(false);
+
+    // Animasyon bitiminde medya bilgisini sıfırla
+    setTimeout(() => {
+      console.log("HomeScreen: Seçili medya sıfırlanıyor");
+      setSelectedMedia(null);
+    }, 300);
+  }, []);
+
+  // İzlendi olarak işaretle
+  const handleMarkAsWatched = useCallback(() => {
+    // Burada izlendi olarak işaretleme mantığı olacak
+    console.log("İzlendi olarak işaretlendi:", selectedMedia?.title);
+    handleCloseDetail();
+  }, [selectedMedia, handleCloseDetail]);
+
+  // İzleme listesine ekle
+  const handleAddToWatchlist = useCallback(() => {
+    console.log("İzleme listesine eklendi:", selectedMedia?.title);
+  }, [selectedMedia]);
 
   // İlk yükleme
   useEffect(() => {
@@ -197,10 +234,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   if (loading && page === 1) {
     return (
       <ScreenContainer style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color={COLORS.primary} />
-        <Text size="l" color="light" style={styles.loadingText}>
-          İçerik yükleniyor...
-        </Text>
+        <Loading size="large" text="İçerik yükleniyor..." textColor="light" />
       </ScreenContainer>
     );
   }
@@ -257,7 +291,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
     return (
       <View style={styles.loadingOverlay}>
         <View style={styles.loadingOverlayContent}>
-          <ActivityIndicator size="large" color={COLORS.primary} />
+          <Loading size="large" color="primary" />
           <Text size="m" color="light" style={styles.loadingOverlayText}>
             İçerikler yükleniyor...
           </Text>
@@ -277,7 +311,12 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
     <ScreenContainer style={[styles.container]}>
       <View style={styles.headerContainer}>
         <View style={styles.headerContent}>
-          <Text size="xxxl" weight="bold" color="primary">
+          <Text
+            size="xxxl"
+            weight="bold"
+            color="primary"
+            style={{ fontSize: 32 }}
+          >
             Tinko
           </Text>
         </View>
@@ -325,6 +364,38 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
       />
 
       {renderLoadingOverlay()}
+
+      {/* Loadingmore Overlay */}
+      {loadingMore && (
+        <View
+          style={{
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            backgroundColor: "rgba(0,0,0,0.7)",
+            padding: 16,
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Loading size="small" color="primary" />
+          <Text style={{ color: COLORS.white, marginLeft: 8 }}>
+            Daha fazla içerik yükleniyor...
+          </Text>
+        </View>
+      )}
+
+      {/* MediaDetailCard - detay kartını renderDetailCard yerine kullanıyoruz */}
+      <MediaDetailCard
+        media={selectedMedia}
+        visible={detailCardVisible}
+        onClose={handleCloseDetail}
+        onMarkAsWatched={handleMarkAsWatched}
+        onAddToWatchlist={handleAddToWatchlist}
+        loading={detailLoading}
+      />
     </ScreenContainer>
   );
 };

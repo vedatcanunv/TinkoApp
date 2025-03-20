@@ -76,9 +76,12 @@ export const MediaCard = ({
             resizeMode="cover"
           />
         ) : (
-          <View
-            style={[styles.poster, { backgroundColor: COLORS.grayLight }]}
-          />
+          <View style={[styles.poster, { backgroundColor: COLORS.grayLight }]}>
+            {/* Boş resim durumunda bir metin gösterme */}
+            <Text style={{ color: COLORS.white, textAlign: "center" }}>
+              Resim Yok
+            </Text>
+          </View>
         )}
       </View>
 

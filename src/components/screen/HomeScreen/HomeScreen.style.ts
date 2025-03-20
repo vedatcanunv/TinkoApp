@@ -1,20 +1,16 @@
-import { StyleSheet, Dimensions } from "react-native";
+import { Dimensions, Platform, StyleSheet } from "react-native";
 import { COLORS } from "../../../helpers/colors";
-import { LAYOUT } from "../../../helpers/layout";
-import { SPACING, TYPOGRAPHY, VISUAL } from "../../../helpers/styleKit";
+import { SPACING, VISUAL } from "../../../helpers/styleKit";
 
 const { width, height } = Dimensions.get("window");
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background,
     paddingBottom: 0,
   },
   headerContainer: {
-    padding: 16,
-    paddingBottom: 0,
-    backgroundColor: COLORS.background,
+    paddingHorizontal: 16,
   },
   headerContent: {
     flexDirection: "row",
@@ -280,5 +276,38 @@ export const styles = StyleSheet.create({
     marginTop: SPACING.MEDIUM,
     textAlign: "center",
     maxWidth: "90%",
+  },
+  detailModalContainer: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.85)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  detailCard: {
+    width: "100%",
+    height: "100%",
+    backgroundColor: "rgba(0, 0, 0, 0.95)",
+    zIndex: 10,
+  },
+  detailCardContent: {
+    flex: 1,
+    padding: SPACING.REGULAR,
+  },
+  closeButtonContainer: {
+    position: "absolute",
+    top: 16,
+    right: 16,
+    zIndex: 20,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  poster: {
+    width: 200,
+    height: 300,
+    borderRadius: SPACING.SMALL,
   },
 });
