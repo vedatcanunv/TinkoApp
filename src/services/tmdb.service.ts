@@ -95,7 +95,7 @@ const mapMovieToMediaContent = (movie: TMDBMovie): MediaContent => {
       : [],
     type: "movie",
     rating: movie.vote_average,
-    summary: movie.overview,
+    summary: movie.overview || undefined,
   };
 };
 
@@ -117,7 +117,7 @@ const mapTVShowToMediaContent = (tvShow: TMDBTVShow): MediaContent => {
       : [],
     type: "tv",
     rating: tvShow.vote_average,
-    summary: tvShow.overview,
+    summary: tvShow.overview || undefined,
   };
 };
 
@@ -141,7 +141,7 @@ export const tmdbService = {
           },
         });
 
-      return response.data.results.map(mapMovieToMediaContent);
+      return (response.data.results || []).map(mapMovieToMediaContent);
     } catch (error) {
       console.error("Popüler filmler alınırken hata:", error);
       throw error;
@@ -226,10 +226,10 @@ export const tmdbService = {
         // Çakışan ID'leri filtrele (Türk yapımları zaten listemizde varsa global listeye ekleme)
         const turkishIds = combinedContent.map((item) => item.id);
         const filteredGlobalMovies = globalMovieContents.filter(
-          (item) => !turkishIds.includes(item.id)
+          (item: { id: string | number }) => !turkishIds.includes(item.id)
         );
         const filteredGlobalShows = globalShowContents.filter(
-          (item) => !turkishIds.includes(item.id)
+          (item: { id: string | number }) => !turkishIds.includes(item.id)
         );
 
         // Küresel içerikleri, kalan sayı kadar ekle
@@ -295,10 +295,10 @@ export const tmdbService = {
 
           // Çakışmayanları ekle - Aynı ID'leri kesinlikle engelle
           const newHistoryMovies = historyMovieContents.filter(
-            (item) => !existingIds.has(String(item.id))
+            (item: { id: string | number }) => !existingIds.has(String(item.id))
           );
           const newHistoryTVShows = historyTVContents.filter(
-            (item) => !existingIds.has(String(item.id))
+            (item: { id: string | number }) => !existingIds.has(String(item.id))
           );
 
           // Kalan boşluklara göre eklenecek tarih içeriklerini sınırla
@@ -375,7 +375,7 @@ export const tmdbService = {
         duration: movie.runtime
           ? `${Math.floor(movie.runtime / 60)}s ${movie.runtime % 60}dk`
           : undefined,
-        summary: movie.overview,
+        summary: movie.overview || undefined,
         director: credits.crew.find((c) => c.job === "Director")?.name || "",
         cast: credits.cast.slice(0, 5).map((actor) => actor.name),
         // API'den gelen ek bilgiler
@@ -385,7 +385,14 @@ export const tmdbService = {
         revenue: movie.revenue,
         status: movie.status,
         homepage: movie.homepage || undefined,
-        productionCompanies: movie.production_companies || [],
+        productionCompanies: (movie.production_companies || []).map(
+          (company) => ({
+            id: company.id,
+            name: company.name,
+            logo_path: company.logo_path || undefined,
+            origin_country: company.origin_country || undefined,
+          })
+        ),
         productionCountries: movie.production_countries || [],
       };
     } catch (error) {
@@ -400,7 +407,7 @@ export const tmdbService = {
       const response: AxiosResponse<TMDBResponse<TMDBTVShow>> =
         await tmdbAPI.get("/tv/popular");
 
-      return response.data.results.map(mapTVShowToMediaContent);
+      return (response.data.results || []).map(mapTVShowToMediaContent);
     } catch (error) {
       console.error("Popüler diziler alınırken hata:", error);
       throw error;
@@ -430,7 +437,7 @@ export const tmdbService = {
         type: "tv",
         rating: tvShow.vote_average,
         duration: `${tvShow.number_of_seasons} Sezon`,
-        summary: tvShow.overview,
+        summary: tvShow.overview || undefined,
         director:
           tvShow.created_by.map((creator) => creator.name).join(", ") || "",
         cast: credits.cast.slice(0, 5).map((actor) => actor.name),
@@ -439,7 +446,14 @@ export const tmdbService = {
         popularity: tvShow.popularity,
         status: tvShow.status,
         homepage: tvShow.homepage || undefined,
-        productionCompanies: tvShow.production_companies || [],
+        productionCompanies: (tvShow.production_companies || []).map(
+          (company) => ({
+            id: company.id,
+            name: company.name,
+            logo_path: company.logo_path || undefined,
+            origin_country: company.origin_country || undefined,
+          })
+        ),
         productionCountries: tvShow.production_countries || [],
         numberOfSeasons: tvShow.number_of_seasons,
         numberOfEpisodes: tvShow.number_of_episodes,
@@ -462,8 +476,12 @@ export const tmdbService = {
         }),
       ]);
 
-      const movies = movieResponse.data.results.map(mapMovieToMediaContent);
-      const tvShows = tvResponse.data.results.map(mapTVShowToMediaContent);
+      const movies = (movieResponse.data.results || []).map(
+        mapMovieToMediaContent
+      );
+      const tvShows = (tvResponse.data.results || []).map(
+        mapTVShowToMediaContent
+      );
 
       return [...movies, ...tvShows];
     } catch (error) {
@@ -480,7 +498,7 @@ export const tmdbService = {
           params: { with_genres: genreId },
         });
 
-      return response.data.results.map(mapMovieToMediaContent);
+      return (response.data.results || []).map(mapMovieToMediaContent);
     } catch (error) {
       console.error(
         `Türe göre filmler alınırken hata (Tür ID: ${genreId}):`,
@@ -498,7 +516,7 @@ export const tmdbService = {
           params: { with_genres: genreId },
         });
 
-      return response.data.results.map(mapTVShowToMediaContent);
+      return (response.data.results || []).map(mapTVShowToMediaContent);
     } catch (error) {
       console.error(
         `Türe göre diziler alınırken hata (Tür ID: ${genreId}):`,
@@ -566,15 +584,11 @@ export const tmdbService = {
         if (genreId) {
           turkishMedia = turkishMedia.filter((item) => {
             const hasGenre = item.genres?.some((genre) => {
-              // Hem ID hem de isim bazlı kontrol yap
-              if (typeof genre === "string") {
-                return genre.toLowerCase() === genreId.toString().toLowerCase();
-              } else {
-                return (
-                  genre.id?.toString() === genreId.toString() ||
-                  genre.name?.toLowerCase() === genreId.toString().toLowerCase()
-                );
-              }
+              // genre'nin string olduğunu kontrol edin
+              return typeof genre === "string"
+                ? (genre as string).toLowerCase() ===
+                    genreId.toString().toLowerCase()
+                : false;
             });
             return hasGenre;
           });
