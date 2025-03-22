@@ -384,7 +384,7 @@ export const detailStyles = StyleSheet.create({
   actionsContainer: {
     flexDirection: "row",
     paddingHorizontal: 20,
-    paddingBottom: 8,
+    paddingBottom: 25,
     paddingTop: 10,
     backgroundColor: COLORS.background,
     borderTopWidth: 0.5,

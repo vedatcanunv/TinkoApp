@@ -790,4 +790,33 @@ export const tmdbService = {
       throw error;
     }
   },
+
+  // Tür verilerinin yüklenip yüklenmediğini kontrol eden metot
+  isGenresLoaded(): boolean {
+    return movieGenres.length > 0 && tvGenres.length > 0;
+  },
+
+  // Promise olarak tür verilerinin yüklenmesini bekleyen metot
+  async waitForGenresToLoad(timeoutMs: number = 10000): Promise<boolean> {
+    return new Promise((resolve) => {
+      // Eğer türler zaten yüklenmişse hemen true döndür
+      if (this.isGenresLoaded()) {
+        return resolve(true);
+      }
+
+      // Maksimum bekleme süresi için timeout
+      const timeout = setTimeout(() => {
+        resolve(false);
+      }, timeoutMs);
+
+      // Her 200ms'de bir kontrol et
+      const checkInterval = setInterval(() => {
+        if (this.isGenresLoaded()) {
+          clearTimeout(timeout);
+          clearInterval(checkInterval);
+          resolve(true);
+        }
+      }, 200);
+    });
+  },
 };

@@ -1,35 +1,66 @@
-import React, { useEffect } from "react";
-import { Dimensions } from "react-native";
+import LottieView from "lottie-react-native";
+import React, { useEffect, useRef } from "react";
+import { View } from "react-native";
 import { tmdbService } from "../../../services";
+import { styles } from "./SplashScreen.style";
 import { SplashScreenProps } from "./SplashScreen.type";
 
-const { width } = Dimensions.get("window");
-
 export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
-  // Bileşen yüklenir yüklenmez doğrudan ana sayfaya geçiş yap
-  useEffect(() => {
-    // API isteklerini arka planda başlat ama beklemeden ana sayfaya geç
-    fetchInitialData();
+  const lottieRef = useRef<LottieView>(null);
+  const minSplashTime = 3000; // Minimum 3 saniye gösterilsin
 
-    // Hemen ana sayfaya geç
-    onFinish();
+  useEffect(() => {
+    // API isteklerini başlat ve yüklenme durumunu izle
+    const dataLoadPromise = fetchInitialData();
+    const startTime = Date.now();
+
+    // API isteklerinin tamamlanmasını bekle ve minSplashTime'dan önce biterse,
+    // kalan süre kadar bekle
+    dataLoadPromise.then(() => {
+      const elapsedTime = Date.now() - startTime;
+      const remainingTime = Math.max(0, minSplashTime - elapsedTime);
+
+      setTimeout(() => {
+        onFinish();
+      }, remainingTime);
+    });
   }, []);
 
-  // API verilerini getir (arka planda çalışacak)
+  // API verilerini getir ve sonuçlarını bekle
   const fetchInitialData = async () => {
     try {
-      // Paralel olarak tüm gerekli verileri getir
+      console.log("Veriler yükleniyor...");
+
+      // Ana ekranda gösterilecek popüler içerikleri Splash ekranında önceden yükleyelim
+      const popularInTurkey = await tmdbService.getPopularInTurkey(1);
+      console.log(`Popüler içerikler yüklendi: ${popularInTurkey.length} adet`);
+
+      // Diğer gerekli verileri de yükleyelim
       await Promise.all([
         tmdbService.getPopularMovies(),
-        tmdbService.getPopularInTurkey(),
         tmdbService.getMovieGenres(),
         tmdbService.getTVGenres(),
       ]);
+
+      console.log("Tüm veriler başarıyla yüklendi!");
+      return true;
     } catch (error) {
       console.error("Veri yüklenirken hata oluştu:", error);
+      return false;
     }
   };
 
-  // Boş bir view döndür - zaten görünmeyecek
-  return null;
+  return (
+    <View style={styles.container}>
+      <View style={styles.logoContainer}>
+        <LottieView
+          ref={lottieRef}
+          source={require("../../../assets/animations/loadingCut.json")}
+          style={styles.lottieAnimation}
+          autoPlay
+          loop
+        />
+      </View>
+    </View>
+  );
 };
