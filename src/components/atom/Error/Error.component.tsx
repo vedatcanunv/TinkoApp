@@ -2,11 +2,7 @@ import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import LottieView from "lottie-react-native";
 import { styles } from "./Error.style";
-
-interface ErrorProps {
-  message?: string;
-  onRetry?: () => void;
-}
+import { ErrorProps } from "./Error.type";
 
 export const Error: React.FC<ErrorProps> = ({
   message = "Bir hata oluştu. Lütfen tekrar deneyin.",

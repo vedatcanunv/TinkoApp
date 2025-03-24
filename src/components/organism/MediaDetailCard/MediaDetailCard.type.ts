@@ -37,4 +37,9 @@ export interface MediaDetailCardProps {
    * Özel stiller
    */
   style?: StyleProp<ViewStyle>;
+
+  /**
+   * İçerik değişiklikleri için fonksiyon
+   */
+  onContentChange?: (media: MediaContent | null) => void;
 }

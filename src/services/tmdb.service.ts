@@ -129,19 +129,45 @@ const mapGenre = (genre: TMDBGenre): Genre => {
   };
 };
 
+// Önbellek mekanizması ekleyelim
+const cache = new Map();
+
+// Önbelleğe alma yardımcı fonksiyonu
+const getCachedData = async <T>(
+  key: string,
+  fetchFn: () => Promise<T>,
+  maxAge = 5 * 60 * 1000
+): Promise<T> => {
+  const now = Date.now();
+
+  if (cache.has(key)) {
+    const { data, timestamp } = cache.get(key);
+    // 5 dakikadan daha yeni ise önbellekten döndür
+    if (now - timestamp < maxAge) {
+      return data;
+    }
+  }
+
+  // Veriyi getir ve önbelleğe al
+  const data = await fetchFn();
+  cache.set(key, { data, timestamp: now });
+  return data;
+};
+
 // TMDB Servisi
 export const tmdbService = {
   // Popüler filmleri getir
   async getPopularMovies(page: number = 1): Promise<MediaContent[]> {
     try {
-      const response: AxiosResponse<TMDBResponse<TMDBMovie>> =
-        await tmdbAPI.get("/movie/popular", {
-          params: {
-            page,
-          },
+      const cacheKey = `popular_movies_${page}`;
+
+      return await getCachedData(cacheKey, async () => {
+        const response = await tmdbAPI.get("/movie/popular", {
+          params: { page },
         });
 
-      return (response.data.results || []).map(mapMovieToMediaContent);
+        return (response.data.results || []).map(mapMovieToMediaContent);
+      });
     } catch (error) {
       console.error("Popüler filmler alınırken hata:", error);
       throw error;
@@ -784,39 +810,12 @@ export const tmdbService = {
           .slice(0, MAX_ITEMS_PER_PAGE);
       }
 
+      // Burada eksik olan kategoriler için varsayılan dönüş
       return [...turkishMedia].slice(0, MAX_ITEMS_PER_PAGE);
     } catch (error) {
       console.error("İçerik keşfedilirken hata:", error);
-      throw error;
+      // Hata durumunda boş dizi döndür
+      return [];
     }
-  },
-
-  // Tür verilerinin yüklenip yüklenmediğini kontrol eden metot
-  isGenresLoaded(): boolean {
-    return movieGenres.length > 0 && tvGenres.length > 0;
-  },
-
-  // Promise olarak tür verilerinin yüklenmesini bekleyen metot
-  async waitForGenresToLoad(timeoutMs: number = 10000): Promise<boolean> {
-    return new Promise((resolve) => {
-      // Eğer türler zaten yüklenmişse hemen true döndür
-      if (this.isGenresLoaded()) {
-        return resolve(true);
-      }
-
-      // Maksimum bekleme süresi için timeout
-      const timeout = setTimeout(() => {
-        resolve(false);
-      }, timeoutMs);
-
-      // Her 200ms'de bir kontrol et
-      const checkInterval = setInterval(() => {
-        if (this.isGenresLoaded()) {
-          clearTimeout(timeout);
-          clearInterval(checkInterval);
-          resolve(true);
-        }
-      }, 200);
-    });
   },
 };

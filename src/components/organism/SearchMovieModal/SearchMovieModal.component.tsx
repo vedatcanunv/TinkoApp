@@ -10,12 +10,9 @@ import {
   FlatList,
   Pressable,
   Image,
-  Animated,
   ScrollView,
   Modal,
-  TouchableOpacity,
   TouchableHighlight,
-  TextInput,
   StatusBar,
   ImageBackground,
   Platform,
@@ -31,9 +28,7 @@ import * as IconModule from "react-native-vector-icons/Ionicons";
 import { COLORS } from "../../../helpers/colors";
 import { tmdbService } from "../../../services";
 import { MediaContent } from "../../molecule/MediaCard/MediaCard.type";
-import { SPACING } from "../../../helpers/styleKit";
-import { BlurView } from "expo-blur";
-import { LinearGradient } from "expo-linear-gradient";
+import { StateView } from "../../molecule/StateView";
 
 // Typescript için Cast işlemi
 const Ionicons = IconModule.default as any;
@@ -374,11 +369,8 @@ export const SearchMovieModal: React.FC<SearchMovieModalProps> = ({
     // Hemen kapatma hissini vermek için
     setDetailCardVisible(false);
 
-    // Animasyon bitiminde medya bilgisini sıfırla
-    setTimeout(() => {
-      console.log("SearchMovieModal: Seçili medya sıfırlanıyor");
-      setSelectedMedia(null);
-    }, 300);
+    // Animasyon için çok kısa bir süre bekleyelim, ancak selectedMedia'yı null yapmayalım
+    // Bu sayede ana modal görünür kalacak
   }, []);
 
   // İzlendi olarak işaretle
@@ -427,7 +419,7 @@ export const SearchMovieModal: React.FC<SearchMovieModalProps> = ({
 
     return (
       <Modal
-        visible={!!selectedMedia}
+        visible={detailCardVisible}
         animationType="fade"
         transparent={true}
         statusBarTranslucent
@@ -781,10 +773,9 @@ export const SearchMovieModal: React.FC<SearchMovieModalProps> = ({
     );
   };
 
-  // Detay kartını gösterme değişikliği
-  if (detailCardVisible && selectedMedia) {
-    return renderDetailCard();
-  }
+  // Bu kısmı değiştirdik - detay kartını ayrı bir return ile döndürmek yerine ana UI içine ekliyoruz
+  // Detay kartını ayrı bir komponent olarak render et, ancak return etme
+  const detailCard = selectedMedia ? renderDetailCard() : null;
 
   return (
     <CustomModal
@@ -820,26 +811,21 @@ export const SearchMovieModal: React.FC<SearchMovieModalProps> = ({
         {/* Medya grid listesi */}
         <View style={{ flex: 1 }}>
           {loading ? (
-            <View style={styles.loadingContainer}>
-              <Loading size="large" color="primary" />
-              <Text size="m" color="light" style={styles.loadingText}>
-                {searchQuery ? "Aranıyor..." : "İçerik yükleniyor..."}
-              </Text>
-            </View>
+            <StateView
+              loading={true}
+              loadingText={searchQuery ? "Aranıyor..." : "İçerik yükleniyor..."}
+            />
           ) : error ? (
-            <View style={styles.errorContainer}>
-              <Text size="m" color="danger" style={styles.errorText}>
-                {error}
-              </Text>
-            </View>
+            <StateView error={error} errorText={error} />
           ) : allMedia.length === 0 ? (
-            <View style={styles.emptyContainer}>
-              <Text size="m" color="light" style={styles.emptyText}>
-                {searchQuery
+            <StateView
+              empty={true}
+              emptyText={
+                searchQuery
                   ? `"${searchQuery}" ile ilgili sonuç bulunamadı.`
-                  : "Görüntülenecek içerik bulunamadı."}
-              </Text>
-            </View>
+                  : "Görüntülenecek içerik bulunamadı."
+              }
+            />
           ) : (
             <FlatList
               data={allMedia}
@@ -866,6 +852,9 @@ export const SearchMovieModal: React.FC<SearchMovieModalProps> = ({
             />
           )}
         </View>
+
+        {/* Detay kartını burada ekleyelim */}
+        {detailCard}
       </View>
     </CustomModal>
   );

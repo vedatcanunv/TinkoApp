@@ -1,11 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { ScrollView, View } from "react-native";
-import {
-  Button,
-  Loading,
-  ScreenContainer,
-  Text,
-} from "../../../components/atom";
+import { Button, ScreenContainer, Text } from "../../../components/atom";
 import { mockDataService } from "../../../services";
 import { styles } from "./ProfileScreen.style";
 import {
@@ -14,6 +9,7 @@ import {
   ProfileScreenProps,
   UserStats,
 } from "./ProfileScreen.type";
+import { StateView } from "../../molecule/StateView";
 
 export const ProfileScreen: React.FC<ProfileScreenProps> = ({
   onLogout,
@@ -84,18 +80,16 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
 
   if (loading) {
     return (
-      <View style={styles.loadingContainer}>
-        <Loading size="large" color="primary" text="Profil yükleniyor..." />
-      </View>
+      <ScreenContainer style={styles.loadingContainer}>
+        <StateView loading={true} loadingText="Profil yükleniyor..." />
+      </ScreenContainer>
     );
   }
 
   if (error) {
     return (
       <ScreenContainer style={styles.errorContainer}>
-        <Text size="l" color="danger" style={styles.errorText}>
-          {error}
-        </Text>
+        <StateView error={error} errorText={error} />
         <Button
           title="Tekrar Dene"
           onPress={() => {

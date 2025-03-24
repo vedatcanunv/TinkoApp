@@ -5,10 +5,7 @@ import {
   TouchableWithoutFeedback,
   Animated,
   Dimensions,
-  Pressable,
-  ScrollView,
   PanResponder,
-  PanResponderInstance,
 } from "react-native";
 import { styles } from "./Modal.style";
 import { ModalProps } from "./Modal.type";
