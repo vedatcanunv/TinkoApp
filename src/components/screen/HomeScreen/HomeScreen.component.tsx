@@ -220,15 +220,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
     );
   }, [media, searchQuery]);
 
-  // Loading durumunu kontrol et
-  const renderContent = () => {
-    if (loading && page === 1 && !refreshing) {
-      return null; // İlk yüklemede loading gösterme (splash'te yapıldı)
-    }
-
-    // İçerik render
-  };
-
   // Ana yükleme ekranı
   if (loading && page === 1) {
     return (
@@ -265,15 +256,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
     </View>
   );
 
-  // Liste footer (loading daha fazla)
-  const renderFooter = () => {
-    if (!loadingMore) return <View style={styles.listFooter} />;
-
-    // Footer'da yükleme göstergesi yerine boş bir view döndür
-    // Yükleme göstergesi ayrı bir overlay olarak gösterilecek
-    return <View style={styles.listFooter} />;
-  };
-
   // Yükleme durumunda ekranın ortasında gösterilecek overlay
   const renderLoadingOverlay = () => {
     if (!loadingMore) return null;
@@ -287,17 +269,15 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
 
   return (
     <ScreenContainer style={[styles.container]}>
-      <View style={styles.headerContainer}>
-        <View style={styles.headerContent}>
-          <Text
-            size="xxxl"
-            weight="bold"
-            color="primary"
-            style={{ fontSize: 32 }}
-          >
-            Tinko
-          </Text>
-        </View>
+      <View style={styles.headerContent}>
+        <Text
+          size="xxxl"
+          weight="bold"
+          color="primary"
+          style={{ fontSize: 32 }}
+        >
+          Tinko
+        </Text>
       </View>
 
       {/* MediaList bileşeni ile tüm medya içeriğini göster */}
@@ -308,6 +288,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
         loadingMore={loadingMore}
         refreshing={refreshing}
         onRefresh={handleRefresh}
+        style={styles.mediaList}
       />
 
       {/* İçerik Arama Modal'ı */}

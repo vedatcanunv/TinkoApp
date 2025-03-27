@@ -7,5 +7,6 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.background,
     marginTop: Platform.OS === "ios" ? null : 30,
+    paddingHorizontal: 8,
   },
 });

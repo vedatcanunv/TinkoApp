@@ -5,11 +5,7 @@ import { SPACING } from "../../../helpers/styleKit";
 export const styles = StyleSheet.create({
   gridItem: {
     flex: 1,
-    margin: SPACING.SMALL,
     maxWidth: "50%",
-  },
-  mediaList: {
-    padding: SPACING.SMALL,
   },
   mediaGridContainer: {
     justifyContent: "space-between",

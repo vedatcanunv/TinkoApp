@@ -13,6 +13,7 @@ export const MediaList: React.FC<MediaListProps> = ({
   loadingMore,
   refreshing,
   onRefresh,
+  style,
 }) => {
   const renderItem = ({ item }: { item: MediaContent }) => (
     <View style={styles.gridItem}>
@@ -33,13 +34,13 @@ export const MediaList: React.FC<MediaListProps> = ({
 
   return (
     <FlatList
+      style={style}
       data={data}
       renderItem={renderItem}
       keyExtractor={(item) => `${item.id.toString()}-${item.type}`}
       numColumns={2}
-      contentContainerStyle={styles.mediaList}
       columnWrapperStyle={styles.mediaGridContainer}
-      showsVerticalScrollIndicator={true}
+      showsVerticalScrollIndicator={false}
       onEndReached={onLoadMore}
       onEndReachedThreshold={0.5}
       ListFooterComponent={renderFooter}

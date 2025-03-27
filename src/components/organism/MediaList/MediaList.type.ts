@@ -1,3 +1,4 @@
+import { StyleProp, ViewStyle } from "react-native";
 import { MediaContent } from "../../molecule/MediaCard/MediaCard.type";
 
 export interface MediaListProps {
@@ -30,4 +31,9 @@ export interface MediaListProps {
    * Yenileme işlemi tetiklendiğinde çalışacak fonksiyon
    */
   onRefresh?: () => void;
+
+  /**
+   * Dış view style
+   */
+  style?: StyleProp<ViewStyle>;
 }
