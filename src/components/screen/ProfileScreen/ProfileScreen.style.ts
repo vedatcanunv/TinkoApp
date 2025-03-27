@@ -1,20 +1,16 @@
-import { Dimensions, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { COLORS } from "../../../helpers/colors";
 import { LAYOUT } from "../../../helpers/layout";
-
-const { width, height } = Dimensions.get("window");
+import { SPACING } from "../../../helpers/styleKit";
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.background,
-    justifyContent: "center",
   },
   header: {
-    paddingHorizontal: 16,
-    paddingVertical: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: COLORS.grayLighter,
+    paddingHorizontal: SPACING.LARGE,
+    paddingVertical: SPACING.MEDIUM,
   },
   scrollContainer: {
     flex: 1,
@@ -111,5 +107,18 @@ export const styles = StyleSheet.create({
   },
   retryButton: {
     minWidth: 120,
+  },
+  stats: {
+    marginBottom: SPACING.MEDIUM,
+  },
+  mediaList: {
+    marginBottom: SPACING.LARGE,
+  },
+  contentContainer: {
+    flexGrow: 1,
+  },
+  section: {
+    marginHorizontal: SPACING.SMALL,
+    marginBottom: SPACING.LARGE,
   },
 });

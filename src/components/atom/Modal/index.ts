@@ -1,2 +1,2 @@
-export * from "./Modal.component";
-export * from "./Modal.type";
+export { Modal } from "./Modal.component";
+export type { ModalProps } from "./Modal.type";

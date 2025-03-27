@@ -29,6 +29,7 @@ import { COLORS } from "../../../helpers/colors";
 import { tmdbService } from "../../../services";
 import { MediaContent } from "../../molecule/MediaCard/MediaCard.type";
 import { StateView } from "../../molecule/StateView";
+import { useUserMediaStore } from "../../../store/userMediaStore";
 
 // Typescript için Cast işlemi
 const Ionicons = IconModule.default as any;
@@ -101,6 +102,14 @@ export const SearchMovieModal: React.FC<SearchMovieModalProps> = ({
   const [page, setPage] = useState(1); // Sayfa numarası
   const [hasMoreData, setHasMoreData] = useState(true); // Daha fazla veri var mı
   const isClosingRef = useRef(false);
+
+  // Store'dan fonksiyonları al
+  const {
+    addWatchedMovie,
+    addWatchedSeries,
+    addMovieToWatchlist,
+    addSeriesToWatchlist,
+  } = useUserMediaStore();
 
   // Modal görünür olduğunda bir kere çalışacak ve içerik hazırlığını yapacak
   useEffect(() => {
@@ -375,10 +384,28 @@ export const SearchMovieModal: React.FC<SearchMovieModalProps> = ({
 
   // İzlendi olarak işaretle
   const handleMarkAsWatched = useCallback(() => {
-    // Burada izlendi olarak işaretleme mantığı olacak
-    console.log("İzlendi olarak işaretlendi:", selectedMedia?.title);
-    handleCloseDetail();
-  }, [selectedMedia]);
+    if (selectedMedia) {
+      if (selectedMedia.type === "movie") {
+        addWatchedMovie(selectedMedia);
+      } else {
+        addWatchedSeries(selectedMedia);
+      }
+      console.log("İzlendi olarak işaretlendi:", selectedMedia.title);
+      handleCloseDetail();
+    }
+  }, [selectedMedia, addWatchedMovie, addWatchedSeries]);
+
+  // İzleme listesine ekle
+  const handleAddToWatchlist = useCallback(() => {
+    if (selectedMedia) {
+      if (selectedMedia.type === "movie") {
+        addMovieToWatchlist(selectedMedia);
+      } else {
+        addSeriesToWatchlist(selectedMedia);
+      }
+      console.log("İzleme listesine eklendi:", selectedMedia.title);
+    }
+  }, [selectedMedia, addMovieToWatchlist, addSeriesToWatchlist]);
 
   // Grid görünümünde medya kartını render et
   const renderMediaItem = useCallback(

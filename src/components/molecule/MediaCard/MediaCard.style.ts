@@ -3,7 +3,7 @@ import { COLORS } from "../../../helpers/colors";
 import { SPACING, TYPOGRAPHY, VISUAL } from "../../../helpers/styleKit";
 
 const { width } = Dimensions.get("window");
-const CARD_WIDTH = width / 2 - SPACING.MEDIUM * 1.5; // 2 kart yan yana, kenarlardan margin ile
+const CARD_WIDTH = width / 2 - SPACING.MEDIUM; // 2 kart yan yana, daha az margin ile
 const CARD_ASPECT_RATIO = 0.75; // Poster oranı 2:3 (film posterleri için standart)
 
 export const styles = StyleSheet.create({
@@ -25,8 +25,8 @@ export const styles = StyleSheet.create({
   },
   // Kart boyutları - Artık yükseklik görsel oranına göre belirleniyor
   small: {
-    width: width / 2.5,
-    height: width / 2.5 / CARD_ASPECT_RATIO,
+    width: width / 2.2, // Biraz daha büyük
+    height: width / 2.2 / CARD_ASPECT_RATIO,
   },
   medium: {
     width: CARD_WIDTH,
@@ -49,18 +49,7 @@ export const styles = StyleSheet.create({
   poster: {
     width: "100%",
     height: "100%",
-    resizeMode: "cover", // Contain yerine cover kullanarak, poster dikdörtgene tam sığacak
-  },
-  gradient: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: "40%", // Yüksekliğin yüzdesel değeri olarak gradient
-    zIndex: 2,
-    backgroundColor: "rgba(0,0,0,0.7)",
-    borderBottomLeftRadius: VISUAL.RADIUS.SMALL,
-    borderBottomRightRadius: VISUAL.RADIUS.SMALL,
+    resizeMode: "cover",
   },
   // İçerik bölümü (transparan ve poster üzerinde)
   content: {
@@ -70,7 +59,7 @@ export const styles = StyleSheet.create({
     left: 0,
     right: 0,
     zIndex: 3,
-    backgroundColor: "rgba(0,0,0,0.6)",
+    backgroundColor: "rgba(0,0,0,0.5)", // Tek bir transparan katman
     paddingVertical: SPACING.MEDIUM,
     borderBottomLeftRadius: VISUAL.RADIUS.SMALL,
     borderBottomRightRadius: VISUAL.RADIUS.SMALL,
@@ -113,7 +102,6 @@ export const styles = StyleSheet.create({
     fontSize: TYPOGRAPHY.FONT_SIZE.SMALL,
     fontWeight: TYPOGRAPHY.FONT_WEIGHT.BOLD,
   },
-
   // MediaCard için özel tip tag stilleri (Film/Dizi)
   typeTag: {
     paddingHorizontal: SPACING.SMALL,

@@ -77,16 +77,12 @@ export const MediaCard = ({
           />
         ) : (
           <View style={[styles.poster, { backgroundColor: COLORS.grayLight }]}>
-            {/* Boş resim durumunda bir metin gösterme */}
             <Text style={{ color: COLORS.white, textAlign: "center" }}>
               Resim Yok
             </Text>
           </View>
         )}
       </View>
-
-      {/* Koyu gradyan efekti için arka plan overlay */}
-      <View style={styles.gradient} />
 
       <View style={styles.content}>
         <View style={styles.titleContainer}>

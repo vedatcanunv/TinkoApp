@@ -1,3 +1,5 @@
+import { StyleProp, ViewStyle } from "react-native";
+
 export interface ProfileScreenProps {
   /**
    * Çıkış yapıldığında çalışacak fonksiyon

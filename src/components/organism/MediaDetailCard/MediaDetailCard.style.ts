@@ -1,5 +1,6 @@
 import { StyleSheet, Platform } from "react-native";
 import { COLORS } from "../../../helpers/colors";
+import { SPACING } from "../../../helpers/styleKit";
 
 export const styles = StyleSheet.create({
   detailModalContainer: {
@@ -71,22 +72,31 @@ export const styles = StyleSheet.create({
     marginLeft: 4,
   },
   genresContainer: {
-    marginBottom: 20,
-    paddingHorizontal: 20,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    marginBottom: SPACING.MEDIUM,
+    paddingHorizontal: SPACING.MEDIUM,
   },
   genresContentContainer: {
     paddingRight: 20,
   },
   genreItem: {
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 16,
-    marginRight: 8,
     backgroundColor: COLORS.primary,
+    paddingHorizontal: SPACING.MEDIUM,
+    paddingVertical: SPACING.TINY,
+    borderRadius: 16,
+    marginRight: SPACING.SMALL,
+    marginBottom: SPACING.SMALL,
+    elevation: 2,
+    shadowColor: COLORS.black,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.5,
   },
   genreText: {
     color: COLORS.white,
     fontSize: 12,
+    fontWeight: "500",
   },
   summaryContainer: {
     paddingHorizontal: 20,

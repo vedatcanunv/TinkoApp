@@ -9,6 +9,7 @@ import { MediaList } from "../../organism/MediaList";
 import { StateView } from "../../molecule/StateView";
 import { styles } from "./HomeScreen.style";
 import { HomeScreenProps } from "./HomeScreen.type";
+import { useUserMediaStore } from "../../../store/userMediaStore";
 
 export const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
   const [media, setMedia] = useState<MediaContent[]>([]);
@@ -23,6 +24,14 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
   const [detailCardVisible, setDetailCardVisible] = useState(false);
   const [detailLoading, setDetailLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+
+  // Store'dan fonksiyonları al
+  const {
+    addWatchedMovie,
+    addWatchedSeries,
+    addMovieToWatchlist,
+    addSeriesToWatchlist,
+  } = useUserMediaStore();
 
   const handleCloseSearchModal = () => {
     setSearchModalVisible(false);
@@ -111,9 +120,30 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
   );
 
   // MediaContent tipindeki veriyi alıp detay kartı gösterecek fonksiyon
-  const handleMediaPress = useCallback((media: MediaContent) => {
+  const handleMediaPress = useCallback(async (media: MediaContent) => {
+    setDetailLoading(true);
     setSelectedMedia(media);
     setDetailCardVisible(true);
+
+    try {
+      let detailResult: MediaContent | null = null;
+
+      // Film veya dizi olmasına göre detay bilgisini getir
+      if (media.type === "movie") {
+        detailResult = await tmdbService.getMovieDetails(media.id as number);
+      } else {
+        detailResult = await tmdbService.getTVShowDetails(media.id as number);
+      }
+
+      if (detailResult) {
+        setSelectedMedia(detailResult);
+      }
+    } catch (err) {
+      console.error(`${media.title} detayları alınırken hata:`, err);
+      // Hata durumunda mevcut medya bilgisiyle devam et
+    } finally {
+      setDetailLoading(false);
+    }
   }, []);
 
   // Detay kartını kapat - değiştirildi
@@ -130,15 +160,29 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
 
   // İzlendi olarak işaretle
   const handleMarkAsWatched = useCallback(() => {
-    // Burada izlendi olarak işaretleme mantığı olacak
-    console.log("İzlendi olarak işaretlendi:", selectedMedia?.title);
-    handleCloseDetail();
-  }, [selectedMedia, handleCloseDetail]);
+    if (selectedMedia) {
+      if (selectedMedia.type === "movie") {
+        addWatchedMovie(selectedMedia);
+      } else {
+        addWatchedSeries(selectedMedia);
+      }
+      console.log("İzlendi olarak işaretlendi:", selectedMedia.title);
+      handleCloseDetail();
+    }
+  }, [selectedMedia, addWatchedMovie, addWatchedSeries]);
 
   // İzleme listesine ekle
   const handleAddToWatchlist = useCallback(() => {
-    console.log("İzleme listesine eklendi:", selectedMedia?.title);
-  }, [selectedMedia]);
+    if (selectedMedia) {
+      if (selectedMedia.type === "movie") {
+        addMovieToWatchlist(selectedMedia);
+      } else {
+        addSeriesToWatchlist(selectedMedia);
+      }
+      console.log("İzleme listesine eklendi:", selectedMedia.title);
+      handleCloseDetail();
+    }
+  }, [selectedMedia, addMovieToWatchlist, addSeriesToWatchlist]);
 
   // İlk yükleme
   useEffect(() => {
