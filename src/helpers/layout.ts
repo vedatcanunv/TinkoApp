@@ -1,9 +1,8 @@
-import { Platform, Dimensions } from "react-native";
+import {Platform, Dimensions} from 'react-native';
 
 // Ekran boyutu için sabitleri tanımla
-const { width, height } = Dimensions.get("window");
-export const isIphoneX =
-  Platform.OS === "ios" && (height >= 812 || width >= 812);
+const {width, height} = Dimensions.get('window');
+export const isIphoneX = Platform.OS === 'ios' && (height >= 812 || width >= 812);
 
 // TabBar ve Layout için sabitler
 export const LAYOUT = {
@@ -21,7 +20,7 @@ export const LAYOUT = {
 
   // SafeArea değerleri
   SAFE_AREA: {
-    TOP: Platform.OS === "ios" ? 44 : 0,
+    TOP: Platform.OS === 'ios' ? 44 : 0,
     BOTTOM: isIphoneX ? 34 : 0,
   },
 

@@ -1,17 +1,17 @@
-import { StyleProp, ViewStyle } from "react-native";
+import {StyleProp, ViewStyle} from 'react-native';
 
 export interface LoadingProps {
   /**
    * Yükleme göstergesinin boyutu
    * @default "medium"
    */
-  size?: "small" | "medium" | "large";
+  size?: 'small' | 'medium' | 'large';
 
   /**
    * Yükleme göstergesinin rengi
    * @default "primary"
    */
-  color?: "primary" | "white" | string;
+  color?: 'primary' | 'white' | string;
 
   /**
    * Yükleme göstergesinin altında gösterilecek metin
@@ -22,7 +22,7 @@ export interface LoadingProps {
    * Metnin rengi
    * @default "primary"
    */
-  textColor?: "primary" | "light" | "white" | "dark" | string;
+  textColor?: 'primary' | 'light' | 'white' | 'dark' | string;
 
   /**
    * Tam ekran gösterim

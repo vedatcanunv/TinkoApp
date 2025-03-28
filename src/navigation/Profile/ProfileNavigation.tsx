@@ -1,15 +1,15 @@
-import React from "react";
-import { SafeAreaView } from "react-native";
-import { createStackNavigator } from "@react-navigation/stack";
-import { ProfileScreen } from "../../components/screen/ProfileScreen/ProfileScreen.component";
-import { ProfileTabParamList } from "./ProfileNavigation.type";
-import { useAuth } from "../../hooks/useAuth";
-import { styles } from "./ProfileNavigation.style";
+import React from 'react';
+import {SafeAreaView} from 'react-native';
+import {createStackNavigator} from '@react-navigation/stack';
+import {ProfileScreen} from '../../components/screen/ProfileScreen/ProfileScreen.component';
+import {ProfileTabParamList} from './ProfileNavigation.type';
+import {useAuth} from '../../hooks/useAuth';
+import {styles} from './ProfileNavigation.style';
 
 const Stack = createStackNavigator<ProfileTabParamList>();
 
 // Screen wrapper'lar
-const ProfileScreenWrapper = ({ navigation }: any) => {
+const ProfileScreenWrapper = ({navigation}: any) => {
   const auth = useAuth();
 
   const handleLogout = async () => {
@@ -17,19 +17,19 @@ const ProfileScreenWrapper = ({ navigation }: any) => {
       // Kullanıcı oturumunu kapat
       await auth.signOut();
     } catch (error) {
-      console.error("Çıkış yapılırken hata oluştu:", error);
+      console.error('Çıkış yapılırken hata oluştu:', error);
     }
   };
 
   const handleWatchedMoviesPress = () => {
     // İzlenen filmler sayfasına yönlendir
-    console.log("İzlenen filmler butonuna tıklandı");
+    console.log('İzlenen filmler butonuna tıklandı');
     // Gelecekte: navigation.navigate("WatchedMovies");
   };
 
   const handleWatchedTVShowsPress = () => {
     // İzlenen diziler sayfasına yönlendir
-    console.log("İzlenen diziler butonuna tıklandı");
+    console.log('İzlenen diziler butonuna tıklandı');
     // Gelecekte: navigation.navigate("WatchedTVShows");
   };
 
@@ -47,7 +47,7 @@ const ProfileScreenWrapper = ({ navigation }: any) => {
 // Profile Stack Navigator
 export const ProfileNavigation: React.FC = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name="Profile" component={ProfileScreenWrapper} />
       {/* Gelecekte eklenecek diğer ekranlar */}
       {/* <Stack.Screen name="WatchedMovies" component={WatchedMoviesScreenWrapper} /> */}

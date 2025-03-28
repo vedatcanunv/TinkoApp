@@ -1,4 +1,4 @@
-import { ViewProps, StyleProp, ViewStyle } from "react-native";
+import {ViewProps, StyleProp, ViewStyle} from 'react-native';
 
 export interface ScreenContainerProps extends ViewProps {
   /**

@@ -1,23 +1,18 @@
-import React from "react";
-import { View, TouchableOpacity, Image } from "react-native";
-import { Text } from "../../atom/Text";
-import { Tag } from "../../atom/Tag";
-import { styles } from "./MovieCard.style";
-import { Movie, MovieCardProps } from "./MovieCard.type";
+import React from 'react';
+import {View, TouchableOpacity, Image} from 'react-native';
+import {Text} from '../../atom/Text';
+import {Tag} from '../../atom/Tag';
+import {styles} from './MovieCard.style';
+import {MovieCardProps} from './MovieCard.type';
 
 export const MovieCard: React.FC<MovieCardProps> = ({
   movie,
   placeholderText,
-  size = "medium",
+  size = 'medium',
   onPress,
   style,
   ...props
 }) => {
-  // İlk harfi almak için
-  const getFirstLetter = (title: string) => {
-    return title.charAt(0).toUpperCase();
-  };
-
   // Karta tıklandığında
   const handlePress = () => {
     if (onPress) {
@@ -44,7 +39,7 @@ export const MovieCard: React.FC<MovieCardProps> = ({
           source={{
             uri: `https://picsum.photos/id/${getRandomPosterId()}/200/300`,
           }}
-          style={{ width: "100%", height: "100%" }}
+          style={{width: '100%', height: '100%'}}
           resizeMode="cover"
         />
       </View>
@@ -64,7 +59,7 @@ export const MovieCard: React.FC<MovieCardProps> = ({
         {/* Türler */}
         <View style={styles.genresContainer}>
           {movie.genres
-            .map((genre) => (
+            .map(genre => (
               <Tag
                 key={genre.id}
                 label={genre.name}

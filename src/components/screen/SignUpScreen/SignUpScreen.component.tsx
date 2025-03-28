@@ -1,36 +1,25 @@
-import React, { useState } from "react";
-import {
-  View,
-  TouchableOpacity,
-  ScrollView,
-  KeyboardAvoidingView,
-  Platform,
-} from "react-native";
-import { Formik } from "formik";
-import * as Yup from "yup";
-import { styles } from "./SignUpScreen.style";
-import { SignUpScreenProps } from "./SignUpScreen.type";
-import { Text, Input, Button } from "../../../components/atom";
+import React, {useState} from 'react';
+import {View, TouchableOpacity, ScrollView, KeyboardAvoidingView, Platform} from 'react-native';
+import {Formik} from 'formik';
+import * as Yup from 'yup';
+import {styles} from './SignUpScreen.style';
+import {SignUpScreenProps} from './SignUpScreen.type';
+import {Text, Input, Button} from '../../../components/atom';
 
 // Form doğrulama şeması
 const SignUpSchema = Yup.object().shape({
-  firstName: Yup.string().required("Ad gereklidir"),
-  lastName: Yup.string().required("Soyad gereklidir"),
+  firstName: Yup.string().required('Ad gereklidir'),
+  lastName: Yup.string().required('Soyad gereklidir'),
   email: Yup.string()
-    .email("Geçerli bir e-posta adresi giriniz")
-    .required("E-posta adresi gereklidir"),
-  password: Yup.string()
-    .min(6, "Şifre en az 6 karakter olmalıdır")
-    .required("Şifre gereklidir"),
+    .email('Geçerli bir e-posta adresi giriniz')
+    .required('E-posta adresi gereklidir'),
+  password: Yup.string().min(6, 'Şifre en az 6 karakter olmalıdır').required('Şifre gereklidir'),
   confirmPassword: Yup.string()
-    .oneOf([Yup.ref("password")], "Şifreler eşleşmiyor")
-    .required("Şifre onayı gereklidir"),
+    .oneOf([Yup.ref('password')], 'Şifreler eşleşmiyor')
+    .required('Şifre onayı gereklidir'),
 });
 
-export const SignUpScreen: React.FC<SignUpScreenProps> = ({
-  onSignUp,
-  onLoginPress,
-}) => {
+export const SignUpScreen: React.FC<SignUpScreenProps> = ({onSignUp, onLoginPress}) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSignUp = async (values: {
@@ -43,12 +32,8 @@ export const SignUpScreen: React.FC<SignUpScreenProps> = ({
       setIsLoading(true);
       // Gerçek uygulamada burada API isteği yapılır
       // Şimdilik mock veri kullanıyoruz
-      await new Promise((resolve) => setTimeout(resolve, 1000)); // Simüle edilmiş API isteği
-      onSignUp(
-        `${values.firstName} ${values.lastName}`,
-        values.email,
-        values.password
-      );
+      await new Promise(resolve => setTimeout(resolve, 1000)); // Simüle edilmiş API isteği
+      onSignUp(`${values.firstName} ${values.lastName}`, values.email, values.password);
     } finally {
       setIsLoading(false);
     }
@@ -57,8 +42,8 @@ export const SignUpScreen: React.FC<SignUpScreenProps> = ({
   return (
     <KeyboardAvoidingView
       style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}
     >
       <ScrollView
         contentContainerStyle={styles.scrollContainer}
@@ -75,36 +60,24 @@ export const SignUpScreen: React.FC<SignUpScreenProps> = ({
 
         <Formik
           initialValues={{
-            firstName: "",
-            lastName: "",
-            email: "",
-            password: "",
-            confirmPassword: "",
+            firstName: '',
+            lastName: '',
+            email: '',
+            password: '',
+            confirmPassword: '',
           }}
           validationSchema={SignUpSchema}
           onSubmit={handleSignUp}
         >
-          {({
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            values,
-            errors,
-            touched,
-            isSubmitting,
-          }) => (
+          {({handleChange, handleBlur, handleSubmit, values, errors, touched, isSubmitting}) => (
             <View style={styles.formContainer}>
               <Input
                 label="Ad"
                 placeholder="Adınızı giriniz"
                 value={values.firstName}
-                onChangeText={handleChange("firstName")}
-                onBlur={handleBlur("firstName")}
-                error={
-                  touched.firstName && errors.firstName
-                    ? errors.firstName
-                    : undefined
-                }
+                onChangeText={handleChange('firstName')}
+                onBlur={handleBlur('firstName')}
+                error={touched.firstName && errors.firstName ? errors.firstName : undefined}
                 autoCapitalize="words"
               />
 
@@ -112,13 +85,9 @@ export const SignUpScreen: React.FC<SignUpScreenProps> = ({
                 label="Soyad"
                 placeholder="Soyadınızı giriniz"
                 value={values.lastName}
-                onChangeText={handleChange("lastName")}
-                onBlur={handleBlur("lastName")}
-                error={
-                  touched.lastName && errors.lastName
-                    ? errors.lastName
-                    : undefined
-                }
+                onChangeText={handleChange('lastName')}
+                onBlur={handleBlur('lastName')}
+                error={touched.lastName && errors.lastName ? errors.lastName : undefined}
                 autoCapitalize="words"
               />
 
@@ -126,8 +95,8 @@ export const SignUpScreen: React.FC<SignUpScreenProps> = ({
                 label="E-posta"
                 placeholder="E-posta adresinizi giriniz"
                 value={values.email}
-                onChangeText={handleChange("email")}
-                onBlur={handleBlur("email")}
+                onChangeText={handleChange('email')}
+                onBlur={handleBlur('email')}
                 error={touched.email && errors.email ? errors.email : undefined}
                 keyboardType="email-address"
                 autoCapitalize="none"
@@ -137,13 +106,9 @@ export const SignUpScreen: React.FC<SignUpScreenProps> = ({
                 label="Şifre"
                 placeholder="Şifrenizi giriniz"
                 value={values.password}
-                onChangeText={handleChange("password")}
-                onBlur={handleBlur("password")}
-                error={
-                  touched.password && errors.password
-                    ? errors.password
-                    : undefined
-                }
+                onChangeText={handleChange('password')}
+                onBlur={handleBlur('password')}
+                error={touched.password && errors.password ? errors.password : undefined}
                 secureTextEntry={true}
               />
 
@@ -151,8 +116,8 @@ export const SignUpScreen: React.FC<SignUpScreenProps> = ({
                 label="Şifre Onayı"
                 placeholder="Şifrenizi tekrar giriniz"
                 value={values.confirmPassword}
-                onChangeText={handleChange("confirmPassword")}
-                onBlur={handleBlur("confirmPassword")}
+                onChangeText={handleChange('confirmPassword')}
+                onBlur={handleBlur('confirmPassword')}
                 error={
                   touched.confirmPassword && errors.confirmPassword
                     ? errors.confirmPassword
@@ -168,7 +133,7 @@ export const SignUpScreen: React.FC<SignUpScreenProps> = ({
                 loading={isLoading}
                 style={styles.signUpButton}
                 size="large"
-                variant="primary"
+                variant="filled"
               />
             </View>
           )}

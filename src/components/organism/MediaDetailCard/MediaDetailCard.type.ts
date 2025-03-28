@@ -1,5 +1,5 @@
-import { StyleProp, ViewStyle } from "react-native";
-import { MediaContent } from "../../../components/molecule/MediaCard/MediaCard.type";
+import {StyleProp, ViewStyle} from 'react-native';
+import {MediaContent} from '../../../components/molecule/MediaCard/MediaCard.type';
 
 export interface MediaDetailCardProps {
   /**
@@ -37,4 +37,9 @@ export interface MediaDetailCardProps {
    * Özel stiller
    */
   style?: StyleProp<ViewStyle>;
+
+  /**
+   * İçerik değişiklikleri için fonksiyon
+   */
+  onContentChange?: (media: MediaContent | null) => void;
 }

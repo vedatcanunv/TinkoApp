@@ -1,16 +1,16 @@
-import React from "react";
-import { View, FlatList, TouchableOpacity, Platform } from "react-native";
-import { Text } from "../../atom/Text";
-import { MovieCard, Movie } from "../../molecule/MovieCard";
-import { styles } from "./MovieList.style";
-import { MovieListProps } from "./MovieList.type";
-import { LAYOUT } from "../../../helpers/layout";
+import React from 'react';
+import {View, FlatList, TouchableOpacity, Platform} from 'react-native';
+import {Text} from '../../atom/Text';
+import {MovieCard, Movie} from '../../molecule/MovieCard';
+import {styles} from './MovieList.style';
+import {MovieListProps} from './MovieList.type';
+import {LAYOUT} from '../../../helpers/layout';
 
 export const MovieList: React.FC<MovieListProps> = ({
   movies,
   title,
-  titleColor = "primary",
-  emptyText = "Henüz film eklenmemiş.",
+  titleColor = 'primary',
+  emptyText = 'Henüz film eklenmemiş.',
   onMoviePress,
   showAddButton = false,
   onAddButtonPress,
@@ -25,7 +25,7 @@ export const MovieList: React.FC<MovieListProps> = ({
   );
 
   // Film kartı renderlaması
-  const renderMovieItem = ({ item }: { item: Movie }) => (
+  const renderMovieItem = ({item}: {item: Movie}) => (
     <MovieCard movie={item} onPress={onMoviePress} />
   );
 
@@ -55,14 +55,14 @@ export const MovieList: React.FC<MovieListProps> = ({
       <FlatList
         data={movies}
         renderItem={renderMovieItem}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={item => item.id.toString()}
         ListEmptyComponent={renderEmptyList}
-        ListFooterComponent={() => <View style={{ height: 250 }} />}
+        ListFooterComponent={() => <View style={{height: 250}} />}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.list}
         bounces={true}
         overScrollMode="always"
-        removeClippedSubviews={Platform.OS === "android"}
+        removeClippedSubviews={Platform.OS === 'android'}
         windowSize={5}
         initialNumToRender={10}
       />

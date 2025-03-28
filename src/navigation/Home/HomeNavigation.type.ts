@@ -1,4 +1,4 @@
-import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
+import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 
 // Home Tab için tip tanımlamaları
 export type HomeTabParamList = {
@@ -9,4 +9,4 @@ export type HomeTabParamList = {
 };
 
 // Screen props için tip tanımlamaları
-export type HomeScreenProps = BottomTabScreenProps<HomeTabParamList, "Home">;
+export type HomeScreenProps = BottomTabScreenProps<HomeTabParamList, 'Home'>;

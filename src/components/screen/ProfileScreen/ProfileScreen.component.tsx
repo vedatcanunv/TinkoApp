@@ -1,212 +1,98 @@
-import React, { useEffect, useState } from "react";
-import { ScrollView, View } from "react-native";
+import React, {useMemo} from 'react';
+import {View, ScrollView} from 'react-native';
+import {ScreenContainer, Text} from '../../atom';
+import {StatisticsList} from '../../molecule/StatisticsList';
+import {GenreStats} from '../../molecule/GenreStats';
+import {PersonStats} from '../../molecule/PersonStats';
+import {ProfileMediaList} from '../../organism/ProfileMediaList';
+import {useUserMediaStore} from '../../../store/userMediaStore';
+import {styles} from './ProfileScreen.style';
+import {ProfileScreenProps} from './ProfileScreen.type';
+import {LAYOUT} from '../../../helpers/layout';
 import {
-  Button,
-  Loading,
-  ScreenContainer,
-  Text,
-} from "../../../components/atom";
-import { mockDataService } from "../../../services";
-import { styles } from "./ProfileScreen.style";
-import {
-  GenreStats,
-  PersonStats,
-  ProfileScreenProps,
-  UserStats,
-} from "./ProfileScreen.type";
+  calculateMovieGenreStats,
+  calculateSeriesGenreStats,
+  calculateDirectorStats,
+  calculateActorStats,
+} from '../../../utils/mediaStats';
 
-export const ProfileScreen: React.FC<ProfileScreenProps> = ({
-  onLogout,
-  onWatchedMoviesPress,
-  onWatchedTVShowsPress,
-}) => {
-  const [userStats, setUserStats] = useState<UserStats | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+export const ProfileScreen: React.FC<ProfileScreenProps> = ({}) => {
+  const {watchedMovies, watchedSeries, watchlistMovies, watchlistSeries, getStats} =
+    useUserMediaStore();
 
-  useEffect(() => {
-    const fetchUserStats = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        // Gerçek uygulamada API isteği yapılır
-        // Şimdilik mock veri kullanıyoruz
-        const response = (await mockDataService.getUserStats()) as {
-          data: UserStats;
-        };
-        setUserStats(response.data);
-      } catch (err) {
-        console.error("Kullanıcı istatistikleri alınırken hata oluştu:", err);
-        setError(
-          "Kullanıcı istatistikleri yüklenirken bir hata oluştu. Lütfen tekrar deneyin."
-        );
-      } finally {
-        setLoading(false);
-      }
-    };
+  const stats = getStats();
 
-    fetchUserStats();
-  }, []);
+  // Film türlerinin istatistiklerini hesapla
+  const movieGenreStats = useMemo(() => calculateMovieGenreStats(watchedMovies), [watchedMovies]);
 
-  const renderGenreStats = (genres: GenreStats[]) => {
-    return genres.map((genre) => (
-      <View key={genre.id} style={styles.statItem}>
-        <View style={styles.statBar}>
-          <View
-            style={[styles.statBarFill, { width: `${genre.percentage}%` }]}
-          />
-        </View>
-        <View style={styles.statLabelContainer}>
-          <Text size="m">{genre.name}</Text>
-          <Text size="m">{genre.percentage}%</Text>
-        </View>
-      </View>
-    ));
+  // Dizi türlerinin istatistiklerini hesapla
+  const seriesGenreStats = useMemo(() => calculateSeriesGenreStats(watchedSeries), [watchedSeries]);
+
+  // Yönetmen istatistiklerini hesapla
+  const directorStats = useMemo(
+    () => calculateDirectorStats([...watchedMovies, ...watchedSeries]),
+    [watchedMovies, watchedSeries]
+  );
+
+  // Oyuncu istatistiklerini hesapla
+  const actorStats = useMemo(
+    () => calculateActorStats([...watchedMovies, ...watchedSeries]),
+    [watchedMovies, watchedSeries]
+  );
+
+  const handleMediaPress = (media: any) => {
+    // TODO: Medya detay sayfasına yönlendirme yapılacak
+    console.log('Seçilen medya:', media);
   };
-
-  const renderPersonStats = (persons: PersonStats[]) => {
-    return persons.map((person) => (
-      <View key={person.id} style={styles.personItem}>
-        <View style={styles.personImagePlaceholder}>
-          <Text size="l" color="light">
-            {person.name.charAt(0)}
-          </Text>
-        </View>
-        <View style={styles.personInfo}>
-          <Text size="m">{person.name}</Text>
-          <Text size="s" color="light">
-            {person.count} film
-          </Text>
-        </View>
-      </View>
-    ));
-  };
-
-  if (loading) {
-    return (
-      <View style={styles.loadingContainer}>
-        <Loading size="large" color="primary" text="Profil yükleniyor..." />
-      </View>
-    );
-  }
-
-  if (error) {
-    return (
-      <ScreenContainer style={styles.errorContainer}>
-        <Text size="l" color="danger" style={styles.errorText}>
-          {error}
-        </Text>
-        <Button
-          title="Tekrar Dene"
-          onPress={() => {
-            setLoading(true);
-            // Gerçek uygulamada burada API isteği tekrar yapılır
-            mockDataService
-              .getUserStats()
-              .then((response: unknown) => {
-                const typedResponse = response as { data: UserStats };
-                setUserStats(typedResponse.data);
-                setError(null);
-              })
-              .catch((err) => {
-                console.error(
-                  "Kullanıcı istatistikleri alınırken hata oluştu:",
-                  err
-                );
-                setError(
-                  "Kullanıcı istatistikleri yüklenirken bir hata oluştu. Lütfen tekrar deneyin."
-                );
-              })
-              .finally(() => {
-                setLoading(false);
-              });
-          }}
-          variant="outline"
-          style={styles.retryButton}
-        />
-      </ScreenContainer>
-    );
-  }
 
   return (
     <ScreenContainer>
-      <View style={styles.header}>
-        <Text size="xxxl" weight="bold" color="primary">
-          Profilim
-        </Text>
-      </View>
-
       <ScrollView
-        style={styles.scrollContainer}
-        showsVerticalScrollIndicator={false}
+        style={styles.container}
+        contentContainerStyle={{
+          paddingBottom: LAYOUT.TAB_BAR_HEIGHT + LAYOUT.BOTTOM_PADDING,
+        }}
       >
-        <View style={styles.statsContainer}>
-          <View style={styles.statsRow}>
-            <View style={styles.statBox}>
-              <Text size="xxxl" color="primary">
-                {userStats?.totalWatchedMovies || 0}
-              </Text>
-              <Text size="m" color="light">
-                İzlenen Film
-              </Text>
-            </View>
-            <View style={styles.statBox}>
-              <Text size="xxxl" color="primary">
-                {userStats?.totalWatchedTVShows || 0}
-              </Text>
-              <Text size="m" color="light">
-                İzlenen Dizi
-              </Text>
-            </View>
-          </View>
-
-          <View style={styles.sectionContainer}>
-            <Text size="xl" weight="semibold" style={styles.sectionTitle}>
-              Favori Türler
-            </Text>
-            <View style={styles.sectionContent}>
-              {userStats?.favoriteGenres &&
-                renderGenreStats(userStats.favoriteGenres)}
-            </View>
-          </View>
-
-          <View style={styles.sectionContainer}>
-            <Text size="xl" weight="semibold" style={styles.sectionTitle}>
-              Favori Oyuncular
-            </Text>
-            <View style={styles.sectionContent}>
-              {userStats?.favoriteActors &&
-                renderPersonStats(userStats.favoriteActors)}
-            </View>
-          </View>
-
-          <View style={styles.sectionContainer}>
-            <Text size="xl" weight="semibold" style={styles.sectionTitle}>
-              Favori Yönetmenler
-            </Text>
-            <View style={styles.sectionContent}>
-              {userStats?.favoriteDirectors &&
-                renderPersonStats(userStats.favoriteDirectors)}
-            </View>
-          </View>
+        <View style={styles.header}>
+          <Text size="xxl" weight="bold" color="primary" style={{fontSize: 32}}>
+            Profilim
+          </Text>
         </View>
 
-        <View style={styles.actionsContainer}>
-          <Button
-            title="İzlediğim Filmler"
-            onPress={onWatchedMoviesPress}
-            style={styles.actionButton}
-          />
-          <Button
-            title="İzlediğim Diziler"
-            onPress={onWatchedTVShowsPress}
-            style={styles.actionButton}
-          />
-          <Button
-            title="Çıkış Yap"
-            onPress={onLogout}
-            variant="outline"
-            style={styles.logoutButton}
+        <View style={styles.section}>
+          <StatisticsList stats={stats} style={styles.stats} />
+        </View>
+
+        {movieGenreStats.length > 0 && (
+          <View style={styles.section}>
+            <GenreStats title="Film Türleri" genres={movieGenreStats} />
+          </View>
+        )}
+
+        {seriesGenreStats.length > 0 && (
+          <View style={styles.section}>
+            <GenreStats title="Dizi Türleri" genres={seriesGenreStats} />
+          </View>
+        )}
+
+        {directorStats.length > 0 && (
+          <View style={styles.section}>
+            <PersonStats title="En Çok İzlenen Yönetmenler" persons={directorStats} />
+          </View>
+        )}
+
+        {actorStats.length > 0 && (
+          <View style={styles.section}>
+            <PersonStats title="En Çok İzlenen Oyuncular" persons={actorStats} />
+          </View>
+        )}
+
+        <View style={styles.section}>
+          <ProfileMediaList
+            title="İçeriklerim"
+            watchedMedia={[...watchedMovies, ...watchedSeries]}
+            watchlistMedia={[...watchlistMovies, ...watchlistSeries]}
+            onMediaPress={handleMediaPress}
           />
         </View>
       </ScrollView>

@@ -1,35 +1,58 @@
-import React, { useEffect } from "react";
-import { Dimensions } from "react-native";
-import { tmdbService } from "../../../services";
-import { SplashScreenProps } from "./SplashScreen.type";
+import LottieView from 'lottie-react-native';
+import React, {useEffect, useRef, useCallback} from 'react';
+import {View} from 'react-native';
+import {tmdbService} from '../../../services';
+import {styles} from './SplashScreen.style';
+import {SplashScreenProps} from './SplashScreen.type';
 
-const { width } = Dimensions.get("window");
+export const SplashScreen: React.FC<SplashScreenProps> = ({onFinish}) => {
+  const lottieRef = useRef<LottieView>(null);
 
-export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
-  // Bileşen yüklenir yüklenmez doğrudan ana sayfaya geçiş yap
-  useEffect(() => {
-    // API isteklerini arka planda başlat ama beklemeden ana sayfaya geç
-    fetchInitialData();
-
-    // Hemen ana sayfaya geç
-    onFinish();
-  }, []);
-
-  // API verilerini getir (arka planda çalışacak)
-  const fetchInitialData = async () => {
+  // Veri yükleme fonksiyonunu useCallback ile optimize et
+  const fetchInitialData = useCallback(async () => {
     try {
-      // Paralel olarak tüm gerekli verileri getir
+      console.log('Veriler yükleniyor...');
+
+      // Promise.all kullanarak paralel istekler yap
       await Promise.all([
         tmdbService.getPopularMovies(),
         tmdbService.getPopularInTurkey(),
         tmdbService.getMovieGenres(),
         tmdbService.getTVGenres(),
       ]);
-    } catch (error) {
-      console.error("Veri yüklenirken hata oluştu:", error);
-    }
-  };
 
-  // Boş bir view döndür - zaten görünmeyecek
-  return null;
+      console.log('Tüm veriler başarıyla yüklendi!');
+      return true;
+    } catch (error) {
+      console.error('Veri yüklenirken hata:', error);
+      return false;
+    }
+  }, []);
+
+  useEffect(() => {
+    // API isteklerini başlat ve yüklenme durumunu izle
+    const startTime = Date.now();
+    const minSplashTime = 3000;
+
+    fetchInitialData().then(() => {
+      const elapsedTime = Date.now() - startTime;
+      const remainingTime = Math.max(0, minSplashTime - elapsedTime);
+
+      setTimeout(onFinish, remainingTime);
+    });
+  }, [fetchInitialData, onFinish]);
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.logoContainer}>
+        <LottieView
+          ref={lottieRef}
+          source={require('../../../assets/animations/loadingCut.json')}
+          style={styles.lottieAnimation}
+          autoPlay
+          loop
+        />
+      </View>
+    </View>
+  );
 };

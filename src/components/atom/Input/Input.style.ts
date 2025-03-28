@@ -1,10 +1,10 @@
-import { StyleSheet } from "react-native";
-import { COLORS } from "../../../helpers/colors";
-import { SPACING, TYPOGRAPHY, VISUAL } from "../../../helpers/styleKit";
+import {StyleSheet} from 'react-native';
+import {COLORS} from '../../../helpers/colors';
+import {SPACING, TYPOGRAPHY, VISUAL} from '../../../helpers/styleKit';
 
 export const styles = StyleSheet.create({
   container: {
-    width: "100%",
+    width: '100%',
     marginBottom: SPACING.REGULAR,
   },
   label: {
@@ -14,19 +14,19 @@ export const styles = StyleSheet.create({
     marginBottom: SPACING.TINY,
   },
   inputContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     borderWidth: 1,
     borderColor: COLORS.inputBorder,
     borderRadius: VISUAL.RADIUS.MEDIUM,
     backgroundColor: COLORS.inputBackground,
     paddingHorizontal: SPACING.MEDIUM,
     height: 48,
-    position: "relative",
+    position: 'relative',
   },
   input: {
     flex: 1,
-    height: "100%",
+    height: '100%',
     color: COLORS.textPrimary,
     fontSize: TYPOGRAPHY.FONT_SIZE.REGULAR,
     fontWeight: TYPOGRAPHY.FONT_WEIGHT.REGULAR,
@@ -44,7 +44,7 @@ export const styles = StyleSheet.create({
     backgroundColor: COLORS.inputBackground,
   },
   outline: {
-    backgroundColor: "transparent",
+    backgroundColor: 'transparent',
     borderWidth: 1,
     borderColor: COLORS.borderDefault,
   },
@@ -52,10 +52,10 @@ export const styles = StyleSheet.create({
     borderWidth: 0,
     borderBottomWidth: 1,
     borderRadius: 0,
-    backgroundColor: "transparent",
+    backgroundColor: 'transparent',
   },
   filled: {
-    borderColor: "transparent",
+    borderColor: 'transparent',
     backgroundColor: COLORS.inputFilledBackground,
   },
   // Sizes
@@ -87,5 +87,12 @@ export const styles = StyleSheet.create({
   },
   rightIcon: {
     marginLeft: SPACING.SMALL,
+  },
+  // Şifre görünürlük butonu için hitSlop
+  passwordButtonHitSlop: {
+    top: 10,
+    right: 10,
+    bottom: 10,
+    left: 10,
   },
 });

@@ -1,50 +1,36 @@
-import React, { useRef } from "react";
-import {
-  View,
-  Pressable,
-  InteractionManager,
-  Text,
-  Platform,
-} from "react-native";
-import { SearchMovieModal } from "../../organism/SearchMovieModal";
-import { styles } from "./TabBar.style";
-import { TabBarProps, TabIconProps } from "./TabBar.type";
-import * as IconModule from "react-native-vector-icons/Ionicons";
-import { COLORS } from "../../../helpers/colors";
+import React, {useRef} from 'react';
+import {View, Pressable, InteractionManager, Text, Platform} from 'react-native';
+import {SearchMovieModal} from '../../organism/SearchMovieModal';
+import {styles} from './TabBar.style';
+import {TabBarProps, TabIconProps} from './TabBar.type';
+import * as IconModule from 'react-native-vector-icons/Ionicons';
+import {COLORS} from '../../../helpers/colors';
 
 // Typescript için Cast işlemi
 const Ionicons = IconModule.default as any;
 
 // Vector Icons kullanan Home ve Profile ikonları
-export const HomeIcon = ({ focused, color }: TabIconProps) => (
+export const HomeIcon = ({focused, color}: TabIconProps) => (
   <View style={[styles.iconContainer]}>
     <Ionicons
-      name={focused ? "home" : "home-outline"}
-      size={Platform.OS === "android" ? 26 : 25}
-      color={
-        color || (focused ? COLORS.tabBarActiveTint : COLORS.tabBarInactiveTint)
-      }
+      name={focused ? 'home' : 'home-outline'}
+      size={Platform.OS === 'android' ? 26 : 25}
+      color={color || (focused ? COLORS.tabBarActiveTint : COLORS.tabBarInactiveTint)}
     />
   </View>
 );
 
-export const ProfileIcon = ({ focused, color }: TabIconProps) => (
+export const ProfileIcon = ({focused, color}: TabIconProps) => (
   <View style={[styles.iconContainer]}>
     <Ionicons
-      name={focused ? "person" : "person-outline"}
-      size={Platform.OS === "android" ? 26 : 25}
-      color={
-        color || (focused ? COLORS.tabBarActiveTint : COLORS.tabBarInactiveTint)
-      }
+      name={focused ? 'person' : 'person-outline'}
+      size={Platform.OS === 'android' ? 26 : 25}
+      color={color || (focused ? COLORS.tabBarActiveTint : COLORS.tabBarInactiveTint)}
     />
   </View>
 );
 
-export const TabBar: React.FC<TabBarProps> = ({
-  state,
-  descriptors,
-  navigation,
-}) => {
+export const TabBar: React.FC<TabBarProps> = ({state, descriptors, navigation}) => {
   const [searchModalVisible, setSearchModalVisible] = React.useState(false);
   // Birden fazla basışı engellemek için ref kullanıyoruz
   const isProcessingRef = useRef(false);
@@ -53,18 +39,16 @@ export const TabBar: React.FC<TabBarProps> = ({
   const handleAddButtonPress = () => {
     // Eğer zaten bir işlem yapılıyorsa çıkış yapıyoruz
     if (isProcessingRef.current) {
-      console.log(
-        "TabBar: İşlem zaten devam ediyor, tekrar buton basışı görmezden gelindi"
-      );
+      console.log('TabBar: İşlem zaten devam ediyor, tekrar buton basışı görmezden gelindi');
       return;
     }
 
-    console.log("TabBar: + butonuna basıldı");
+    console.log('TabBar: + butonuna basıldı');
     isProcessingRef.current = true;
 
     // Doğrudan setState kullanmak daha güvenli olabilir, InteractionManager'ı kaldıralım
     setSearchModalVisible(true);
-    console.log("TabBar: Modal açıldı");
+    console.log('TabBar: Modal açıldı');
 
     // Kısa bir gecikme sonra isProcessingRef'i sıfırlıyoruz
     setTimeout(() => {
@@ -83,7 +67,7 @@ export const TabBar: React.FC<TabBarProps> = ({
 
     // Doğrudan setState kullanmak daha güvenli olabilir
     setSearchModalVisible(false);
-    console.log("TabBar: Modal kapatıldı");
+    console.log('TabBar: Modal kapatıldı');
 
     // Kısa bir gecikme sonra isProcessingRef'i sıfırlıyoruz
     setTimeout(() => {
@@ -95,7 +79,7 @@ export const TabBar: React.FC<TabBarProps> = ({
     <View style={styles.tabBarContainer}>
       {/* Tab bar içeriği */}
       {state.routes.map((route, index) => {
-        const { options } = descriptors[route.key];
+        const {options} = descriptors[route.key];
         const label =
           options.tabBarLabel !== undefined
             ? options.tabBarLabel
@@ -110,7 +94,7 @@ export const TabBar: React.FC<TabBarProps> = ({
         // Tab'e tıklandığında
         const onPress = () => {
           const event = navigation.emit({
-            type: "tabPress",
+            type: 'tabPress',
             target: route.key,
             canPreventDefault: true,
           });
@@ -123,7 +107,7 @@ export const TabBar: React.FC<TabBarProps> = ({
         // Tab'e uzun basıldığında
         const onLongPress = () => {
           navigation.emit({
-            type: "tabLongPress",
+            type: 'tabLongPress',
             target: route.key,
           });
         };
@@ -134,20 +118,20 @@ export const TabBar: React.FC<TabBarProps> = ({
             <Pressable
               key={route.key}
               accessibilityRole="button"
-              accessibilityState={isFocused ? { selected: true } : {}}
+              accessibilityState={isFocused ? {selected: true} : {}}
               accessibilityLabel={options.tabBarAccessibilityLabel}
               onPress={onPress}
               onLongPress={onLongPress}
-              style={({ pressed }) => [
+              style={({pressed}) => [
                 styles.tabItem,
                 {
                   opacity: pressed ? 0.7 : 1,
                 },
               ]}
               android_ripple={
-                Platform.OS === "android"
+                Platform.OS === 'android'
                   ? {
-                      color: COLORS.primary + "20", // %20 opaklık ile
+                      color: COLORS.primary + '20', // %20 opaklık ile
                       borderless: false,
                       radius: 24,
                     }
@@ -158,19 +142,12 @@ export const TabBar: React.FC<TabBarProps> = ({
               {icon &&
                 icon({
                   focused: isFocused,
-                  color: isFocused
-                    ? COLORS.tabBarActiveTint
-                    : COLORS.tabBarInactiveTint,
-                  size: Platform.OS === "android" ? 28 : 30,
+                  color: isFocused ? COLORS.tabBarActiveTint : COLORS.tabBarInactiveTint,
+                  size: Platform.OS === 'android' ? 28 : 30,
                 })}
 
               {/* Etiket */}
-              <Text
-                style={[
-                  styles.tabLabel,
-                  isFocused ? styles.activeTabLabel : null,
-                ]}
-              >
+              <Text style={[styles.tabLabel, isFocused ? styles.activeTabLabel : null]}>
                 {String(label)}
               </Text>
             </Pressable>
@@ -181,15 +158,15 @@ export const TabBar: React.FC<TabBarProps> = ({
 
       {/* Orta + butonu */}
       <Pressable
-        style={({ pressed }) => [
+        style={({pressed}) => [
           styles.addButton,
           {
-            transform: [{ scale: pressed ? 0.95 : 1 }],
+            transform: [{scale: pressed ? 0.95 : 1}],
           },
         ]}
         onPress={handleAddButtonPress}
         android_ripple={
-          Platform.OS === "android"
+          Platform.OS === 'android'
             ? {
                 color: COLORS.white,
                 borderless: true,
@@ -198,18 +175,11 @@ export const TabBar: React.FC<TabBarProps> = ({
             : undefined
         }
       >
-        <Ionicons
-          name="add"
-          size={Platform.OS === "android" ? 34 : 37}
-          color={COLORS.white}
-        />
+        <Ionicons name="add" size={Platform.OS === 'android' ? 34 : 37} color={COLORS.white} />
       </Pressable>
 
       {/* Film Arama Modalı */}
-      <SearchMovieModal
-        visible={searchModalVisible}
-        onClose={handleCloseSearchModal}
-      />
+      <SearchMovieModal visible={searchModalVisible} onClose={handleCloseSearchModal} />
     </View>
   );
 };

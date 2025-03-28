@@ -1,4 +1,4 @@
-import { StyleProp, ViewStyle } from "react-native";
+import {StyleProp, ViewStyle} from 'react-native';
 
 export interface Genre {
   id: string | number;
@@ -23,7 +23,7 @@ export interface MovieOrSeries {
   genres: Genre[];
   director?: string;
   cast?: string[];
-  type: "movie" | "series";
+  type: 'movie' | 'series';
 }
 
 export interface SearchMovieModalProps {

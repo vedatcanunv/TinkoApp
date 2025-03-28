@@ -1,21 +1,17 @@
-import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
-import LottieView from "lottie-react-native";
-import { styles } from "./Error.style";
-
-interface ErrorProps {
-  message?: string;
-  onRetry?: () => void;
-}
+import React from 'react';
+import {View, Text, TouchableOpacity} from 'react-native';
+import LottieView from 'lottie-react-native';
+import {styles} from './Error.style';
+import {ErrorProps} from './Error.type';
 
 export const Error: React.FC<ErrorProps> = ({
-  message = "Bir hata oluştu. Lütfen tekrar deneyin.",
+  message = 'Bir hata oluştu. Lütfen tekrar deneyin.',
   onRetry,
 }) => {
   return (
     <View style={styles.container}>
       <LottieView
-        source={require("../../../assets/animations/error.json")}
+        source={require('../../../assets/animations/error.json')}
         style={styles.animation}
         autoPlay
         loop={false}

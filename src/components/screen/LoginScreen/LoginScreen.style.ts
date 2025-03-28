@@ -1,35 +1,35 @@
-import { StyleSheet, Dimensions } from "react-native";
+import {StyleSheet, Dimensions} from 'react-native';
 
-const { width, height } = Dimensions.get("window");
+const {width, height} = Dimensions.get('window');
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: '#FFFFFF',
   },
   scrollContainer: {
     flexGrow: 1,
     paddingHorizontal: 24,
     paddingTop: 40,
     paddingBottom: 24,
-    justifyContent: "center",
+    justifyContent: 'center',
   },
   headerContainer: {
     marginBottom: 32,
   },
   logoContainer: {
-    alignItems: "center",
+    alignItems: 'center',
     marginBottom: 40,
   },
   logoPlaceholder: {
     width: 80,
     height: 80,
     borderRadius: 40,
-    backgroundColor: "#F2F2F7",
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: '#F2F2F7',
+    justifyContent: 'center',
+    alignItems: 'center',
     marginBottom: 16,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 4,
@@ -48,24 +48,24 @@ export const styles = StyleSheet.create({
     marginBottom: 24,
   },
   forgotPasswordContainer: {
-    alignSelf: "flex-end",
+    alignSelf: 'flex-end',
     marginTop: 8,
     marginBottom: 24,
   },
   loginButton: {
     marginTop: 8,
     height: 50,
-    width: "100%",
+    width: '100%',
   },
   footerContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
     marginTop: 24,
     paddingTop: 0,
   },
   signUpText: {
     marginLeft: 4,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
 });

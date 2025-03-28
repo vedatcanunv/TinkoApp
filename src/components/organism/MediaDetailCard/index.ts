@@ -1,2 +1,2 @@
-export { MediaDetailCard } from "./MediaDetailCard.component";
-export type { MediaDetailCardProps } from "./MediaDetailCard.type";
+export {MediaDetailCard} from './MediaDetailCard.component';
+export type {MediaDetailCardProps} from './MediaDetailCard.type';

@@ -1,4 +1,4 @@
-import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
+import {BottomTabBarProps} from '@react-navigation/bottom-tabs';
 
 export interface TabBarProps extends BottomTabBarProps {
   // Özel prop'lar buraya eklenebilir

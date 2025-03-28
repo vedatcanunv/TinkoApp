@@ -1,9 +1,13 @@
-import React, { useState, useCallback, memo } from "react";
-import { View, TextInput, TouchableOpacity } from "react-native";
-import { styles } from "./Input.style";
-import { InputProps, InputVariant, InputSize } from "./Input.type";
-import { Text } from "../Text";
-import { COLORS } from "../../../helpers/colors";
+import React, {useState, useCallback, memo} from 'react';
+import {View, TextInput, TouchableOpacity} from 'react-native';
+import {styles} from './Input.style';
+import {InputProps, InputVariant, InputSize} from './Input.type';
+import {Text} from '../Text';
+import {COLORS} from '../../../helpers/colors';
+import * as IconModule from 'react-native-vector-icons/Ionicons';
+
+// Typescript için Cast işlemi
+const Icon = IconModule.default;
 
 export const Input = memo(
   ({
@@ -14,8 +18,8 @@ export const Input = memo(
     onBlur,
     error,
     secureTextEntry,
-    variant = "default",
-    size = "medium",
+    variant = 'default',
+    size = 'medium',
     disabled = false,
     leftIcon,
     rightIcon,
@@ -46,7 +50,7 @@ export const Input = memo(
     );
 
     const togglePasswordVisibility = useCallback(() => {
-      setIsPasswordVisible((prev) => !prev);
+      setIsPasswordVisible(prev => !prev);
     }, []);
 
     const getVariantStyle = (variant: InputVariant) => {
@@ -97,12 +101,14 @@ export const Input = memo(
             <TouchableOpacity
               style={styles.rightIcon}
               onPress={togglePasswordVisibility}
-              hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
+              hitSlop={styles.passwordButtonHitSlop}
               disabled={disabled}
             >
-              <Text size="m" color="light">
-                {isPasswordVisible ? "👁️" : "👁️‍🗨️"}
-              </Text>
+              <Icon
+                name={isPasswordVisible ? 'eye-off' : 'eye'}
+                size={20}
+                color={COLORS.textLighter}
+              />
             </TouchableOpacity>
           )}
         </View>

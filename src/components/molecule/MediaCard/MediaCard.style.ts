@@ -1,9 +1,9 @@
-import { StyleSheet, Dimensions } from "react-native";
-import { COLORS } from "../../../helpers/colors";
-import { SPACING, TYPOGRAPHY, VISUAL } from "../../../helpers/styleKit";
+import {StyleSheet, Dimensions} from 'react-native';
+import {COLORS} from '../../../helpers/colors';
+import {SPACING, TYPOGRAPHY, VISUAL} from '../../../helpers/styleKit';
 
-const { width } = Dimensions.get("window");
-const CARD_WIDTH = width / 2 - SPACING.MEDIUM * 1.5; // 2 kart yan yana, kenarlardan margin ile
+const {width} = Dimensions.get('window');
+const CARD_WIDTH = width / 2 - SPACING.MEDIUM; // 2 kart yan yana, daha az margin ile
 const CARD_ASPECT_RATIO = 0.75; // Poster oranı 2:3 (film posterleri için standart)
 
 export const styles = StyleSheet.create({
@@ -12,21 +12,17 @@ export const styles = StyleSheet.create({
     width: CARD_WIDTH,
     height: CARD_WIDTH / CARD_ASPECT_RATIO, // Görsel oranına göre boy
     borderRadius: VISUAL.RADIUS.SMALL,
-    overflow: "hidden",
+    overflow: 'hidden',
     backgroundColor: COLORS.backgroundDark,
-    shadowColor: COLORS.black,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
     elevation: 5,
-    position: "relative",
+    position: 'relative',
     margin: SPACING.TINY,
     marginBottom: SPACING.MEDIUM,
   },
   // Kart boyutları - Artık yükseklik görsel oranına göre belirleniyor
   small: {
-    width: width / 2.5,
-    height: width / 2.5 / CARD_ASPECT_RATIO,
+    width: width / 2.2, // Biraz daha büyük
+    height: width / 2.2 / CARD_ASPECT_RATIO,
   },
   medium: {
     width: CARD_WIDTH,
@@ -38,82 +34,66 @@ export const styles = StyleSheet.create({
   },
   // Poster konteyner (tüm arka planı kaplayacak)
   posterContainer: {
-    width: "100%",
-    height: "100%",
-    position: "absolute",
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
     zIndex: 1,
     borderRadius: VISUAL.RADIUS.SMALL,
-    overflow: "hidden",
+    overflow: 'hidden',
     backgroundColor: COLORS.backgroundDark,
   },
   poster: {
-    width: "100%",
-    height: "100%",
-    resizeMode: "cover", // Contain yerine cover kullanarak, poster dikdörtgene tam sığacak
-  },
-  gradient: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: "40%", // Yüksekliğin yüzdesel değeri olarak gradient
-    zIndex: 2,
-    backgroundColor: "rgba(0,0,0,0.7)",
-    borderBottomLeftRadius: VISUAL.RADIUS.SMALL,
-    borderBottomRightRadius: VISUAL.RADIUS.SMALL,
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover',
   },
   // İçerik bölümü (transparan ve poster üzerinde)
   content: {
-    position: "absolute",
+    position: 'absolute',
     padding: SPACING.MEDIUM,
     bottom: 0,
     left: 0,
     right: 0,
     zIndex: 3,
-    backgroundColor: "rgba(0,0,0,0.6)",
+    backgroundColor: 'rgba(0,0,0,0.5)', // Tek bir transparan katman
     paddingVertical: SPACING.MEDIUM,
     borderBottomLeftRadius: VISUAL.RADIUS.SMALL,
     borderBottomRightRadius: VISUAL.RADIUS.SMALL,
   },
   // Başlık ve yıl
   titleContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginBottom: SPACING.SMALL,
   },
   // Tür etiketleri
   tagsContainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
     marginTop: SPACING.SMALL,
-    alignItems: "center",
-    overflow: "visible",
-    width: "100%",
+    alignItems: 'center',
+    overflow: 'visible',
+    width: '100%',
   },
   // Tür etiketleri stilleri
   genreContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    flexWrap: "nowrap",
+    flexDirection: 'row',
+    alignItems: 'center',
+    flexWrap: 'nowrap',
   },
   genreTag: {
     paddingHorizontal: SPACING.MEDIUM,
     paddingVertical: SPACING.TINY,
-    borderRadius: SPACING.SMALL,
+    borderRadius: VISUAL.RADIUS.MEDIUM,
     marginRight: SPACING.SMALL,
     backgroundColor: COLORS.primary,
     elevation: 3,
-    shadowColor: COLORS.black,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 2,
   },
   genreTagText: {
     color: COLORS.white,
     fontSize: TYPOGRAPHY.FONT_SIZE.SMALL,
     fontWeight: TYPOGRAPHY.FONT_WEIGHT.BOLD,
   },
-
   // MediaCard için özel tip tag stilleri (Film/Dizi)
   typeTag: {
     paddingHorizontal: SPACING.SMALL,
@@ -131,5 +111,36 @@ export const styles = StyleSheet.create({
     color: COLORS.white,
     fontSize: TYPOGRAPHY.FONT_SIZE.SMALL,
     fontWeight: TYPOGRAPHY.FONT_WEIGHT.BOLD,
+  },
+  // Başlık stilleri
+  title: {
+    color: COLORS.white,
+    fontSize: TYPOGRAPHY.FONT_SIZE.MEDIUM,
+    fontWeight: TYPOGRAPHY.FONT_WEIGHT.BOLD,
+    flexShrink: 1,
+  },
+  year: {
+    color: COLORS.white,
+    fontSize: TYPOGRAPHY.FONT_SIZE.SMALL,
+    marginLeft: 8,
+    fontWeight: TYPOGRAPHY.FONT_WEIGHT.MEDIUM,
+  },
+  // Genre ScrollView stilleri
+  genreScrollView: {
+    flex: 1,
+    marginLeft: 5,
+  },
+  genreScrollViewContent: {
+    paddingRight: 10,
+  },
+  // Resim yok durumu için stil
+  noImageContainer: {
+    backgroundColor: COLORS.grayLight,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  noImageText: {
+    color: COLORS.white,
+    textAlign: 'center',
   },
 });

@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react";
+import {createContext, useContext} from 'react';
 
 // Auth Context tipi
 export type AuthContextType = {
@@ -9,15 +9,13 @@ export type AuthContextType = {
 };
 
 // Auth Context oluşturma
-export const AuthContext = createContext<AuthContextType | undefined>(
-  undefined
-);
+export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 // Auth Context Hook
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error("useAuth must be used within an AuthProvider");
+    throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
 };

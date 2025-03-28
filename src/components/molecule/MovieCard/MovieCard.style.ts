@@ -1,5 +1,5 @@
-import { StyleSheet } from "react-native";
-import { COLORS } from "../../../helpers/colors";
+import {StyleSheet} from 'react-native';
+import {COLORS} from '../../../helpers/colors';
 
 export const styles = StyleSheet.create({
   // Ana konteyner
@@ -10,12 +10,12 @@ export const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
     marginBottom: 16,
     shadowColor: COLORS.black,
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
-    overflow: "hidden",
-    flexDirection: "row",
+    overflow: 'hidden',
+    flexDirection: 'row',
   },
 
   // İçerik alanı
@@ -29,8 +29,8 @@ export const styles = StyleSheet.create({
     width: 100,
     aspectRatio: 2 / 3,
     backgroundColor: COLORS.grayLighter,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0,
   },
@@ -38,7 +38,7 @@ export const styles = StyleSheet.create({
   // Poster yoksa ilk harf gösterimi
   placeholderText: {
     fontSize: 36,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     color: COLORS.grayDark,
   },
 
@@ -49,7 +49,7 @@ export const styles = StyleSheet.create({
 
   title: {
     fontSize: 18,
-    fontWeight: "600",
+    fontWeight: '600',
     marginBottom: 2,
     color: COLORS.textDefault,
   },
@@ -62,11 +62,11 @@ export const styles = StyleSheet.create({
 
   // Türler alanı
   genresContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
+    flexDirection: 'row',
+    flexWrap: 'wrap',
     marginTop: 4,
     gap: 6,
-    maxWidth: "100%",
+    maxWidth: '100%',
   },
 
   // Boyut varyantları

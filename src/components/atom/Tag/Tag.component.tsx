@@ -1,14 +1,13 @@
-import React from "react";
-import { TouchableOpacity } from "react-native";
-import { Text } from "../Text";
-import { styles } from "./Tag.style";
-import { TagProps } from "./Tag.type";
-import { COLORS } from "../../../helpers/colors";
+import React from 'react';
+import {TouchableOpacity} from 'react-native';
+import {Text} from '../Text';
+import {styles} from './Tag.style';
+import {TagProps} from './Tag.type';
 
 export const Tag: React.FC<TagProps> = ({
   label,
-  variant = "default",
-  size = "medium",
+  variant = 'default',
+  size = 'medium',
   isClickable = true,
   isSelected = false,
   onSelect,
@@ -20,42 +19,9 @@ export const Tag: React.FC<TagProps> = ({
     styles.container,
     styles[variant],
     styles[size],
-    isSelected &&
-      (variant === "outline" ? styles.selectedOutline : styles.selected),
+    isSelected && (variant === 'outline' ? styles.selectedOutline : styles.selected),
     style,
   ];
-
-  // Metin boyutunu boyuta göre ayarla
-  const getTextSize = () => {
-    switch (size) {
-      case "small":
-        return 10;
-      case "medium":
-        return 12;
-      case "large":
-        return 14;
-      default:
-        return 12;
-    }
-  };
-
-  // Metin stillerini hesapla
-  const getTextColor = () => {
-    if (isSelected) {
-      return COLORS.primary;
-    }
-
-    switch (variant) {
-      case "primary":
-        return COLORS.primary;
-      case "secondary":
-        return COLORS.textDefault;
-      case "outline":
-        return COLORS.textDefault;
-      default:
-        return COLORS.textDefault;
-    }
-  };
 
   // Tıklama işlevselliği
   const handlePress = () => {
@@ -74,10 +40,8 @@ export const Tag: React.FC<TagProps> = ({
     >
       <Text
         size="s"
-        color={
-          isSelected ? "primary" : variant === "primary" ? "primary" : "default"
-        }
-        weight={isSelected ? "semibold" : "medium"}
+        color={isSelected ? 'primary' : variant === 'primary' ? 'primary' : 'default'}
+        weight={isSelected ? 'semibold' : 'medium'}
         numberOfLines={1}
       >
         {label}
