@@ -1,5 +1,5 @@
-import { StyleProp, ViewStyle } from "react-native";
-import { MediaContent } from "../../molecule/MediaCard/MediaCard.type";
+import {StyleProp, ViewStyle} from 'react-native';
+import {MediaContent} from '../../molecule/MediaCard/MediaCard.type';
 
 export interface MediaListProps {
   /**

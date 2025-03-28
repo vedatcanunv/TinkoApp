@@ -1,6 +1,6 @@
-import { StyleSheet } from "react-native";
-import { COLORS } from "../../../helpers/colors";
-import { LAYOUT } from "../../../helpers/layout";
+import {StyleSheet} from 'react-native';
+import {COLORS} from '../../../helpers/colors';
+import {LAYOUT} from '../../../helpers/layout';
 
 export const styles = StyleSheet.create({
   container: {
@@ -10,29 +10,29 @@ export const styles = StyleSheet.create({
 
   // Başlık alanı
   header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginBottom: 16,
   },
 
   title: {
     fontSize: 24,
-    fontWeight: "700",
+    fontWeight: '700',
     color: COLORS.primary,
   },
 
   // Boş liste
   emptyContainer: {
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     padding: 24,
   },
 
   emptyText: {
     color: COLORS.textLight,
     fontSize: 16,
-    textAlign: "center",
+    textAlign: 'center',
   },
 
   // Ekleme butonu
@@ -41,15 +41,15 @@ export const styles = StyleSheet.create({
     height: 32,
     borderRadius: 16,
     backgroundColor: COLORS.primary,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 
   addButtonText: {
     color: COLORS.white,
     fontSize: 20,
-    fontWeight: "500",
-    textAlign: "center",
+    fontWeight: '500',
+    textAlign: 'center',
     lineHeight: 24,
   },
 

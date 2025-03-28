@@ -1,15 +1,15 @@
-import { ViewProps, StyleProp, ViewStyle } from "react-native";
+import {ViewProps, StyleProp, ViewStyle} from 'react-native';
 
-export type IconSize = "small" | "medium" | "large";
+export type IconSize = 'small' | 'medium' | 'large';
 export type IconColor =
-  | "default"
-  | "primary"
-  | "secondary"
-  | "success"
-  | "danger"
-  | "warning"
-  | "light"
-  | "white";
+  | 'default'
+  | 'primary'
+  | 'secondary'
+  | 'success'
+  | 'danger'
+  | 'warning'
+  | 'light'
+  | 'white';
 
 export interface IconProps extends ViewProps {
   /**

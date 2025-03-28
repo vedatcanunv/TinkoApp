@@ -1,41 +1,41 @@
-import React from "react";
-import { View } from "react-native";
-import { styles } from "./Icon.style";
-import { IconProps } from "./Icon.type";
+import React from 'react';
+import {View} from 'react-native';
+import {styles} from './Icon.style';
+import {IconProps} from './Icon.type';
 
 // Not: Gerçek bir uygulamada burada bir ikon kütüphanesi kullanılabilir
 // Örneğin: react-native-vector-icons, @expo/vector-icons, vb.
 export const Icon: React.FC<IconProps> = ({
   name,
-  size = "medium",
-  color = "default",
+  size = 'medium',
+  color = 'default',
   style,
   ...props
 }) => {
   // Renk değerini doğrudan al
-  let colorValue = "#000000"; // Varsayılan siyah
+  let colorValue = '#000000'; // Varsayılan siyah
 
   switch (color) {
-    case "primary":
-      colorValue = "#007AFF";
+    case 'primary':
+      colorValue = '#007AFF';
       break;
-    case "secondary":
-      colorValue = "#5856D6";
+    case 'secondary':
+      colorValue = '#5856D6';
       break;
-    case "success":
-      colorValue = "#34C759";
+    case 'success':
+      colorValue = '#34C759';
       break;
-    case "danger":
-      colorValue = "#FF3B30";
+    case 'danger':
+      colorValue = '#FF3B30';
       break;
-    case "warning":
-      colorValue = "#FF9500";
+    case 'warning':
+      colorValue = '#FF9500';
       break;
-    case "light":
-      colorValue = "#8E8E93";
+    case 'light':
+      colorValue = '#8E8E93';
       break;
-    case "white":
-      colorValue = "#FFFFFF";
+    case 'white':
+      colorValue = '#FFFFFF';
       break;
   }
 

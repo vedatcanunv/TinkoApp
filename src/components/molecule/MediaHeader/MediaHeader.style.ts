@@ -1,9 +1,9 @@
-import { StyleSheet } from "react-native";
-import { COLORS } from "../../../helpers/colors";
+import {StyleSheet} from 'react-native';
+import {COLORS} from '../../../helpers/colors';
 
 export const styles = StyleSheet.create({
   headerContainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
     padding: 16,
     marginBottom: 16,
   },
@@ -15,17 +15,17 @@ export const styles = StyleSheet.create({
   titleContainer: {
     flex: 1,
     marginLeft: 16,
-    justifyContent: "center",
+    justifyContent: 'center',
   },
   title: {
     fontSize: 22,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     color: COLORS.white,
     marginBottom: 8,
   },
   infoRow: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     marginTop: 4,
   },
   infoText: {

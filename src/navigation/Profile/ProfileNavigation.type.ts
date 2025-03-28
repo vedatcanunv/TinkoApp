@@ -1,4 +1,4 @@
-import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
+import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 
 // Profile Tab için tip tanımlamaları
 export type ProfileTabParamList = {
@@ -10,7 +10,4 @@ export type ProfileTabParamList = {
 };
 
 // Screen props için tip tanımlamaları
-export type ProfileScreenProps = BottomTabScreenProps<
-  ProfileTabParamList,
-  "Profile"
->;
+export type ProfileScreenProps = BottomTabScreenProps<ProfileTabParamList, 'Profile'>;

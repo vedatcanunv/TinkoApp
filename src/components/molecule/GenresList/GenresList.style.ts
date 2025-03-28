@@ -1,6 +1,6 @@
-import { StyleSheet } from "react-native";
-import { COLORS } from "../../../helpers/colors";
-import { SPACING } from "../../../helpers/styleKit";
+import {StyleSheet} from 'react-native';
+import {COLORS} from '../../../helpers/colors';
+import {SPACING} from '../../../helpers/styleKit';
 
 export const styles = StyleSheet.create({
   genresContainer: {
@@ -20,6 +20,6 @@ export const styles = StyleSheet.create({
   genreText: {
     fontSize: 12,
     color: COLORS.white,
-    fontWeight: "500",
+    fontWeight: '500',
   },
 });

@@ -1,20 +1,16 @@
-import React from "react";
-import { View } from "react-native";
-import { Text } from "../../atom/Text";
-import { styles } from "./PersonStats.style";
-import { PersonStatsProps } from "./PersonStats.type";
+import React from 'react';
+import {View} from 'react-native';
+import {Text} from '../../atom/Text';
+import {styles} from './PersonStats.style';
+import {PersonStatsProps} from './PersonStats.type';
 
-export const PersonStats: React.FC<PersonStatsProps> = ({
-  title,
-  persons,
-  style,
-}) => {
+export const PersonStats: React.FC<PersonStatsProps> = ({title, persons, style}) => {
   return (
     <View style={[styles.container, style]}>
       <Text size="xl" weight="bold" color="primary" style={styles.title}>
         {title}
       </Text>
-      {persons.map((person) => (
+      {persons.map(person => (
         <View key={person.id} style={styles.personItem}>
           <View style={styles.personImagePlaceholder}>
             <Text size="l" color="white">

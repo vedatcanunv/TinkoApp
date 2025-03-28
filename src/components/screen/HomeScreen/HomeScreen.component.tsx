@@ -1,15 +1,15 @@
-import React, { useCallback, useEffect, useState, useMemo } from "react";
-import { View } from "react-native";
-import { Button, ScreenContainer, Text } from "../../../components/atom";
-import { MediaContent } from "../../../components/molecule/MediaCard/MediaCard.type";
-import { tmdbService } from "../../../services";
-import { MediaDetailCard } from "../../organism/MediaDetailCard";
-import { SearchMovieModal } from "../../organism/SearchMovieModal";
-import { MediaList } from "../../organism/MediaList";
-import { StateView } from "../../molecule/StateView";
-import { styles } from "./HomeScreen.style";
-import { HomeScreenProps } from "./HomeScreen.type";
-import { useUserMediaStore } from "../../../store/userMediaStore";
+import React, {useCallback, useEffect, useState, useMemo} from 'react';
+import {View} from 'react-native';
+import {Button, ScreenContainer, Text} from '../../../components/atom';
+import {MediaContent} from '../../../components/molecule/MediaCard/MediaCard.type';
+import {tmdbService} from '../../../services';
+import {MediaDetailCard} from '../../organism/MediaDetailCard';
+import {SearchMovieModal} from '../../organism/SearchMovieModal';
+import {MediaList} from '../../organism/MediaList';
+import {StateView} from '../../molecule/StateView';
+import {styles} from './HomeScreen.style';
+import {HomeScreenProps} from './HomeScreen.type';
+import {useUserMediaStore} from '../../../store/userMediaStore';
 
 export const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
   const [media, setMedia] = useState<MediaContent[]>([]);
@@ -23,15 +23,11 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
   const [selectedMedia, setSelectedMedia] = useState<MediaContent | null>(null);
   const [detailCardVisible, setDetailCardVisible] = useState(false);
   const [detailLoading, setDetailLoading] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
 
   // Store'dan fonksiyonları al
-  const {
-    addWatchedMovie,
-    addWatchedSeries,
-    addMovieToWatchlist,
-    addSeriesToWatchlist,
-  } = useUserMediaStore();
+  const {addWatchedMovie, addWatchedSeries, addMovieToWatchlist, addSeriesToWatchlist} =
+    useUserMediaStore();
 
   const handleCloseSearchModal = () => {
     setSearchModalVisible(false);
@@ -52,9 +48,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
         const loadingStartTime = Date.now();
         setError(null);
 
-        console.log(
-          `Türkiye'de popüler içerikler yükleniyor... Sayfa: ${pageNum}`
-        );
+        console.log(`Türkiye'de popüler içerikler yükleniyor... Sayfa: ${pageNum}`);
         // Türkiye'de popüler içerikleri getir
         const results = await tmdbService.getPopularInTurkey(pageNum);
 
@@ -66,7 +60,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
 
         // Eğer yükleme çok hızlı tamamlandıysa, overlay'in görünür kalması için gecikme ekle
         if (currentLoadingTime < minimumLoadingTime) {
-          await new Promise((resolve) =>
+          await new Promise(resolve =>
             setTimeout(resolve, minimumLoadingTime - currentLoadingTime)
           );
         }
@@ -76,12 +70,10 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
             setMedia(results); // İlk sayfa veya yenileme ise verileri sıfırla
           } else {
             // Tekrarlanan öğeleri filtrele - fonksiyon formunu kullanarak güncel media'ya erişim
-            setMedia((prevMedia) => {
-              const existingIds = new Set(
-                prevMedia.map((item) => `${item.id}-${item.type}`)
-              );
+            setMedia(prevMedia => {
+              const existingIds = new Set(prevMedia.map(item => `${item.id}-${item.type}`));
               const uniqueNewResults = results.filter(
-                (item) => !existingIds.has(`${item.id}-${item.type}`)
+                item => !existingIds.has(`${item.id}-${item.type}`)
               );
 
               console.log(
@@ -89,9 +81,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
               );
 
               if (uniqueNewResults.length === 0) {
-                console.log(
-                  "Tüm yeni öğeler zaten mevcut, daha fazla yükleme iptal edildi"
-                );
+                console.log('Tüm yeni öğeler zaten mevcut, daha fazla yükleme iptal edildi');
                 setHasMoreData(false);
                 return prevMedia; // Değişiklik yok, önceki durumu döndür
               }
@@ -103,13 +93,13 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
           setHasMoreData(results.length >= 20); // API genelde sayfa başına 20 sonuç döndürür
         } else {
           if (pageNum === 1) {
-            setError("İçerik bulunamadı. Lütfen tekrar deneyin.");
+            setError('İçerik bulunamadı. Lütfen tekrar deneyin.');
           }
           setHasMoreData(false);
         }
       } catch (err) {
-        console.error("İçerik yüklenirken hata oluştu:", err);
-        setError("İçerik yüklenirken bir hata oluştu. Lütfen tekrar deneyin.");
+        console.error('İçerik yüklenirken hata oluştu:', err);
+        setError('İçerik yüklenirken bir hata oluştu. Lütfen tekrar deneyin.');
       } finally {
         setLoading(false);
         setRefreshing(false);
@@ -129,7 +119,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
       let detailResult: MediaContent | null = null;
 
       // Film veya dizi olmasına göre detay bilgisini getir
-      if (media.type === "movie") {
+      if (media.type === 'movie') {
         detailResult = await tmdbService.getMovieDetails(media.id as number);
       } else {
         detailResult = await tmdbService.getTVShowDetails(media.id as number);
@@ -148,7 +138,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
 
   // Detay kartını kapat - değiştirildi
   const handleCloseDetail = useCallback(() => {
-    console.log("HomeScreen: Detay kartı kapatılıyor");
+    console.log('HomeScreen: Detay kartı kapatılıyor');
 
     // Sadece detay kartını kapat, modal durumunu değiştirme
     setDetailCardVisible(false);
@@ -161,12 +151,12 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
   // İzlendi olarak işaretle
   const handleMarkAsWatched = useCallback(() => {
     if (selectedMedia) {
-      if (selectedMedia.type === "movie") {
+      if (selectedMedia.type === 'movie') {
         addWatchedMovie(selectedMedia);
       } else {
         addWatchedSeries(selectedMedia);
       }
-      console.log("İzlendi olarak işaretlendi:", selectedMedia.title);
+      console.log('İzlendi olarak işaretlendi:', selectedMedia.title);
       handleCloseDetail();
     }
   }, [selectedMedia, addWatchedMovie, addWatchedSeries]);
@@ -174,19 +164,19 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
   // İzleme listesine ekle
   const handleAddToWatchlist = useCallback(() => {
     if (selectedMedia) {
-      if (selectedMedia.type === "movie") {
+      if (selectedMedia.type === 'movie') {
         addMovieToWatchlist(selectedMedia);
       } else {
         addSeriesToWatchlist(selectedMedia);
       }
-      console.log("İzleme listesine eklendi:", selectedMedia.title);
+      console.log('İzleme listesine eklendi:', selectedMedia.title);
       handleCloseDetail();
     }
   }, [selectedMedia, addMovieToWatchlist, addSeriesToWatchlist]);
 
   // İlk yükleme
   useEffect(() => {
-    console.log("İlk içerik yüklemesi yapılıyor...");
+    console.log('İlk içerik yüklemesi yapılıyor...');
     fetchMedia(1);
   }, []);
 
@@ -215,9 +205,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
   // Filtreleme ve hesaplama işlemlerini useMemo ile optimize et
   const filteredMedia = useMemo(() => {
     if (!searchQuery) return media;
-    return media.filter((media) =>
-      media.title.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    return media.filter(media => media.title.toLowerCase().includes(searchQuery.toLowerCase()));
   }, [media, searchQuery]);
 
   // Ana yükleme ekranı
@@ -270,12 +258,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
   return (
     <ScreenContainer style={[styles.container]}>
       <View style={styles.headerContent}>
-        <Text
-          size="xxxl"
-          weight="bold"
-          color="primary"
-          style={{ fontSize: 32 }}
-        >
+        <Text size="xxxl" weight="bold" color="primary" style={{fontSize: 32}}>
           Tinko
         </Text>
       </View>
@@ -292,10 +275,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
       />
 
       {/* İçerik Arama Modal'ı */}
-      <SearchMovieModal
-        visible={searchModalVisible}
-        onClose={handleCloseSearchModal}
-      />
+      <SearchMovieModal visible={searchModalVisible} onClose={handleCloseSearchModal} />
 
       {/* Daha fazla içerik yükleme göstergesi */}
       {renderLoadingOverlay()}

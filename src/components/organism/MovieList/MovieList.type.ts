@@ -1,5 +1,5 @@
-import { ViewProps } from "react-native";
-import { Movie } from "../../molecule/MovieCard";
+import {ViewProps} from 'react-native';
+import {Movie} from '../../molecule/MovieCard';
 
 export interface MovieListProps extends ViewProps {
   /**
@@ -16,7 +16,7 @@ export interface MovieListProps extends ViewProps {
    * Başlık rengi
    * @default "primary"
    */
-  titleColor?: "default" | "primary" | "secondary";
+  titleColor?: 'default' | 'primary' | 'secondary';
 
   /**
    * Boş liste mesajı

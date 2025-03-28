@@ -1,16 +1,16 @@
-import { StyleSheet } from "react-native";
-import { COLORS } from "../../../helpers/colors";
-import { SPACING } from "../../../helpers/styleKit";
+import {StyleSheet} from 'react-native';
+import {COLORS} from '../../../helpers/colors';
+import {SPACING} from '../../../helpers/styleKit';
 
 export const styles = StyleSheet.create({
   detailRow: {
-    flexDirection: "row",
+    flexDirection: 'row',
     paddingVertical: SPACING.TINY,
-    alignItems: "flex-start",
+    alignItems: 'flex-start',
   },
   detailLabel: {
     fontSize: 14,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     color: COLORS.white,
     minWidth: 100,
   },

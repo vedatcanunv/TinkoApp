@@ -1,10 +1,10 @@
-import React from "react";
-import { FlatList, View } from "react-native";
-import { Loading, Text } from "../../../components/atom";
-import { MediaCard } from "../../molecule/MediaCard";
-import { MediaContent } from "../../molecule/MediaCard/MediaCard.type";
-import { styles } from "./MediaList.style";
-import { MediaListProps } from "./MediaList.type";
+import React from 'react';
+import {FlatList, View} from 'react-native';
+import {Loading, Text} from '../../../components/atom';
+import {MediaCard} from '../../molecule/MediaCard';
+import {MediaContent} from '../../molecule/MediaCard/MediaCard.type';
+import {styles} from './MediaList.style';
+import {MediaListProps} from './MediaList.type';
 
 export const MediaList: React.FC<MediaListProps> = ({
   data,
@@ -15,7 +15,7 @@ export const MediaList: React.FC<MediaListProps> = ({
   onRefresh,
   style,
 }) => {
-  const renderItem = ({ item }: { item: MediaContent }) => (
+  const renderItem = ({item}: {item: MediaContent}) => (
     <View style={styles.gridItem}>
       <MediaCard media={item} size="small" onPress={onPress} />
     </View>
@@ -37,7 +37,7 @@ export const MediaList: React.FC<MediaListProps> = ({
       style={style}
       data={data}
       renderItem={renderItem}
-      keyExtractor={(item) => `${item.id.toString()}-${item.type}`}
+      keyExtractor={item => `${item.id.toString()}-${item.type}`}
       numColumns={2}
       columnWrapperStyle={styles.mediaGridContainer}
       showsVerticalScrollIndicator={false}

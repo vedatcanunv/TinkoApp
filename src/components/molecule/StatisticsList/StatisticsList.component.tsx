@@ -1,13 +1,10 @@
-import React from "react";
-import { View } from "react-native";
-import { StatisticCard } from "../../atom/StatisticCard";
-import { styles } from "./StatisticsList.style";
-import { StatisticsListProps } from "./StatisticsList.type";
+import React from 'react';
+import {View} from 'react-native';
+import {StatisticCard} from '../../atom/StatisticCard';
+import {styles} from './StatisticsList.style';
+import {StatisticsListProps} from './StatisticsList.type';
 
-export const StatisticsList: React.FC<StatisticsListProps> = ({
-  stats,
-  style,
-}) => {
+export const StatisticsList: React.FC<StatisticsListProps> = ({stats, style}) => {
   return (
     <View style={[styles.container, style]}>
       <StatisticCard

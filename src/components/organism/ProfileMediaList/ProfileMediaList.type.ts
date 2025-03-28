@@ -1,11 +1,11 @@
-import { StyleProp, ViewStyle } from "react-native";
-import { MediaContent } from "../../molecule/MediaCard/MediaCard.type";
+import {StyleProp, ViewStyle} from 'react-native';
+import {MediaContent} from '../../molecule/MediaCard/MediaCard.type';
 
 export interface Media {
   id: string;
   title: string;
   posterUrl: string;
-  type: "movie" | "series";
+  type: 'movie' | 'series';
   rating?: number;
 }
 

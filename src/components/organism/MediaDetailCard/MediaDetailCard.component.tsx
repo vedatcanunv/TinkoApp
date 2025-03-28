@@ -1,12 +1,12 @@
-import React, { useCallback, memo } from "react";
-import { View, Modal, TouchableOpacity } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Ionicons } from "@expo/vector-icons";
-import { COLORS } from "../../../helpers/colors";
-import { MediaDetailCardProps } from "./MediaDetailCard.type";
-import { styles } from "./MediaDetailCard.style";
-import { StateView } from "../../molecule/StateView";
-import { MediaDetailView } from "../MediaDetailView";
+import React, {useCallback, memo} from 'react';
+import {View, Modal, TouchableOpacity} from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {Ionicons} from '@expo/vector-icons';
+import {COLORS} from '../../../helpers/colors';
+import {MediaDetailCardProps} from './MediaDetailCard.type';
+import {styles} from './MediaDetailCard.style';
+import {StateView} from '../../molecule/StateView';
+import {MediaDetailView} from '../MediaDetailView';
 
 export const MediaDetailCard = memo<MediaDetailCardProps>(
   ({
@@ -43,7 +43,7 @@ export const MediaDetailCard = memo<MediaDetailCardProps>(
           <View style={styles.detailCard}>
             {/* Kapat Butonu */}
             <TouchableOpacity
-              style={[styles.closeButtonContainer, { top: insets.top + 16 }]}
+              style={[styles.closeButtonContainer, {top: insets.top + 16}]}
               onPress={handleClosePress}
               activeOpacity={0.7}
             >

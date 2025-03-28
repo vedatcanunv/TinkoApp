@@ -1,2 +1,2 @@
-export { Error } from "./Error.component";
-export type { ErrorProps } from "./Error.type";
+export {Error} from './Error.component';
+export type {ErrorProps} from './Error.type';

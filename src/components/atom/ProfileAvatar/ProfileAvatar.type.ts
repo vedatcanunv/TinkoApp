@@ -1,4 +1,4 @@
-import { ImageSourcePropType, StyleProp, ViewStyle } from "react-native";
+import {ImageSourcePropType, StyleProp, ViewStyle} from 'react-native';
 
 export interface ProfileAvatarProps {
   /**
@@ -10,7 +10,7 @@ export interface ProfileAvatarProps {
    * Avatar boyutu
    * @default "medium"
    */
-  size?: "small" | "medium" | "large";
+  size?: 'small' | 'medium' | 'large';
 
   /**
    * Özel stil

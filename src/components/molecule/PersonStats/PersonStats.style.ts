@@ -1,6 +1,6 @@
-import { StyleSheet } from "react-native";
-import { COLORS } from "../../../helpers/colors";
-import { SPACING } from "../../../helpers/styleKit";
+import {StyleSheet} from 'react-native';
+import {COLORS} from '../../../helpers/colors';
+import {SPACING} from '../../../helpers/styleKit';
 
 export const styles = StyleSheet.create({
   container: {
@@ -10,8 +10,8 @@ export const styles = StyleSheet.create({
     marginBottom: SPACING.SMALL,
   },
   personItem: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     marginBottom: SPACING.SMALL,
   },
   personImagePlaceholder: {
@@ -19,8 +19,8 @@ export const styles = StyleSheet.create({
     height: 40,
     borderRadius: 20,
     backgroundColor: COLORS.primary,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   personInfo: {
     marginLeft: SPACING.SMALL,

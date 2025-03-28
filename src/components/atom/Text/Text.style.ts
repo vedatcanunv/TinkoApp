@@ -1,6 +1,6 @@
-import { StyleSheet } from "react-native";
-import { COLORS } from "../../../helpers/colors";
-import { TYPOGRAPHY } from "../../../helpers/styleKit";
+import {StyleSheet} from 'react-native';
+import {COLORS} from '../../../helpers/colors';
+import {TYPOGRAPHY} from '../../../helpers/styleKit';
 
 export const styles = StyleSheet.create({
   // Font weights
@@ -79,28 +79,28 @@ export const styles = StyleSheet.create({
   },
   // Text align
   left: {
-    textAlign: "left",
+    textAlign: 'left',
   },
   center: {
-    textAlign: "center",
+    textAlign: 'center',
   },
   right: {
-    textAlign: "right",
+    textAlign: 'right',
   },
   justify: {
-    textAlign: "justify",
+    textAlign: 'justify',
   },
   // Additional styles
   underline: {
-    textDecorationLine: "underline",
+    textDecorationLine: 'underline',
   },
   uppercase: {
-    textTransform: "uppercase",
+    textTransform: 'uppercase',
   },
   lowercase: {
-    textTransform: "lowercase",
+    textTransform: 'lowercase',
   },
   capitalize: {
-    textTransform: "capitalize",
+    textTransform: 'capitalize',
   },
 });

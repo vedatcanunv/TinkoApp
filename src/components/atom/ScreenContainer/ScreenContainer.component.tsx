@@ -1,7 +1,7 @@
-import React from "react";
-import { View } from "react-native";
-import { styles } from "./ScreenContainer.style";
-import { ScreenContainerProps } from "./ScreenContainer.type";
+import React from 'react';
+import {View} from 'react-native';
+import {styles} from './ScreenContainer.style';
+import {ScreenContainerProps} from './ScreenContainer.type';
 
 export const ScreenContainer: React.FC<ScreenContainerProps> = ({
   children,

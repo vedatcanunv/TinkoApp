@@ -1,8 +1,8 @@
-import React from "react";
-import { View, TouchableOpacity } from "react-native";
-import { Text } from "../../atom/Text";
-import { styles } from "./MediaListHeader.style";
-import { MediaListHeaderProps } from "./MediaListHeader.type";
+import React from 'react';
+import {View, TouchableOpacity} from 'react-native';
+import {Text} from '../../atom/Text';
+import {styles} from './MediaListHeader.style';
+import {MediaListHeaderProps} from './MediaListHeader.type';
 
 export const MediaListHeader: React.FC<MediaListHeaderProps> = ({
   title,
@@ -19,17 +19,15 @@ export const MediaListHeader: React.FC<MediaListHeaderProps> = ({
         <TouchableOpacity
           style={[
             styles.tabButton,
-            activeFilter === "watched" ? styles.activeTab : styles.inactiveTab,
+            activeFilter === 'watched' ? styles.activeTab : styles.inactiveTab,
           ]}
-          onPress={() => onFilterChange("watched")}
+          onPress={() => onFilterChange('watched')}
           activeOpacity={0.7}
         >
           <Text
             style={[
               styles.tabText,
-              activeFilter === "watched"
-                ? styles.activeTabText
-                : styles.inactiveTabText,
+              activeFilter === 'watched' ? styles.activeTabText : styles.inactiveTabText,
             ]}
           >
             İzlenenler
@@ -38,19 +36,15 @@ export const MediaListHeader: React.FC<MediaListHeaderProps> = ({
         <TouchableOpacity
           style={[
             styles.tabButton,
-            activeFilter === "watchlist"
-              ? styles.activeTab
-              : styles.inactiveTab,
+            activeFilter === 'watchlist' ? styles.activeTab : styles.inactiveTab,
           ]}
-          onPress={() => onFilterChange("watchlist")}
+          onPress={() => onFilterChange('watchlist')}
           activeOpacity={0.7}
         >
           <Text
             style={[
               styles.tabText,
-              activeFilter === "watchlist"
-                ? styles.activeTabText
-                : styles.inactiveTabText,
+              activeFilter === 'watchlist' ? styles.activeTabText : styles.inactiveTabText,
             ]}
           >
             İzlenecekler

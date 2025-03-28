@@ -1,2 +1,2 @@
-export { MediaDetailView } from "./MediaDetailView.component";
-export type { MediaDetailViewProps } from "./MediaDetailView.type";
+export {MediaDetailView} from './MediaDetailView.component';
+export type {MediaDetailViewProps} from './MediaDetailView.type';

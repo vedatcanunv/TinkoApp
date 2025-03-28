@@ -1,19 +1,15 @@
-import React, { memo } from "react";
-import { View, Image } from "react-native";
-import { Text } from "../../atom/Text";
-import { Ionicons } from "@expo/vector-icons";
-import { COLORS } from "../../../helpers/colors";
-import { styles } from "./MediaHeader.style";
-import { MediaHeaderProps } from "./MediaHeader.type";
+import React, {memo} from 'react';
+import {View, Image} from 'react-native';
+import {Text} from '../../atom/Text';
+import {Ionicons} from '@expo/vector-icons';
+import {COLORS} from '../../../helpers/colors';
+import {styles} from './MediaHeader.style';
+import {MediaHeaderProps} from './MediaHeader.type';
 
-export const MediaHeader = memo<MediaHeaderProps>(({ media, insets }) => (
+export const MediaHeader = memo<MediaHeaderProps>(({media, insets}) => (
   <View style={styles.headerContainer}>
     {media.posterUrl && (
-      <Image
-        source={{ uri: media.posterUrl }}
-        style={styles.poster}
-        resizeMode="cover"
-      />
+      <Image source={{uri: media.posterUrl}} style={styles.poster} resizeMode="cover" />
     )}
     <View style={styles.titleContainer}>
       <Text style={styles.title}>{media.title}</Text>

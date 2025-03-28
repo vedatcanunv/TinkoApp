@@ -1,6 +1,6 @@
-import { StyleProp, ViewStyle } from "react-native";
+import {StyleProp, ViewStyle} from 'react-native';
 
-export type MediaFilter = "watched" | "watchlist";
+export type MediaFilter = 'watched' | 'watchlist';
 
 export interface MediaListHeaderProps {
   /**

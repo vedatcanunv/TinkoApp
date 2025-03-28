@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {useEffect, useRef, useState} from 'react';
 import {
   View,
   Modal as RNModal,
@@ -6,11 +6,11 @@ import {
   Animated,
   Dimensions,
   PanResponder,
-} from "react-native";
-import { styles } from "./Modal.style";
-import { ModalProps } from "./Modal.type";
+} from 'react-native';
+import {styles} from './Modal.style';
+import {ModalProps} from './Modal.type';
 
-const { height } = Dimensions.get("window");
+const {height} = Dimensions.get('window');
 
 export const Modal: React.FC<ModalProps> = ({
   visible,
@@ -38,20 +38,14 @@ export const Modal: React.FC<ModalProps> = ({
       },
       onPanResponderMove: (_, gestureState) => {
         // Sürükleme mesafesini hesapla
-        const dragDistance = Math.max(
-          0,
-          gestureState.moveY - initialTouchY.current
-        );
+        const dragDistance = Math.max(0, gestureState.moveY - initialTouchY.current);
 
         // Modal'ı hareket ettir
         translateY.setValue(dragDistance);
 
         // Yüksekliği güncelle (aşağı sürüklendiğinde küçült)
         if (dragDistance > 0) {
-          const newHeight = Math.max(
-            20,
-            modalHeight - (dragDistance / height) * 100
-          );
+          const newHeight = Math.max(20, modalHeight - (dragDistance / height) * 100);
           setCurrentHeight(newHeight);
         }
       },
@@ -119,12 +113,7 @@ export const Modal: React.FC<ModalProps> = ({
   };
 
   return (
-    <RNModal
-      transparent
-      visible={visible}
-      onRequestClose={onClose}
-      animationType="none"
-    >
+    <RNModal transparent visible={visible} onRequestClose={onClose} animationType="none">
       <View style={[styles.container, style]}>
         <TouchableWithoutFeedback onPress={handleBackdropPress}>
           <Animated.View
@@ -141,17 +130,14 @@ export const Modal: React.FC<ModalProps> = ({
           style={[
             styles.contentContainer,
             {
-              transform: [{ translateY }],
+              transform: [{translateY}],
               height: `${currentHeight}%`,
             },
             contentContainerStyle,
           ]}
         >
           {/* Sürüklenebilir tutamak */}
-          <View
-            {...panResponder.panHandlers}
-            style={styles.dragHandleContainer}
-          >
+          <View {...panResponder.panHandlers} style={styles.dragHandleContainer}>
             <View style={styles.dragHandle} />
           </View>
 

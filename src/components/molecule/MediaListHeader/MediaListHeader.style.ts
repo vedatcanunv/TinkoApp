@@ -1,6 +1,6 @@
-import { StyleSheet } from "react-native";
-import { COLORS } from "../../../helpers/colors";
-import { SPACING } from "../../../helpers/styleKit";
+import {StyleSheet} from 'react-native';
+import {COLORS} from '../../../helpers/colors';
+import {SPACING} from '../../../helpers/styleKit';
 
 export const styles = StyleSheet.create({
   container: {
@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
     paddingVertical: SPACING.SMALL,
   },
   tabContainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
     backgroundColor: COLORS.grayExtraLight,
     borderRadius: 8,
     padding: 4,
@@ -18,18 +18,18 @@ export const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: 8,
     borderRadius: 6,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   activeTab: {
     backgroundColor: COLORS.primary,
   },
   inactiveTab: {
-    backgroundColor: "transparent",
+    backgroundColor: 'transparent',
   },
   tabText: {
     fontSize: 14,
-    fontWeight: "600",
+    fontWeight: '600',
   },
   activeTabText: {
     color: COLORS.white,

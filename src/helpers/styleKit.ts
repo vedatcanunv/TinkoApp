@@ -1,5 +1,5 @@
-import { Platform } from "react-native";
-import { COLORS } from "./colors";
+import {Platform} from 'react-native';
+import {COLORS} from './colors';
 
 /**
  * Tipografi tanımlamaları
@@ -18,42 +18,42 @@ export const TYPOGRAPHY = {
 
   // Yazı kalınlıkları - React Native için geçerli değerler
   FONT_WEIGHT: {
-    REGULAR: "400",
-    MEDIUM: "500",
-    SEMIBOLD: "600",
-    BOLD: "700",
+    REGULAR: '400',
+    MEDIUM: '500',
+    SEMIBOLD: '600',
+    BOLD: '700',
   } as const,
 
   // Hazır yazı stilleri
   TEXT: {
     HEADER: {
       fontSize: 24,
-      fontWeight: "700" as const,
+      fontWeight: '700' as const,
       color: COLORS.textPrimary,
     },
     SUBHEADER: {
       fontSize: 20,
-      fontWeight: "600" as const,
+      fontWeight: '600' as const,
       color: COLORS.textPrimary,
     },
     TITLE: {
       fontSize: 18,
-      fontWeight: "600" as const,
+      fontWeight: '600' as const,
       color: COLORS.textPrimary,
     },
     BODY: {
       fontSize: 16,
-      fontWeight: "400" as const,
+      fontWeight: '400' as const,
       color: COLORS.textPrimary,
     },
     CAPTION: {
       fontSize: 14,
-      fontWeight: "400" as const,
+      fontWeight: '400' as const,
       color: COLORS.textSecondary,
     },
     SMALL: {
       fontSize: 12,
-      fontWeight: "400" as const,
+      fontWeight: '400' as const,
       color: COLORS.textSecondary,
     },
   },
@@ -92,28 +92,28 @@ export const VISUAL = {
   SHADOW: {
     SMALL: {
       shadowColor: COLORS.black,
-      shadowOffset: { width: 0, height: 1 },
+      shadowOffset: {width: 0, height: 1},
       shadowOpacity: 0.1,
       shadowRadius: 2,
       elevation: 1,
     },
     MEDIUM: {
       shadowColor: COLORS.black,
-      shadowOffset: { width: 0, height: 2 },
+      shadowOffset: {width: 0, height: 2},
       shadowOpacity: 0.1,
       shadowRadius: 4,
       elevation: 3,
     },
     LARGE: {
       shadowColor: COLORS.black,
-      shadowOffset: { width: 0, height: 3 },
+      shadowOffset: {width: 0, height: 3},
       shadowOpacity: 0.15,
       shadowRadius: 6,
       elevation: 5,
     },
     COLORED: (color: string) => ({
       shadowColor: color,
-      shadowOffset: { width: 0, height: 3 },
+      shadowOffset: {width: 0, height: 3},
       shadowOpacity: 0.4,
       shadowRadius: 6,
       elevation: 8,
@@ -126,14 +126,14 @@ export const VISUAL = {
  */
 export const STYLE_HELPERS = {
   ROW: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   CENTER: {
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   SPACE_BETWEEN: {
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
   },
 };

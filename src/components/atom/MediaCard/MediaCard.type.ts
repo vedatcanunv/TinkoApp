@@ -1,4 +1,4 @@
-import { StyleProp, ViewStyle } from "react-native";
+import {StyleProp, ViewStyle} from 'react-native';
 
 export interface MediaCardProps {
   /**
@@ -14,7 +14,7 @@ export interface MediaCardProps {
   /**
    * Medya tipi
    */
-  type: "movie" | "series";
+  type: 'movie' | 'series';
 
   /**
    * Puan (opsiyonel)

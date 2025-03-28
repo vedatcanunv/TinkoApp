@@ -1,8 +1,8 @@
-import React from "react";
-import { render, fireEvent } from "@testing-library/react-native";
-import { ProfileScreen } from "../ProfileScreen.component";
+import React from 'react';
+import {render, fireEvent} from '@testing-library/react-native';
+import {ProfileScreen} from '../ProfileScreen.component';
 
-describe("ProfileScreen Component", () => {
+describe('ProfileScreen Component', () => {
   const mockOnLogout = jest.fn();
   const mockOnWatchedMoviesPress = jest.fn();
   const mockOnWatchedTVShowsPress = jest.fn();
@@ -11,8 +11,8 @@ describe("ProfileScreen Component", () => {
     jest.clearAllMocks();
   });
 
-  it("renders correctly", () => {
-    const { toJSON } = render(
+  it('renders correctly', () => {
+    const {toJSON} = render(
       <ProfileScreen
         onLogout={mockOnLogout}
         onWatchedMoviesPress={mockOnWatchedMoviesPress}
@@ -22,8 +22,8 @@ describe("ProfileScreen Component", () => {
     expect(toJSON()).toMatchSnapshot();
   });
 
-  it("calls onLogout when logout button is pressed", () => {
-    const { getByText } = render(
+  it('calls onLogout when logout button is pressed', () => {
+    const {getByText} = render(
       <ProfileScreen
         onLogout={mockOnLogout}
         onWatchedMoviesPress={mockOnWatchedMoviesPress}
@@ -31,14 +31,14 @@ describe("ProfileScreen Component", () => {
       />
     );
 
-    const logoutButton = getByText("Çıkış Yap");
+    const logoutButton = getByText('Çıkış Yap');
     fireEvent.press(logoutButton);
 
     expect(mockOnLogout).toHaveBeenCalled();
   });
 
-  it("calls onWatchedMoviesPress when watched movies button is pressed", () => {
-    const { getByText } = render(
+  it('calls onWatchedMoviesPress when watched movies button is pressed', () => {
+    const {getByText} = render(
       <ProfileScreen
         onLogout={mockOnLogout}
         onWatchedMoviesPress={mockOnWatchedMoviesPress}
@@ -46,14 +46,14 @@ describe("ProfileScreen Component", () => {
       />
     );
 
-    const watchedMoviesButton = getByText("İzlenen Filmler");
+    const watchedMoviesButton = getByText('İzlenen Filmler');
     fireEvent.press(watchedMoviesButton);
 
     expect(mockOnWatchedMoviesPress).toHaveBeenCalled();
   });
 
-  it("calls onWatchedTVShowsPress when watched TV shows button is pressed", () => {
-    const { getByText } = render(
+  it('calls onWatchedTVShowsPress when watched TV shows button is pressed', () => {
+    const {getByText} = render(
       <ProfileScreen
         onLogout={mockOnLogout}
         onWatchedMoviesPress={mockOnWatchedMoviesPress}
@@ -61,14 +61,14 @@ describe("ProfileScreen Component", () => {
       />
     );
 
-    const watchedTVShowsButton = getByText("İzlenen Diziler");
+    const watchedTVShowsButton = getByText('İzlenen Diziler');
     fireEvent.press(watchedTVShowsButton);
 
     expect(mockOnWatchedTVShowsPress).toHaveBeenCalled();
   });
 
-  it("displays user profile information", () => {
-    const { getByText } = render(
+  it('displays user profile information', () => {
+    const {getByText} = render(
       <ProfileScreen
         onLogout={mockOnLogout}
         onWatchedMoviesPress={mockOnWatchedMoviesPress}
@@ -76,13 +76,13 @@ describe("ProfileScreen Component", () => {
       />
     );
 
-    expect(getByText("Profil")).toBeTruthy();
+    expect(getByText('Profil')).toBeTruthy();
     // Kullanıcı adı, email veya diğer profil bilgilerini kontrol et
     // Not: Gerçek bileşen implementasyonuna göre bu assertionlar değişebilir
   });
 
-  it("displays statistics sections", () => {
-    const { getByText } = render(
+  it('displays statistics sections', () => {
+    const {getByText} = render(
       <ProfileScreen
         onLogout={mockOnLogout}
         onWatchedMoviesPress={mockOnWatchedMoviesPress}
@@ -91,14 +91,14 @@ describe("ProfileScreen Component", () => {
     );
 
     // İstatistik bölümlerinin başlıklarını kontrol et
-    expect(getByText("İstatistikler")).toBeTruthy();
+    expect(getByText('İstatistikler')).toBeTruthy();
 
     // Favori türler, oyuncular ve yönetmenler bölümlerini kontrol et
     // Not: Gerçek bileşen implementasyonuna göre bu assertionlar değişebilir
   });
 
-  it("displays total watched counts", () => {
-    const { getByTestId } = render(
+  it('displays total watched counts', () => {
+    const {getByTestId} = render(
       <ProfileScreen
         onLogout={mockOnLogout}
         onWatchedMoviesPress={mockOnWatchedMoviesPress}
@@ -108,8 +108,8 @@ describe("ProfileScreen Component", () => {
 
     // İzlenen film ve dizi sayılarını kontrol et
     // Not: Bu testler bileşen implementasyonuna göre değişebilir ve test ID'leri eklenmeli
-    const movieCount = getByTestId("movie-count");
-    const tvShowCount = getByTestId("tv-show-count");
+    const movieCount = getByTestId('movie-count');
+    const tvShowCount = getByTestId('tv-show-count');
 
     expect(movieCount).toBeTruthy();
     expect(tvShowCount).toBeTruthy();

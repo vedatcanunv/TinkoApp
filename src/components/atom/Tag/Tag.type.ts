@@ -1,7 +1,7 @@
-import { TouchableOpacityProps } from "react-native";
+import {TouchableOpacityProps} from 'react-native';
 
-export type TagVariant = "default" | "primary" | "secondary" | "outline";
-export type TagSize = "small" | "medium" | "large";
+export type TagVariant = 'default' | 'primary' | 'secondary' | 'outline';
+export type TagSize = 'small' | 'medium' | 'large';
 
 export interface TagProps extends TouchableOpacityProps {
   /**

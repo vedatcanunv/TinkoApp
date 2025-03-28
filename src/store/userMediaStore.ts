@@ -1,7 +1,7 @@
-import { create } from "zustand";
-import { createJSONStorage, persist } from "zustand/middleware";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { MediaContent } from "../components/molecule/MediaCard/MediaCard.type";
+import {create} from 'zustand';
+import {createJSONStorage, persist} from 'zustand/middleware';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {MediaContent} from '../components/molecule/MediaCard/MediaCard.type';
 
 interface UserMediaState {
   // İzlenen filmler
@@ -48,17 +48,15 @@ export const useUserMediaStore = create<UserMediaState>()(
       watchlistSeries: [],
 
       // İzlenen filmler için metodlar
-      addWatchedMovie: (movie) =>
-        set((state) => {
+      addWatchedMovie: movie =>
+        set(state => {
           // Eğer film zaten izlenenler listesindeyse ekleme
-          if (state.watchedMovies.some((m) => m.id === movie.id)) {
+          if (state.watchedMovies.some(m => m.id === movie.id)) {
             return state;
           }
 
           // Eğer film izlenecekler listesindeyse oradan çıkar
-          const updatedWatchlist = state.watchlistMovies.filter(
-            (m) => m.id !== movie.id
-          );
+          const updatedWatchlist = state.watchlistMovies.filter(m => m.id !== movie.id);
 
           return {
             watchedMovies: [...state.watchedMovies, movie],
@@ -66,23 +64,21 @@ export const useUserMediaStore = create<UserMediaState>()(
           };
         }),
 
-      removeWatchedMovie: (movieId) =>
-        set((state) => ({
-          watchedMovies: state.watchedMovies.filter((m) => m.id !== movieId),
+      removeWatchedMovie: movieId =>
+        set(state => ({
+          watchedMovies: state.watchedMovies.filter(m => m.id !== movieId),
         })),
 
       // İzlenen diziler için metodlar
-      addWatchedSeries: (series) =>
-        set((state) => {
+      addWatchedSeries: series =>
+        set(state => {
           // Eğer dizi zaten izlenenler listesindeyse ekleme
-          if (state.watchedSeries.some((s) => s.id === series.id)) {
+          if (state.watchedSeries.some(s => s.id === series.id)) {
             return state;
           }
 
           // Eğer dizi izlenecekler listesindeyse oradan çıkar
-          const updatedWatchlist = state.watchlistSeries.filter(
-            (s) => s.id !== series.id
-          );
+          const updatedWatchlist = state.watchlistSeries.filter(s => s.id !== series.id);
 
           return {
             watchedSeries: [...state.watchedSeries, series],
@@ -90,21 +86,21 @@ export const useUserMediaStore = create<UserMediaState>()(
           };
         }),
 
-      removeWatchedSeries: (seriesId) =>
-        set((state) => ({
-          watchedSeries: state.watchedSeries.filter((s) => s.id !== seriesId),
+      removeWatchedSeries: seriesId =>
+        set(state => ({
+          watchedSeries: state.watchedSeries.filter(s => s.id !== seriesId),
         })),
 
       // İzlenecek filmler için metodlar
-      addMovieToWatchlist: (movie) =>
-        set((state) => {
+      addMovieToWatchlist: movie =>
+        set(state => {
           // Eğer film zaten izlenecekler listesindeyse ekleme
-          if (state.watchlistMovies.some((m) => m.id === movie.id)) {
+          if (state.watchlistMovies.some(m => m.id === movie.id)) {
             return state;
           }
 
           // Eğer film izlenenler listesindeyse ekleme
-          if (state.watchedMovies.some((m) => m.id === movie.id)) {
+          if (state.watchedMovies.some(m => m.id === movie.id)) {
             return state;
           }
 
@@ -113,23 +109,21 @@ export const useUserMediaStore = create<UserMediaState>()(
           };
         }),
 
-      removeMovieFromWatchlist: (movieId) =>
-        set((state) => ({
-          watchlistMovies: state.watchlistMovies.filter(
-            (m) => m.id !== movieId
-          ),
+      removeMovieFromWatchlist: movieId =>
+        set(state => ({
+          watchlistMovies: state.watchlistMovies.filter(m => m.id !== movieId),
         })),
 
       // İzlenecek diziler için metodlar
-      addSeriesToWatchlist: (series) =>
-        set((state) => {
+      addSeriesToWatchlist: series =>
+        set(state => {
           // Eğer dizi zaten izlenecekler listesindeyse ekleme
-          if (state.watchlistSeries.some((s) => s.id === series.id)) {
+          if (state.watchlistSeries.some(s => s.id === series.id)) {
             return state;
           }
 
           // Eğer dizi izlenenler listesindeyse ekleme
-          if (state.watchedSeries.some((s) => s.id === series.id)) {
+          if (state.watchedSeries.some(s => s.id === series.id)) {
             return state;
           }
 
@@ -138,11 +132,9 @@ export const useUserMediaStore = create<UserMediaState>()(
           };
         }),
 
-      removeSeriesFromWatchlist: (seriesId) =>
-        set((state) => ({
-          watchlistSeries: state.watchlistSeries.filter(
-            (s) => s.id !== seriesId
-          ),
+      removeSeriesFromWatchlist: seriesId =>
+        set(state => ({
+          watchlistSeries: state.watchlistSeries.filter(s => s.id !== seriesId),
         })),
 
       // İstatistikler için metod
@@ -157,7 +149,7 @@ export const useUserMediaStore = create<UserMediaState>()(
       },
     }),
     {
-      name: "user-media-storage",
+      name: 'user-media-storage',
       storage: createJSONStorage(() => AsyncStorage),
     }
   )

@@ -1,4 +1,4 @@
-import { StackScreenProps } from "@react-navigation/stack";
+import {StackScreenProps} from '@react-navigation/stack';
 
 // Auth Stack için tip tanımlamaları
 export type AuthStackParamList = {

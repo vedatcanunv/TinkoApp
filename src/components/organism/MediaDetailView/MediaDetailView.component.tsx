@@ -1,12 +1,12 @@
-import React from "react";
-import { ScrollView, View } from "react-native";
-import { Text } from "../../../components/atom";
-import { MediaHeader } from "../../molecule/MediaHeader";
-import { GenresList } from "../../molecule/GenresList";
-import { DetailInfoRow } from "../../molecule/DetailInfoRow";
-import { MediaActionButtons } from "../../molecule/MediaActionButtons";
-import { styles } from "./MediaDetailView.style";
-import { MediaDetailViewProps } from "./MediaDetailView.type";
+import React from 'react';
+import {ScrollView, View} from 'react-native';
+import {Text} from '../../../components/atom';
+import {MediaHeader} from '../../molecule/MediaHeader';
+import {GenresList} from '../../molecule/GenresList';
+import {DetailInfoRow} from '../../molecule/DetailInfoRow';
+import {MediaActionButtons} from '../../molecule/MediaActionButtons';
+import {styles} from './MediaDetailView.style';
+import {MediaDetailViewProps} from './MediaDetailView.type';
 
 export const MediaDetailView: React.FC<MediaDetailViewProps> = ({
   media,
@@ -40,66 +40,45 @@ export const MediaDetailView: React.FC<MediaDetailViewProps> = ({
         <Text style={styles.sectionTitle}>Yapım Bilgileri</Text>
 
         {/* Yönetmen */}
-        {media.director && (
-          <DetailInfoRow label="Yönetmen" value={media.director} />
-        )}
+        {media.director && <DetailInfoRow label="Yönetmen" value={media.director} />}
 
         {/* Türler */}
         {media.genres && (
-          <DetailInfoRow
-            label="Türler"
-            value={media.genres.map((g) => g.name).join(", ")}
-          />
+          <DetailInfoRow label="Türler" value={media.genres.map(g => g.name).join(', ')} />
         )}
 
         {/* Oyuncular */}
         {media.cast && media.cast.length > 0 && (
-          <DetailInfoRow label="Oyuncular" value={media.cast.join(", ")} />
+          <DetailInfoRow label="Oyuncular" value={media.cast.join(', ')} />
         )}
 
         {/* Yıl */}
         <DetailInfoRow
           label="Yıl"
-          value={
-            typeof media.year === "string" ? media.year : String(media.year)
-          }
+          value={typeof media.year === 'string' ? media.year : String(media.year)}
         />
 
         {/* Süre */}
-        {media.duration && (
-          <DetailInfoRow label="Süre" value={media.duration} />
-        )}
+        {media.duration && <DetailInfoRow label="Süre" value={media.duration} />}
 
         {/* IMDB Puanı */}
         {media.rating && (
-          <DetailInfoRow
-            label="IMDB Puanı"
-            value={`${media.rating.toFixed(1)}/10`}
-          />
+          <DetailInfoRow label="IMDB Puanı" value={`${media.rating.toFixed(1)}/10`} />
         )}
 
         {/* Orijinal Dil */}
         {media.originalLanguage && (
-          <DetailInfoRow
-            label="Orijinal Dil"
-            value={getLanguageName(media.originalLanguage)}
-          />
+          <DetailInfoRow label="Orijinal Dil" value={getLanguageName(media.originalLanguage)} />
         )}
 
         {/* Sezon ve Bölüm Sayısı - Sadece diziler için */}
-        {media.type === "tv" && (
+        {media.type === 'tv' && (
           <>
             {media.numberOfSeasons && (
-              <DetailInfoRow
-                label="Sezon Sayısı"
-                value={String(media.numberOfSeasons)}
-              />
+              <DetailInfoRow label="Sezon Sayısı" value={String(media.numberOfSeasons)} />
             )}
             {media.numberOfEpisodes && (
-              <DetailInfoRow
-                label="Bölüm Sayısı"
-                value={String(media.numberOfEpisodes)}
-              />
+              <DetailInfoRow label="Bölüm Sayısı" value={String(media.numberOfEpisodes)} />
             )}
           </>
         )}
@@ -108,7 +87,7 @@ export const MediaDetailView: React.FC<MediaDetailViewProps> = ({
         {media.productionCountries && media.productionCountries.length > 0 && (
           <DetailInfoRow
             label="Yapım Ülkesi"
-            value={media.productionCountries.map((c) => c.name).join(", ")}
+            value={media.productionCountries.map(c => c.name).join(', ')}
           />
         )}
       </View>
@@ -128,16 +107,16 @@ export const MediaDetailView: React.FC<MediaDetailViewProps> = ({
 // Dil kodu-isim çevirisi
 const getLanguageName = (languageCode: string): string => {
   const languages: Record<string, string> = {
-    en: "İngilizce",
-    tr: "Türkçe",
-    ja: "Japonca",
-    ko: "Korece",
-    fr: "Fransızca",
-    de: "Almanca",
-    es: "İspanyolca",
-    it: "İtalyanca",
-    ru: "Rusça",
-    pt: "Portekizce",
+    en: 'İngilizce',
+    tr: 'Türkçe',
+    ja: 'Japonca',
+    ko: 'Korece',
+    fr: 'Fransızca',
+    de: 'Almanca',
+    es: 'İspanyolca',
+    it: 'İtalyanca',
+    ru: 'Rusça',
+    pt: 'Portekizce',
   };
 
   return languages[languageCode] || languageCode.toUpperCase();

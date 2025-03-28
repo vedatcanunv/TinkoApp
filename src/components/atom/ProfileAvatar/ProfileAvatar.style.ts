@@ -1,15 +1,15 @@
-import { StyleSheet } from "react-native";
-import { COLORS } from "../../../helpers/colors";
+import {StyleSheet} from 'react-native';
+import {COLORS} from '../../../helpers/colors';
 
 export const styles = StyleSheet.create({
   container: {
     borderRadius: 999,
-    overflow: "hidden",
+    overflow: 'hidden',
     backgroundColor: COLORS.grayLight,
   },
   image: {
-    width: "100%",
-    height: "100%",
+    width: '100%',
+    height: '100%',
   },
   small: {
     width: 40,

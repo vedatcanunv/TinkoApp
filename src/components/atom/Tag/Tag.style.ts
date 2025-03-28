@@ -1,21 +1,21 @@
-import { StyleSheet } from "react-native";
-import { COLORS } from "../../../helpers/colors";
+import {StyleSheet} from 'react-native';
+import {COLORS} from '../../../helpers/colors';
 
 export const styles = StyleSheet.create({
   // Ana konteyner
   container: {
     borderRadius: 16,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     paddingHorizontal: 10,
     paddingVertical: 4,
-    flexDirection: "row",
+    flexDirection: 'row',
     maxWidth: 120,
     marginRight: 8,
     marginBottom: 4,
     elevation: 1,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.1,
     shadowRadius: 1,
   },
@@ -31,7 +31,7 @@ export const styles = StyleSheet.create({
     backgroundColor: COLORS.backgroundLight,
   },
   outline: {
-    backgroundColor: "transparent",
+    backgroundColor: 'transparent',
     borderWidth: 1,
     borderColor: COLORS.grayLight,
   },
@@ -65,7 +65,7 @@ export const styles = StyleSheet.create({
   // Metin
   text: {
     fontSize: 12,
-    fontWeight: "500",
+    fontWeight: '500',
   },
   textDefault: {
     color: COLORS.textDefault,
@@ -81,6 +81,6 @@ export const styles = StyleSheet.create({
   },
   textSelected: {
     color: COLORS.primary,
-    fontWeight: "600",
+    fontWeight: '600',
   },
 });

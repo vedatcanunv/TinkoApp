@@ -1,6 +1,6 @@
-import { StyleSheet } from "react-native";
-import { COLORS } from "../../../helpers/colors";
-import { SPACING } from "../../../helpers/styleKit";
+import {StyleSheet} from 'react-native';
+import {COLORS} from '../../../helpers/colors';
+import {SPACING} from '../../../helpers/styleKit';
 
 export const styles = StyleSheet.create({
   container: {
@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 18,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     color: COLORS.white,
     marginBottom: SPACING.SMALL,
   },
@@ -26,12 +26,12 @@ export const styles = StyleSheet.create({
     paddingBottom: SPACING.LARGE,
   },
   detailRow: {
-    flexDirection: "row",
+    flexDirection: 'row',
     paddingVertical: SPACING.TINY,
   },
   detailLabel: {
     fontSize: 14,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     color: COLORS.white,
     width: 100,
   },

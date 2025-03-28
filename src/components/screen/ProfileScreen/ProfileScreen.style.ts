@@ -1,7 +1,7 @@
-import { StyleSheet } from "react-native";
-import { COLORS } from "../../../helpers/colors";
-import { LAYOUT } from "../../../helpers/layout";
-import { SPACING } from "../../../helpers/styleKit";
+import {StyleSheet} from 'react-native';
+import {COLORS} from '../../../helpers/colors';
+import {LAYOUT} from '../../../helpers/layout';
+import {SPACING} from '../../../helpers/styleKit';
 
 export const styles = StyleSheet.create({
   container: {
@@ -19,8 +19,8 @@ export const styles = StyleSheet.create({
     padding: 16,
   },
   statsRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     marginBottom: 24,
   },
   statBox: {
@@ -28,7 +28,7 @@ export const styles = StyleSheet.create({
     backgroundColor: COLORS.grayExtraLight,
     borderRadius: 8,
     padding: 16,
-    alignItems: "center",
+    alignItems: 'center',
     marginHorizontal: 8,
   },
   sectionContainer: {
@@ -57,12 +57,12 @@ export const styles = StyleSheet.create({
     borderRadius: 4,
   },
   statLabelContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   personItem: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     marginBottom: 12,
   },
   personImagePlaceholder: {
@@ -70,8 +70,8 @@ export const styles = StyleSheet.create({
     height: 40,
     borderRadius: 20,
     backgroundColor: COLORS.grayLight,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     marginRight: 12,
   },
   personInfo: {
@@ -89,20 +89,20 @@ export const styles = StyleSheet.create({
   },
   loadingContainer: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   loadingText: {
     marginTop: 16,
   },
   errorContainer: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     paddingHorizontal: 24,
   },
   errorText: {
-    textAlign: "center",
+    textAlign: 'center',
     marginBottom: 16,
   },
   retryButton: {

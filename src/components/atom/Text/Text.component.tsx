@@ -1,15 +1,15 @@
-import React, { memo } from "react";
-import { Text as RNText } from "react-native";
-import { TextProps } from "./Text.type";
-import { styles } from "./Text.style";
+import React, {memo} from 'react';
+import {Text as RNText} from 'react-native';
+import {TextProps} from './Text.type';
+import {styles} from './Text.style';
 
 export const Text = memo(
   ({
     children,
-    size = "m",
-    weight = "regular",
-    color = "default",
-    align = "left",
+    size = 'm',
+    weight = 'regular',
+    color = 'default',
+    align = 'left',
     style,
     uppercase,
     lowercase,

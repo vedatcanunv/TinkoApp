@@ -1,6 +1,6 @@
-import { StyleSheet } from "react-native";
-import { COLORS } from "../../../helpers/colors";
-import { SPACING } from "../../../helpers/styleKit";
+import {StyleSheet} from 'react-native';
+import {COLORS} from '../../../helpers/colors';
+import {SPACING} from '../../../helpers/styleKit';
 
 export const styles = StyleSheet.create({
   container: {
@@ -12,16 +12,16 @@ export const styles = StyleSheet.create({
     paddingBottom: SPACING.MEDIUM,
   },
   columnWrapper: {
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
     marginTop: SPACING.MEDIUM,
   },
   mediaCard: {
-    width: "48%",
+    width: '48%',
   },
   emptyContainer: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     padding: SPACING.LARGE,
   },
 });

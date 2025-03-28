@@ -1,6 +1,6 @@
-import { useRef, useEffect, useMemo } from "react";
-import { InteractionManager, Platform } from "react-native";
-import React, { lazy } from "react";
+import {useRef, useEffect, useMemo} from 'react';
+import {InteractionManager, Platform} from 'react-native';
+import React, {lazy} from 'react';
 
 /**
  * Performans ölçümü için kullanılabilecek bir hook.
@@ -18,9 +18,7 @@ export const usePerformanceMeasure = (componentName: string) => {
     return () => {
       if (isMounted.current) {
         const duration = Date.now() - startTime.current;
-        console.log(
-          `[Performans] ${componentName} unmount oldu. Süre: ${duration}ms`
-        );
+        console.log(`[Performans] ${componentName} unmount oldu. Süre: ${duration}ms`);
       }
     };
   }, [componentName]);
@@ -32,10 +30,7 @@ export const usePerformanceMeasure = (componentName: string) => {
  * @param task Çalıştırılacak ağır işlem
  * @param callback İşlem tamamlandığında çalışacak callback
  */
-export const runInBackground = <T>(
-  task: () => T,
-  callback?: (result: T) => void
-) => {
+export const runInBackground = <T>(task: () => T, callback?: (result: T) => void) => {
   InteractionManager.runAfterInteractions(() => {
     const result = task();
     if (callback) {
@@ -51,12 +46,12 @@ export const runInBackground = <T>(
  * @param resources Temizlenecek kaynaklar
  */
 export const cleanupResources = (resources: Array<any>) => {
-  resources.forEach((resource) => {
-    if (resource && typeof resource.cleanup === "function") {
+  resources.forEach(resource => {
+    if (resource && typeof resource.cleanup === 'function') {
       resource.cleanup();
-    } else if (resource && typeof resource.release === "function") {
+    } else if (resource && typeof resource.release === 'function') {
       resource.release();
-    } else if (resource && typeof resource.remove === "function") {
+    } else if (resource && typeof resource.remove === 'function') {
       resource.remove();
     }
   });
@@ -67,12 +62,12 @@ export const cleanupResources = (resources: Array<any>) => {
  */
 export const getPlatformOptimalValues = () => {
   return {
-    isIOS: Platform.OS === "ios",
-    isAndroid: Platform.OS === "android",
+    isIOS: Platform.OS === 'ios',
+    isAndroid: Platform.OS === 'android',
     shadowStyle: Platform.select({
       ios: {
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 2 },
+        shadowColor: '#000',
+        shadowOffset: {width: 0, height: 2},
         shadowOpacity: 0.1,
         shadowRadius: 4,
       },

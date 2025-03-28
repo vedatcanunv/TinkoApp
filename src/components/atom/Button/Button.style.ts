@@ -1,6 +1,6 @@
-import { StyleSheet } from "react-native";
-import { COLORS } from "../../../helpers/colors";
-import { SPACING, TYPOGRAPHY, VISUAL } from "../../../helpers/styleKit";
+import {StyleSheet} from 'react-native';
+import {COLORS} from '../../../helpers/colors';
+import {SPACING, TYPOGRAPHY, VISUAL} from '../../../helpers/styleKit';
 
 export const styles = StyleSheet.create({
   // Button base style
@@ -8,9 +8,9 @@ export const styles = StyleSheet.create({
     borderRadius: VISUAL.RADIUS.MEDIUM,
     paddingHorizontal: SPACING.REGULAR,
     paddingVertical: SPACING.MEDIUM,
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "row",
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
   },
   // Button variants
   primary: {
@@ -20,12 +20,12 @@ export const styles = StyleSheet.create({
     backgroundColor: COLORS.secondary,
   },
   outline: {
-    backgroundColor: "transparent",
+    backgroundColor: 'transparent',
     borderWidth: 1,
     borderColor: COLORS.primary,
   },
   transparent: {
-    backgroundColor: "transparent",
+    backgroundColor: 'transparent',
   },
   // Button sizes
   small: {

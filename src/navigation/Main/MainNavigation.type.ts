@@ -1,7 +1,7 @@
-import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
-import { CompositeScreenProps } from "@react-navigation/native";
-import { StackScreenProps } from "@react-navigation/stack";
-import { RootStackParamList } from "../Root/RootNavigation.type";
+import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
+import {CompositeScreenProps} from '@react-navigation/native';
+import {StackScreenProps} from '@react-navigation/stack';
+import {RootStackParamList} from '../Root/RootNavigation.type';
 
 // Main Tab için tip tanımlamaları
 export type MainTabParamList = {
@@ -10,8 +10,7 @@ export type MainTabParamList = {
 };
 
 // Screen props için tip tanımlamaları
-export type MainScreenProps<T extends keyof MainTabParamList> =
-  CompositeScreenProps<
-    BottomTabScreenProps<MainTabParamList, T>,
-    StackScreenProps<RootStackParamList>
-  >;
+export type MainScreenProps<T extends keyof MainTabParamList> = CompositeScreenProps<
+  BottomTabScreenProps<MainTabParamList, T>,
+  StackScreenProps<RootStackParamList>
+>;

@@ -1,13 +1,13 @@
-import { StyleSheet } from "react-native";
-import { COLORS } from "../../../helpers/colors";
+import {StyleSheet} from 'react-native';
+import {COLORS} from '../../../helpers/colors';
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(255, 255, 255, 0.95)",
-    position: "absolute",
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+    position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
@@ -23,9 +23,9 @@ export const styles = StyleSheet.create({
   message: {
     fontSize: 16,
     color: COLORS.primary,
-    textAlign: "center",
+    textAlign: 'center',
     marginBottom: 20,
-    fontWeight: "500",
+    fontWeight: '500',
   },
   retryButton: {
     paddingHorizontal: 24,
@@ -36,7 +36,7 @@ export const styles = StyleSheet.create({
   },
   retryText: {
     fontSize: 16,
-    color: "#FFFFFF",
-    fontWeight: "600",
+    color: '#FFFFFF',
+    fontWeight: '600',
   },
 });

@@ -1,5 +1,5 @@
-import { ReactNode } from "react";
-import { StyleProp, TouchableOpacityProps, ViewStyle } from "react-native";
+import {ReactNode} from 'react';
+import {StyleProp, TouchableOpacityProps, ViewStyle} from 'react-native';
 
 export interface Genre {
   id: string | number;
@@ -14,7 +14,7 @@ export interface MediaContent {
   imageURL?: string;
   year: string | number;
   genres: Genre[];
-  type: "movie" | "series" | "tv";
+  type: 'movie' | 'series' | 'tv';
   // Detay için ekstra bilgiler
   rating?: number;
   duration?: string;
@@ -35,12 +35,12 @@ export interface MediaContent {
     logo_path?: string;
     origin_country?: string;
   }[];
-  productionCountries?: { iso_3166_1: string; name: string }[];
+  productionCountries?: {iso_3166_1: string; name: string}[];
   numberOfSeasons?: number;
   numberOfEpisodes?: number;
 }
 
-export interface MediaCardProps extends Omit<TouchableOpacityProps, "onPress"> {
+export interface MediaCardProps extends Omit<TouchableOpacityProps, 'onPress'> {
   /**
    * Medya içeriği (film veya dizi)
    */
@@ -50,7 +50,7 @@ export interface MediaCardProps extends Omit<TouchableOpacityProps, "onPress"> {
    * Kart boyutu
    * @default "medium"
    */
-  size?: "small" | "medium" | "large";
+  size?: 'small' | 'medium' | 'large';
 
   /**
    * Medyaya tıklandığında çalışacak fonksiyon

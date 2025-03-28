@@ -1,39 +1,39 @@
-import { StyleSheet, Platform } from "react-native";
-import { COLORS } from "../../../helpers/colors";
-import { SPACING } from "../../../helpers/styleKit";
+import {StyleSheet, Platform} from 'react-native';
+import {COLORS} from '../../../helpers/colors';
+import {SPACING} from '../../../helpers/styleKit';
 
 export const styles = StyleSheet.create({
   detailModalContainer: {
     flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.85)",
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: 'rgba(0, 0, 0, 0.85)',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   detailCard: {
-    width: "100%",
-    height: "100%",
-    backgroundColor: "rgba(0, 0, 0, 0.95)",
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgba(0, 0, 0, 0.95)',
     zIndex: 10,
   },
   closeButtonContainer: {
-    position: "absolute",
+    position: 'absolute',
     top: 16,
     right: 16,
     zIndex: 20,
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   loadingContainer: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   headerContainer: {
-    alignItems: "center",
+    alignItems: 'center',
     marginBottom: 20,
   },
   poster: {
@@ -43,18 +43,18 @@ export const styles = StyleSheet.create({
   },
   titleContainer: {
     marginTop: 16,
-    alignItems: "center",
+    alignItems: 'center',
   },
   title: {
     fontSize: 22,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     color: COLORS.white,
-    textAlign: "center",
+    textAlign: 'center',
   },
   infoRow: {
-    flexDirection: "row",
+    flexDirection: 'row',
     marginTop: 10,
-    alignItems: "center",
+    alignItems: 'center',
   },
   infoText: {
     color: COLORS.white,
@@ -72,8 +72,8 @@ export const styles = StyleSheet.create({
     marginLeft: 4,
   },
   genresContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
+    flexDirection: 'row',
+    flexWrap: 'wrap',
     marginBottom: SPACING.MEDIUM,
     paddingHorizontal: SPACING.MEDIUM,
   },
@@ -89,14 +89,14 @@ export const styles = StyleSheet.create({
     marginBottom: SPACING.SMALL,
     elevation: 2,
     shadowColor: COLORS.black,
-    shadowOffset: { width: 0, height: 1 },
+    shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.2,
     shadowRadius: 1.5,
   },
   genreText: {
     color: COLORS.white,
     fontSize: 12,
-    fontWeight: "500",
+    fontWeight: '500',
   },
   summaryContainer: {
     paddingHorizontal: 20,
@@ -104,7 +104,7 @@ export const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 18,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     color: COLORS.white,
     marginBottom: 10,
   },
@@ -117,7 +117,7 @@ export const styles = StyleSheet.create({
     marginBottom: 40,
   },
   detailRow: {
-    flexDirection: "row",
+    flexDirection: 'row',
     marginBottom: 8,
   },
   detailLabel: {
@@ -129,7 +129,7 @@ export const styles = StyleSheet.create({
     color: COLORS.white,
   },
   buttonContainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
     paddingHorizontal: 20,
   },
   watchlistButton: {
@@ -138,25 +138,25 @@ export const styles = StyleSheet.create({
     borderRadius: 24,
     borderWidth: 1,
     borderColor: COLORS.primary,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     marginRight: 10,
   },
   watchlistButtonText: {
     color: COLORS.primary,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   watchedButton: {
     flex: 1,
     height: 48,
     borderRadius: 24,
     backgroundColor: COLORS.primary,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     marginLeft: 10,
   },
   watchedButtonText: {
     color: COLORS.white,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
 });

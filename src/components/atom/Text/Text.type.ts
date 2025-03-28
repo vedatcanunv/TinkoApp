@@ -1,22 +1,22 @@
-import { TextProps as RNTextProps } from "react-native";
+import {TextProps as RNTextProps} from 'react-native';
 
-export type TextSize = "s" | "m" | "l" | "xl" | "xxl" | "xxxl" | "display";
+export type TextSize = 's' | 'm' | 'l' | 'xl' | 'xxl' | 'xxxl' | 'display';
 
-export type TextWeight = "regular" | "medium" | "semibold" | "bold";
+export type TextWeight = 'regular' | 'medium' | 'semibold' | 'bold';
 
 export type TextColor =
-  | "default"
-  | "primary"
-  | "secondary"
-  | "info"
-  | "success"
-  | "warning"
-  | "danger"
-  | "light"
-  | "lighter"
-  | "white";
+  | 'default'
+  | 'primary'
+  | 'secondary'
+  | 'info'
+  | 'success'
+  | 'warning'
+  | 'danger'
+  | 'light'
+  | 'lighter'
+  | 'white';
 
-export type TextAlign = "left" | "center" | "right" | "justify";
+export type TextAlign = 'left' | 'center' | 'right' | 'justify';
 
 export interface TextProps extends RNTextProps {
   /**
@@ -46,7 +46,7 @@ export interface TextProps extends RNTextProps {
   /**
    * Ek stil özellikleri
    */
-  style?: RNTextProps["style"];
+  style?: RNTextProps['style'];
 
   /**
    * Altı çizili metin

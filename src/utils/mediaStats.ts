@@ -1,4 +1,4 @@
-import { MediaContent } from "../components/molecule/MediaCard/MediaCard.type";
+import {MediaContent} from '../components/molecule/MediaCard/MediaCard.type';
 
 interface GenreStat {
   id: number;
@@ -17,14 +17,12 @@ interface PersonStat {
  * @param movies İzlenen filmler listesi
  * @returns Tür istatistikleri
  */
-export const calculateMovieGenreStats = (
-  movies: MediaContent[]
-): GenreStat[] => {
-  const genreCounts: { [key: string]: number } = {};
+export const calculateMovieGenreStats = (movies: MediaContent[]): GenreStat[] => {
+  const genreCounts: {[key: string]: number} = {};
   let totalMovies = 0;
 
-  movies.forEach((movie) => {
-    movie.genres.forEach((genre) => {
+  movies.forEach(movie => {
+    movie.genres.forEach(genre => {
       genreCounts[genre.name] = (genreCounts[genre.name] || 0) + 1;
       totalMovies++;
     });
@@ -44,14 +42,12 @@ export const calculateMovieGenreStats = (
  * @param series İzlenen diziler listesi
  * @returns Tür istatistikleri
  */
-export const calculateSeriesGenreStats = (
-  series: MediaContent[]
-): GenreStat[] => {
-  const genreCounts: { [key: string]: number } = {};
+export const calculateSeriesGenreStats = (series: MediaContent[]): GenreStat[] => {
+  const genreCounts: {[key: string]: number} = {};
   let totalSeries = 0;
 
-  series.forEach((series) => {
-    series.genres.forEach((genre) => {
+  series.forEach(series => {
+    series.genres.forEach(genre => {
       genreCounts[genre.name] = (genreCounts[genre.name] || 0) + 1;
       totalSeries++;
     });
@@ -76,16 +72,15 @@ export const calculateDirectorStats = (
   mediaList: MediaContent[],
   limit: number = 5
 ): PersonStat[] => {
-  const directorCounts: { [key: string]: number } = {};
+  const directorCounts: {[key: string]: number} = {};
 
-  mediaList.forEach((media) => {
+  mediaList.forEach(media => {
     if (media.director) {
       // Virgülle ayrılmış yönetmen isimlerini ayır
-      const directors = media.director.split(", ");
-      directors.forEach((director) => {
+      const directors = media.director.split(', ');
+      directors.forEach(director => {
         if (director && director.trim()) {
-          directorCounts[director.trim()] =
-            (directorCounts[director.trim()] || 0) + 1;
+          directorCounts[director.trim()] = (directorCounts[director.trim()] || 0) + 1;
         }
       });
     }
@@ -107,15 +102,12 @@ export const calculateDirectorStats = (
  * @param limit Maksimum oyuncu sayısı (varsayılan: 5)
  * @returns Oyuncu istatistikleri
  */
-export const calculateActorStats = (
-  mediaList: MediaContent[],
-  limit: number = 5
-): PersonStat[] => {
-  const actorCounts: { [key: string]: number } = {};
+export const calculateActorStats = (mediaList: MediaContent[], limit: number = 5): PersonStat[] => {
+  const actorCounts: {[key: string]: number} = {};
 
-  mediaList.forEach((media) => {
+  mediaList.forEach(media => {
     if (media.cast && media.cast.length > 0) {
-      media.cast.forEach((actor) => {
+      media.cast.forEach(actor => {
         if (actor && actor.trim()) {
           actorCounts[actor.trim()] = (actorCounts[actor.trim()] || 0) + 1;
         }

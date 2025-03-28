@@ -1,15 +1,15 @@
-import React from "react";
-import { View } from "react-native";
-import { Loading, Text } from "../../../components/atom";
-import { styles } from "./StateView.style";
-import { StateViewProps } from "./StateView.type";
+import React from 'react';
+import {View} from 'react-native';
+import {Loading, Text} from '../../../components/atom';
+import {styles} from './StateView.style';
+import {StateViewProps} from './StateView.type';
 
 export const StateView: React.FC<StateViewProps> = ({
   loading,
   error,
   empty,
-  emptyText = "Görüntülenecek içerik bulunamadı.",
-  loadingText = "İçerik yükleniyor...",
+  emptyText = 'Görüntülenecek içerik bulunamadı.',
+  loadingText = 'İçerik yükleniyor...',
   errorText,
 }) => {
   if (loading) {

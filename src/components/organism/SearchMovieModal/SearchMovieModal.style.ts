@@ -1,8 +1,8 @@
-import { StyleSheet, Dimensions, Platform } from "react-native";
-import { COLORS } from "../../../helpers/colors";
-import { SPACING, TYPOGRAPHY, VISUAL } from "../../../helpers/styleKit";
+import {StyleSheet, Dimensions, Platform} from 'react-native';
+import {COLORS} from '../../../helpers/colors';
+import {SPACING, TYPOGRAPHY, VISUAL} from '../../../helpers/styleKit';
 
-const { width, height } = Dimensions.get("window");
+const {width, height} = Dimensions.get('window');
 
 export const styles = StyleSheet.create({
   container: {
@@ -24,19 +24,19 @@ export const styles = StyleSheet.create({
     marginBottom: SPACING.REGULAR,
   },
   mediaGridContainer: {
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
   },
   gridItem: {
-    width: "48%",
+    width: '48%',
     marginBottom: SPACING.SMALL,
   },
   detailCard: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: "rgba(0, 0, 0, 0.95)",
+    backgroundColor: 'rgba(0, 0, 0, 0.95)',
     zIndex: 10,
   },
   detailCardContent: {
@@ -44,7 +44,7 @@ export const styles = StyleSheet.create({
     padding: SPACING.REGULAR,
   },
   posterContainer: {
-    alignItems: "center",
+    alignItems: 'center',
     marginBottom: SPACING.REGULAR,
   },
   poster: {
@@ -63,21 +63,21 @@ export const styles = StyleSheet.create({
     marginBottom: SPACING.REGULAR,
   },
   detailRow: {
-    flexDirection: "row",
+    flexDirection: 'row',
     marginBottom: SPACING.SMALL,
   },
   detailItem: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     marginRight: SPACING.REGULAR,
   },
   ratingText: {
     marginLeft: SPACING.TINY,
   },
   genresContainer: {
-    flexDirection: "row",
-    flexWrap: "nowrap",
-    overflow: "visible",
+    flexDirection: 'row',
+    flexWrap: 'nowrap',
+    overflow: 'visible',
     marginVertical: SPACING.TINY,
   },
   genreItem: {
@@ -89,7 +89,7 @@ export const styles = StyleSheet.create({
     marginBottom: SPACING.SMALL,
     elevation: 2,
     shadowColor: COLORS.black,
-    shadowOffset: { width: 0, height: 1 },
+    shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.2,
     shadowRadius: 1.5,
   },
@@ -109,8 +109,8 @@ export const styles = StyleSheet.create({
     marginBottom: SPACING.TINY,
   },
   buttonsContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     marginTop: SPACING.LARGE,
     marginBottom: SPACING.XXL,
   },
@@ -125,8 +125,8 @@ export const styles = StyleSheet.create({
   // Loading state
   loadingContainer: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     paddingVertical: SPACING.XXL,
   },
   loadingText: {
@@ -135,30 +135,30 @@ export const styles = StyleSheet.create({
   // Detail loading
   detailLoadingContainer: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   // Error state
   errorContainer: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     paddingVertical: SPACING.XXL,
     paddingHorizontal: SPACING.LARGE,
   },
   errorText: {
-    textAlign: "center",
+    textAlign: 'center',
   },
   // Empty state
   emptyContainer: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     paddingVertical: SPACING.XXL,
     paddingHorizontal: SPACING.LARGE,
   },
   emptyText: {
-    textAlign: "center",
+    textAlign: 'center',
   },
   infoRow: {
     marginBottom: SPACING.TINY,
@@ -175,97 +175,97 @@ export const detailStyles = StyleSheet.create({
     backgroundColor: COLORS.background,
   },
   backdropContainer: {
-    width: "100%",
+    width: '100%',
     height: 240,
-    backgroundColor: "rgba(0,0,0,0.7)",
-    position: "absolute",
+    backgroundColor: 'rgba(0,0,0,0.7)',
+    position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     zIndex: 1,
   },
   backdrop: {
-    width: "100%",
-    height: "100%",
+    width: '100%',
+    height: '100%',
     opacity: 0.4,
   },
   closeButtonContainer: {
-    position: "absolute",
+    position: 'absolute',
     top: 40,
     left: 20,
     zIndex: 50,
     width: 50,
     height: 50,
     borderRadius: 25,
-    backgroundColor: "rgba(0,0,0,0.8)",
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: 'rgba(0,0,0,0.8)',
+    justifyContent: 'center',
+    alignItems: 'center',
     elevation: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 3 },
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 3},
     shadowOpacity: 0.7,
     shadowRadius: 6,
 
     // Platform.OS === 'android' için ek özellikler
     ...Platform.select({
       android: {
-        overflow: "hidden",
+        overflow: 'hidden',
       },
     }),
   },
   contentContainer: {
     flex: 1,
     paddingTop: 210,
-    position: "relative",
+    position: 'relative',
     zIndex: 2,
   },
   posterAndInfoContainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
     marginTop: -70,
     paddingHorizontal: 20,
     marginBottom: 20,
-    position: "relative",
+    position: 'relative',
     zIndex: 3,
   },
   posterContainer: {
     width: 120,
     height: 180,
     borderRadius: 10,
-    overflow: "hidden",
+    overflow: 'hidden',
     elevation: 5,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.3,
     shadowRadius: 5,
   },
   poster: {
-    width: "100%",
-    height: "100%",
+    width: '100%',
+    height: '100%',
   },
   infoContainer: {
     flex: 1,
     paddingLeft: 15,
-    justifyContent: "flex-end",
+    justifyContent: 'flex-end',
   },
   title: {
     fontSize: 22,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     color: COLORS.white,
     marginBottom: 8,
     marginTop: 5,
     paddingTop: 5,
-    textShadowColor: "rgba(0,0,0,0.75)",
-    textShadowOffset: { width: 0, height: 1 },
+    textShadowColor: 'rgba(0,0,0,0.75)',
+    textShadowOffset: {width: 0, height: 1},
     textShadowRadius: 2,
   },
   originalTitle: {
     fontSize: 14,
-    color: "rgba(255,255,255,0.7)",
+    color: 'rgba(255,255,255,0.7)',
     marginBottom: 8,
   },
   basicInfo: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     marginBottom: 12,
   },
   infoText: {
@@ -277,19 +277,19 @@ export const detailStyles = StyleSheet.create({
     width: 4,
     height: 4,
     borderRadius: 2,
-    backgroundColor: "rgba(255,255,255,0.5)",
+    backgroundColor: 'rgba(255,255,255,0.5)',
     marginHorizontal: 6,
   },
   rating: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     marginLeft: 0,
   },
   ratingText: {
     fontSize: 14,
     color: COLORS.warning,
     marginLeft: 4,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   genresScrollContainer: {
     marginTop: 10,
@@ -303,24 +303,24 @@ export const detailStyles = StyleSheet.create({
     marginRight: 8,
     backgroundColor: COLORS.primary,
     height: 28,
-    justifyContent: "center",
+    justifyContent: 'center',
     elevation: 3,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.2,
     shadowRadius: 2,
   },
   genreText: {
     color: COLORS.white,
     fontSize: 11,
-    fontWeight: "500",
-    textAlign: "center",
+    fontWeight: '500',
+    textAlign: 'center',
   },
   sectionContainer: {
     paddingHorizontal: 20,
     marginBottom: 90,
     backgroundColor: COLORS.background,
-    position: "relative",
+    position: 'relative',
     zIndex: 4,
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
@@ -328,7 +328,7 @@ export const detailStyles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 18,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     color: COLORS.textPrimary,
     marginBottom: 8,
   },
@@ -345,14 +345,14 @@ export const detailStyles = StyleSheet.create({
     borderLeftWidth: 4,
     borderLeftColor: COLORS.primary,
     elevation: 0,
-    shadowColor: "transparent",
-    shadowOffset: { width: 0, height: 0 },
+    shadowColor: 'transparent',
+    shadowOffset: {width: 0, height: 0},
     shadowOpacity: 0,
     shadowRadius: 0,
   },
   summaryTitle: {
     fontSize: 22,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     color: COLORS.textPrimary,
     marginBottom: 15,
     marginTop: 10,
@@ -364,17 +364,17 @@ export const detailStyles = StyleSheet.create({
     lineHeight: 26,
     color: COLORS.textSecondary,
     letterSpacing: 0.3,
-    fontWeight: "400",
+    fontWeight: '400',
   },
   infoRow: {
-    flexDirection: "row",
+    flexDirection: 'row',
     marginBottom: 6,
   },
   infoLabel: {
     width: 90,
     fontSize: 15,
     color: COLORS.textSecondary,
-    fontWeight: "500",
+    fontWeight: '500',
   },
   infoValue: {
     flex: 1,
@@ -382,21 +382,21 @@ export const detailStyles = StyleSheet.create({
     color: COLORS.textPrimary,
   },
   actionsContainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
     paddingHorizontal: 20,
     paddingBottom: 25,
     paddingTop: 10,
     backgroundColor: COLORS.background,
     borderTopWidth: 0.5,
-    borderTopColor: "rgba(0,0,0,0.1)",
-    position: "absolute",
+    borderTopColor: 'rgba(0,0,0,0.1)',
+    position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
     zIndex: 9999,
     elevation: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: -3 },
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: -3},
     shadowOpacity: 0.2,
     shadowRadius: 5,
   },
@@ -406,9 +406,9 @@ export const detailStyles = StyleSheet.create({
     borderRadius: 24,
     borderWidth: 1,
     borderColor: COLORS.primary,
-    justifyContent: "center",
-    alignItems: "center",
-    overflow: "hidden",
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden',
     ...Platform.select({
       android: {
         elevation: 0,
@@ -421,10 +421,10 @@ export const detailStyles = StyleSheet.create({
     borderRadius: 24,
     backgroundColor: COLORS.primary,
     marginLeft: 12,
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "row",
-    overflow: "hidden",
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    overflow: 'hidden',
     ...Platform.select({
       android: {
         elevation: 3,
@@ -433,18 +433,18 @@ export const detailStyles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 16,
-    fontWeight: "700",
+    fontWeight: '700',
   },
   buttonIcon: {
     marginRight: 8,
   },
   overlayBackground: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: "rgba(0,0,0,0.4)",
+    backgroundColor: 'rgba(0,0,0,0.4)',
   },
   contentScrollContainer: {
     paddingBottom: 60,

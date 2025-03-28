@@ -1,10 +1,10 @@
-import axios from "axios";
+import axios from 'axios';
 
 // TMDB API için temel URL ve API anahtarı
 // Not: Gerçek bir uygulamada API anahtarı .env dosyasında saklanmalıdır
-const API_KEY = "YOUR_TMDB_API_KEY"; // TMDB'den alınan API anahtarı buraya eklenmelidir
-const BASE_URL = "https://api.themoviedb.org/3";
-const LANGUAGE = "tr-TR";
+const API_KEY = 'YOUR_TMDB_API_KEY'; // TMDB'den alınan API anahtarı buraya eklenmelidir
+const BASE_URL = 'https://api.themoviedb.org/3';
+const LANGUAGE = 'tr-TR';
 
 // API istekleri için axios instance'ı
 const api = axios.create({
@@ -19,8 +19,8 @@ const api = axios.create({
 export const movieService = {
   // Popüler filmleri getir
   getPopularMovies: (page = 1) => {
-    return api.get("/movie/popular", {
-      params: { page },
+    return api.get('/movie/popular', {
+      params: {page},
     });
   },
 
@@ -31,8 +31,8 @@ export const movieService = {
 
   // Film arama
   searchMovies: (query: string, page = 1) => {
-    return api.get("/search/movie", {
-      params: { query, page },
+    return api.get('/search/movie', {
+      params: {query, page},
     });
   },
 };
@@ -40,8 +40,8 @@ export const movieService = {
 export const tvService = {
   // Popüler dizileri getir
   getPopularTVShows: (page = 1) => {
-    return api.get("/tv/popular", {
-      params: { page },
+    return api.get('/tv/popular', {
+      params: {page},
     });
   },
 
@@ -52,8 +52,8 @@ export const tvService = {
 
   // Dizi arama
   searchTVShows: (query: string, page = 1) => {
-    return api.get("/search/tv", {
-      params: { query, page },
+    return api.get('/search/tv', {
+      params: {query, page},
     });
   },
 };
@@ -64,7 +64,7 @@ export const tvService = {
  */
 
 // API URL'leri
-const API_BASE_URL = "https://api.example.com";
+const API_BASE_URL = 'https://api.example.com';
 
 // API Servisi
 export const apiService = {
@@ -76,16 +76,16 @@ export const apiService = {
       return {
         success: true,
         data: {
-          token: "dummy-token",
+          token: 'dummy-token',
           user: {
             id: 1,
-            name: "Test Kullanıcı",
+            name: 'Test Kullanıcı',
             email: email,
           },
         },
       };
     } catch (error) {
-      console.error("Login error:", error);
+      console.error('Login error:', error);
       throw error;
     }
   },
@@ -98,7 +98,7 @@ export const apiService = {
       return {
         success: true,
         data: {
-          token: "dummy-token",
+          token: 'dummy-token',
           user: {
             id: 1,
             name: name,
@@ -107,7 +107,7 @@ export const apiService = {
         },
       };
     } catch (error) {
-      console.error("Register error:", error);
+      console.error('Register error:', error);
       throw error;
     }
   },
@@ -122,14 +122,14 @@ export const apiService = {
         data: {
           user: {
             id: 1,
-            name: "Test Kullanıcı",
-            email: "test@example.com",
+            name: 'Test Kullanıcı',
+            email: 'test@example.com',
             avatar: null,
           },
         },
       };
     } catch (error) {
-      console.error("Get user profile error:", error);
+      console.error('Get user profile error:', error);
       throw error;
     }
   },

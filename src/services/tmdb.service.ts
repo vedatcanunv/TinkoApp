@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios, {AxiosResponse} from 'axios';
 import {
   TMDBResponse,
   TMDBMovie,
@@ -7,21 +7,18 @@ import {
   TMDBTVShowDetails,
   TMDBCredits,
   TMDBGenre,
-} from "./tmdb.types";
-import {
-  MediaContent,
-  Genre,
-} from "../components/molecule/MediaCard/MediaCard.type";
-import { TMDB_API_KEY } from "@env";
+} from './tmdb.types';
+import {MediaContent, Genre} from '../components/molecule/MediaCard/MediaCard.type';
+import {TMDB_API_KEY} from '@env';
 
 // TMDB API için temel URL ve API anahtarı
 // API anahtarı .env dosyasından alınıyor
 const API_KEY = TMDB_API_KEY;
-const BASE_URL = "https://api.themoviedb.org/3";
-const LANGUAGE = "tr-TR";
-const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
-const POSTER_SIZE = "w500";
-const BACKDROP_SIZE = "original";
+const BASE_URL = 'https://api.themoviedb.org/3';
+const LANGUAGE = 'tr-TR';
+const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/';
+const POSTER_SIZE = 'w500';
+const BACKDROP_SIZE = 'original';
 
 // API istekleri için axios instance'ı
 const tmdbAPI = axios.create({
@@ -41,20 +38,20 @@ const loadGenres = async () => {
   try {
     // Film ve dizi türlerini paralel olarak getir
     const [movieGenresResponse, tvGenresResponse] = await Promise.all([
-      tmdbAPI.get<{ genres: TMDBGenre[] }>("/genre/movie/list"),
-      tmdbAPI.get<{ genres: TMDBGenre[] }>("/genre/tv/list"),
+      tmdbAPI.get<{genres: TMDBGenre[]}>('/genre/movie/list'),
+      tmdbAPI.get<{genres: TMDBGenre[]}>('/genre/tv/list'),
     ]);
 
     movieGenres = movieGenresResponse.data.genres;
     tvGenres = tvGenresResponse.data.genres;
 
     console.log(
-      "Tür bilgileri yüklendi:",
+      'Tür bilgileri yüklendi:',
       `Film türleri: ${movieGenres.length}`,
       `Dizi türleri: ${tvGenres.length}`
     );
   } catch (error) {
-    console.error("Tür bilgileri yüklenirken hata:", error);
+    console.error('Tür bilgileri yüklenirken hata:', error);
   }
 };
 
@@ -64,18 +61,18 @@ loadGenres();
 // Tür ID'sine göre türün adını bul
 const getGenreNameById = (id: number, isMovie: boolean = true): string => {
   const genresList = isMovie ? movieGenres : tvGenres;
-  const genre = genresList.find((g) => g.id === id);
-  return genre ? genre.name : "Bilinmeyen";
+  const genre = genresList.find(g => g.id === id);
+  return genre ? genre.name : 'Bilinmeyen';
 };
 
 // Yardımcı fonksiyonlar
 const getPosterUrl = (path: string | null): string => {
-  if (!path) return "https://via.placeholder.com/300x450?text=No+Poster";
+  if (!path) return 'https://via.placeholder.com/300x450?text=No+Poster';
   return `${IMAGE_BASE_URL}${POSTER_SIZE}${path}`;
 };
 
 const getBackdropUrl = (path: string | null): string => {
-  if (!path) return "https://via.placeholder.com/1280x720?text=No+Backdrop";
+  if (!path) return 'https://via.placeholder.com/1280x720?text=No+Backdrop';
   return `${IMAGE_BASE_URL}${BACKDROP_SIZE}${path}`;
 };
 
@@ -88,12 +85,12 @@ const mapMovieToMediaContent = (movie: TMDBMovie): MediaContent => {
     posterUrl: getPosterUrl(movie.poster_path),
     year: movie.release_date ? new Date(movie.release_date).getFullYear() : 0,
     genres: movie.genre_ids
-      ? movie.genre_ids.map((id) => ({
+      ? movie.genre_ids.map(id => ({
           id,
           name: getGenreNameById(id, true),
         }))
       : [],
-    type: "movie",
+    type: 'movie',
     rating: movie.vote_average,
     summary: movie.overview || undefined,
   };
@@ -106,16 +103,14 @@ const mapTVShowToMediaContent = (tvShow: TMDBTVShow): MediaContent => {
     title: tvShow.name,
     originalTitle: tvShow.original_name,
     posterUrl: getPosterUrl(tvShow.poster_path),
-    year: tvShow.first_air_date
-      ? new Date(tvShow.first_air_date).getFullYear()
-      : "Unknown",
+    year: tvShow.first_air_date ? new Date(tvShow.first_air_date).getFullYear() : 'Unknown',
     genres: tvShow.genre_ids
-      ? tvShow.genre_ids.map((id) => ({
+      ? tvShow.genre_ids.map(id => ({
           id,
           name: getGenreNameById(id, false),
         }))
       : [],
-    type: "tv",
+    type: 'tv',
     rating: tvShow.vote_average,
     summary: tvShow.overview || undefined,
   };
@@ -141,7 +136,7 @@ const getCachedData = async <T>(
   const now = Date.now();
 
   if (cache.has(key)) {
-    const { data, timestamp } = cache.get(key);
+    const {data, timestamp} = cache.get(key);
     // 5 dakikadan daha yeni ise önbellekten döndür
     if (now - timestamp < maxAge) {
       return data;
@@ -150,7 +145,7 @@ const getCachedData = async <T>(
 
   // Veriyi getir ve önbelleğe al
   const data = await fetchFn();
-  cache.set(key, { data, timestamp: now });
+  cache.set(key, {data, timestamp: now});
   return data;
 };
 
@@ -162,14 +157,14 @@ export const tmdbService = {
       const cacheKey = `popular_movies_${page}`;
 
       return await getCachedData(cacheKey, async () => {
-        const response = await tmdbAPI.get("/movie/popular", {
-          params: { page },
+        const response = await tmdbAPI.get('/movie/popular', {
+          params: {page},
         });
 
         return (response.data.results || []).map(mapMovieToMediaContent);
       });
     } catch (error) {
-      console.error("Popüler filmler alınırken hata:", error);
+      console.error('Popüler filmler alınırken hata:', error);
       throw error;
     }
   },
@@ -185,22 +180,22 @@ export const tmdbService = {
 
       // Önce direkt Türk yapımlarını alıyoruz
       const turkishContent = await Promise.all([
-        tmdbAPI.get("/discover/movie", {
+        tmdbAPI.get('/discover/movie', {
           params: {
             page,
-            language: "tr-TR",
-            region: "TR",
-            with_original_language: "tr", // Orijinal dili Türkçe olanlar
-            sort_by: "popularity.desc", // Popülerliğe göre sırala
+            language: 'tr-TR',
+            region: 'TR',
+            with_original_language: 'tr', // Orijinal dili Türkçe olanlar
+            sort_by: 'popularity.desc', // Popülerliğe göre sırala
           },
         }),
-        tmdbAPI.get("/discover/tv", {
+        tmdbAPI.get('/discover/tv', {
           params: {
             page,
-            language: "tr-TR",
-            region: "TR",
-            with_original_language: "tr", // Orijinal dili Türkçe olanlar
-            sort_by: "popularity.desc", // Popülerliğe göre sırala
+            language: 'tr-TR',
+            region: 'TR',
+            with_original_language: 'tr', // Orijinal dili Türkçe olanlar
+            sort_by: 'popularity.desc', // Popülerliğe göre sırala
           },
         }),
       ]);
@@ -209,12 +204,8 @@ export const tmdbService = {
       const [turkishMovies, turkishShows] = turkishContent;
 
       // Türk yapımlarını dönüştürme
-      const turkishMovieContents = (turkishMovies.data.results || []).map(
-        mapMovieToMediaContent
-      );
-      const turkishShowContents = (turkishShows.data.results || []).map(
-        mapTVShowToMediaContent
-      );
+      const turkishMovieContents = (turkishMovies.data.results || []).map(mapMovieToMediaContent);
+      const turkishShowContents = (turkishShows.data.results || []).map(mapTVShowToMediaContent);
 
       let combinedContent = [...turkishMovieContents, ...turkishShowContents];
       let remainingSlots = MAX_ITEMS_PER_PAGE - combinedContent.length;
@@ -223,18 +214,18 @@ export const tmdbService = {
       if (remainingSlots > 0) {
         // Global içerikleri getir
         const globalContentInTurkey = await Promise.all([
-          tmdbAPI.get("/movie/popular", {
+          tmdbAPI.get('/movie/popular', {
             params: {
               page,
-              region: "TR", // Türkiye bölgesi için
-              language: "tr-TR", // Türkçe dilinde
+              region: 'TR', // Türkiye bölgesi için
+              language: 'tr-TR', // Türkçe dilinde
             },
           }),
-          tmdbAPI.get("/tv/popular", {
+          tmdbAPI.get('/tv/popular', {
             params: {
               page,
-              region: "TR", // Türkiye bölgesi için
-              language: "tr-TR", // Türkçe dilinde
+              region: 'TR', // Türkiye bölgesi için
+              language: 'tr-TR', // Türkçe dilinde
             },
           }),
         ]);
@@ -242,31 +233,21 @@ export const tmdbService = {
         const [globalMovies, globalShows] = globalContentInTurkey;
 
         // Global içerikleri dönüştürme
-        const globalMovieContents = (globalMovies.data.results || []).map(
-          mapMovieToMediaContent
-        );
-        const globalShowContents = (globalShows.data.results || []).map(
-          mapTVShowToMediaContent
-        );
+        const globalMovieContents = (globalMovies.data.results || []).map(mapMovieToMediaContent);
+        const globalShowContents = (globalShows.data.results || []).map(mapTVShowToMediaContent);
 
         // Çakışan ID'leri filtrele (Türk yapımları zaten listemizde varsa global listeye ekleme)
-        const turkishIds = combinedContent.map((item) => item.id);
+        const turkishIds = combinedContent.map(item => item.id);
         const filteredGlobalMovies = globalMovieContents.filter(
-          (item: { id: string | number }) => !turkishIds.includes(item.id)
+          (item: {id: string | number}) => !turkishIds.includes(item.id)
         );
         const filteredGlobalShows = globalShowContents.filter(
-          (item: { id: string | number }) => !turkishIds.includes(item.id)
+          (item: {id: string | number}) => !turkishIds.includes(item.id)
         );
 
         // Küresel içerikleri, kalan sayı kadar ekle
-        const filmsToAdd = filteredGlobalMovies.slice(
-          0,
-          Math.floor(remainingSlots / 2)
-        );
-        const showsToAdd = filteredGlobalShows.slice(
-          0,
-          Math.ceil(remainingSlots / 2)
-        );
+        const filmsToAdd = filteredGlobalMovies.slice(0, Math.floor(remainingSlots / 2));
+        const showsToAdd = filteredGlobalShows.slice(0, Math.ceil(remainingSlots / 2));
 
         // Türk yapımlarını önce listeye ekle, sonra global içerikleri
         combinedContent = [...combinedContent, ...filmsToAdd, ...showsToAdd];
@@ -279,32 +260,28 @@ export const tmdbService = {
       if (remainingSlots > 0) {
         try {
           const [historyMovies, historyTVShows] = await Promise.all([
-            tmdbAPI.get("/discover/movie", {
+            tmdbAPI.get('/discover/movie', {
               params: {
-                language: "tr-TR",
+                language: 'tr-TR',
                 with_genres: historyGenreId, // History/Tarih kategorisi
-                sort_by: "popularity.desc",
-                region: "TR",
+                sort_by: 'popularity.desc',
+                region: 'TR',
                 page: 1,
               },
             }),
-            tmdbAPI.get("/discover/tv", {
+            tmdbAPI.get('/discover/tv', {
               params: {
-                language: "tr-TR",
+                language: 'tr-TR',
                 with_genres: historyGenreId, // History/Tarih kategorisi
-                sort_by: "popularity.desc",
-                region: "TR",
+                sort_by: 'popularity.desc',
+                region: 'TR',
                 page: 1,
               },
             }),
           ]);
 
-          console.log(
-            `Tarih türünde film sayısı: ${historyMovies.data.results?.length || 0}`
-          );
-          console.log(
-            `Tarih türünde dizi sayısı: ${historyTVShows.data.results?.length || 0}`
-          );
+          console.log(`Tarih türünde film sayısı: ${historyMovies.data.results?.length || 0}`);
+          console.log(`Tarih türünde dizi sayısı: ${historyTVShows.data.results?.length || 0}`);
 
           // İçerikleri dönüştür
           const historyMovieContents = (historyMovies.data.results || []).map(
@@ -315,43 +292,27 @@ export const tmdbService = {
           );
 
           // Mevcut ID'leri topla (string olarak)
-          const existingIds = new Set(
-            combinedContent.map((item) => String(item.id))
-          );
+          const existingIds = new Set(combinedContent.map(item => String(item.id)));
 
           // Çakışmayanları ekle - Aynı ID'leri kesinlikle engelle
           const newHistoryMovies = historyMovieContents.filter(
-            (item: { id: string | number }) => !existingIds.has(String(item.id))
+            (item: {id: string | number}) => !existingIds.has(String(item.id))
           );
           const newHistoryTVShows = historyTVContents.filter(
-            (item: { id: string | number }) => !existingIds.has(String(item.id))
+            (item: {id: string | number}) => !existingIds.has(String(item.id))
           );
 
           // Kalan boşluklara göre eklenecek tarih içeriklerini sınırla
-          const historyMoviesToAdd = newHistoryMovies.slice(
-            0,
-            Math.floor(remainingSlots / 2)
-          );
-          const historyShowsToAdd = newHistoryTVShows.slice(
-            0,
-            Math.ceil(remainingSlots / 2)
-          );
+          const historyMoviesToAdd = newHistoryMovies.slice(0, Math.floor(remainingSlots / 2));
+          const historyShowsToAdd = newHistoryTVShows.slice(0, Math.ceil(remainingSlots / 2));
 
-          console.log(
-            `Eklenecek yeni tarih filmleri: ${historyMoviesToAdd.length}`
-          );
-          console.log(
-            `Eklenecek yeni tarih dizileri: ${historyShowsToAdd.length}`
-          );
+          console.log(`Eklenecek yeni tarih filmleri: ${historyMoviesToAdd.length}`);
+          console.log(`Eklenecek yeni tarih dizileri: ${historyShowsToAdd.length}`);
 
           // Tarih türündeki içerikleri ana listeye ekle
-          combinedContent = [
-            ...combinedContent,
-            ...historyMoviesToAdd,
-            ...historyShowsToAdd,
-          ];
+          combinedContent = [...combinedContent, ...historyMoviesToAdd, ...historyShowsToAdd];
         } catch (error) {
-          console.error("Tarih türündeki içerikler alınırken hata:", error);
+          console.error('Tarih türündeki içerikler alınırken hata:', error);
         }
       }
 
@@ -360,8 +321,8 @@ export const tmdbService = {
       // Sonuçları popülerliğe ve Türk yapımı olmasına göre sırala
       return combinedContent.sort((a, b) => {
         // Türk yapımı içerikleri öne al
-        const aTitle = a.originalTitle || "";
-        const bTitle = b.originalTitle || "";
+        const aTitle = a.originalTitle || '';
+        const bTitle = b.originalTitle || '';
 
         const aTurkish = aTitle.match(/[şçğüöıİ]/i) !== null;
         const bTurkish = bTitle.match(/[şçğüöıİ]/i) !== null;
@@ -396,14 +357,14 @@ export const tmdbService = {
         posterUrl: getPosterUrl(movie.poster_path),
         year: new Date(movie.release_date).getFullYear(),
         genres: movie.genres.map(mapGenre),
-        type: "movie",
+        type: 'movie',
         rating: movie.vote_average,
         duration: movie.runtime
           ? `${Math.floor(movie.runtime / 60)}s ${movie.runtime % 60}dk`
           : undefined,
         summary: movie.overview || undefined,
-        director: credits.crew.find((c) => c.job === "Director")?.name || "",
-        cast: credits.cast.slice(0, 5).map((actor) => actor.name),
+        director: credits.crew.find(c => c.job === 'Director')?.name || '',
+        cast: credits.cast.slice(0, 5).map(actor => actor.name),
         // API'den gelen ek bilgiler
         originalLanguage: movie.original_language,
         popularity: movie.popularity,
@@ -411,14 +372,12 @@ export const tmdbService = {
         revenue: movie.revenue,
         status: movie.status,
         homepage: movie.homepage || undefined,
-        productionCompanies: (movie.production_companies || []).map(
-          (company) => ({
-            id: company.id,
-            name: company.name,
-            logo_path: company.logo_path || undefined,
-            origin_country: company.origin_country || undefined,
-          })
-        ),
+        productionCompanies: (movie.production_companies || []).map(company => ({
+          id: company.id,
+          name: company.name,
+          logo_path: company.logo_path || undefined,
+          origin_country: company.origin_country || undefined,
+        })),
         productionCountries: movie.production_countries || [],
       };
     } catch (error) {
@@ -430,12 +389,11 @@ export const tmdbService = {
   // Popüler dizileri getir
   async getPopularTVShows(): Promise<MediaContent[]> {
     try {
-      const response: AxiosResponse<TMDBResponse<TMDBTVShow>> =
-        await tmdbAPI.get("/tv/popular");
+      const response: AxiosResponse<TMDBResponse<TMDBTVShow>> = await tmdbAPI.get('/tv/popular');
 
       return (response.data.results || []).map(mapTVShowToMediaContent);
     } catch (error) {
-      console.error("Popüler diziler alınırken hata:", error);
+      console.error('Popüler diziler alınırken hata:', error);
       throw error;
     }
   },
@@ -457,29 +415,26 @@ export const tmdbService = {
         originalTitle: tvShow.original_name,
         posterUrl: getPosterUrl(tvShow.poster_path),
         year: tvShow.first_air_date
-          ? `${new Date(tvShow.first_air_date).getFullYear()}${tvShow.status === "Ended" ? `-${new Date(tvShow.last_air_date).getFullYear()}` : ""}`
-          : "Unknown",
+          ? `${new Date(tvShow.first_air_date).getFullYear()}${tvShow.status === 'Ended' ? `-${new Date(tvShow.last_air_date).getFullYear()}` : ''}`
+          : 'Unknown',
         genres: tvShow.genres.map(mapGenre),
-        type: "tv",
+        type: 'tv',
         rating: tvShow.vote_average,
         duration: `${tvShow.number_of_seasons} Sezon`,
         summary: tvShow.overview || undefined,
-        director:
-          tvShow.created_by.map((creator) => creator.name).join(", ") || "",
-        cast: credits.cast.slice(0, 5).map((actor) => actor.name),
+        director: tvShow.created_by.map(creator => creator.name).join(', ') || '',
+        cast: credits.cast.slice(0, 5).map(actor => actor.name),
         // API'den gelen ek bilgiler
         originalLanguage: tvShow.original_language,
         popularity: tvShow.popularity,
         status: tvShow.status,
         homepage: tvShow.homepage || undefined,
-        productionCompanies: (tvShow.production_companies || []).map(
-          (company) => ({
-            id: company.id,
-            name: company.name,
-            logo_path: company.logo_path || undefined,
-            origin_country: company.origin_country || undefined,
-          })
-        ),
+        productionCompanies: (tvShow.production_companies || []).map(company => ({
+          id: company.id,
+          name: company.name,
+          logo_path: company.logo_path || undefined,
+          origin_country: company.origin_country || undefined,
+        })),
         productionCountries: tvShow.production_countries || [],
         numberOfSeasons: tvShow.number_of_seasons,
         numberOfEpisodes: tvShow.number_of_episodes,
@@ -494,20 +449,16 @@ export const tmdbService = {
   async searchMedia(query: string): Promise<MediaContent[]> {
     try {
       const [movieResponse, tvResponse] = await Promise.all([
-        tmdbAPI.get<TMDBResponse<TMDBMovie>>("/search/movie", {
-          params: { query },
+        tmdbAPI.get<TMDBResponse<TMDBMovie>>('/search/movie', {
+          params: {query},
         }),
-        tmdbAPI.get<TMDBResponse<TMDBTVShow>>("/search/tv", {
-          params: { query },
+        tmdbAPI.get<TMDBResponse<TMDBTVShow>>('/search/tv', {
+          params: {query},
         }),
       ]);
 
-      const movies = (movieResponse.data.results || []).map(
-        mapMovieToMediaContent
-      );
-      const tvShows = (tvResponse.data.results || []).map(
-        mapTVShowToMediaContent
-      );
+      const movies = (movieResponse.data.results || []).map(mapMovieToMediaContent);
+      const tvShows = (tvResponse.data.results || []).map(mapTVShowToMediaContent);
 
       return [...movies, ...tvShows];
     } catch (error) {
@@ -519,17 +470,16 @@ export const tmdbService = {
   // Türlere göre filmleri filtrele
   async getMoviesByGenre(genreId: number): Promise<MediaContent[]> {
     try {
-      const response: AxiosResponse<TMDBResponse<TMDBMovie>> =
-        await tmdbAPI.get("/discover/movie", {
-          params: { with_genres: genreId },
-        });
+      const response: AxiosResponse<TMDBResponse<TMDBMovie>> = await tmdbAPI.get(
+        '/discover/movie',
+        {
+          params: {with_genres: genreId},
+        }
+      );
 
       return (response.data.results || []).map(mapMovieToMediaContent);
     } catch (error) {
-      console.error(
-        `Türe göre filmler alınırken hata (Tür ID: ${genreId}):`,
-        error
-      );
+      console.error(`Türe göre filmler alınırken hata (Tür ID: ${genreId}):`, error);
       throw error;
     }
   },
@@ -537,17 +487,13 @@ export const tmdbService = {
   // Türlere göre dizileri filtrele
   async getTVShowsByGenre(genreId: number): Promise<MediaContent[]> {
     try {
-      const response: AxiosResponse<TMDBResponse<TMDBTVShow>> =
-        await tmdbAPI.get("/discover/tv", {
-          params: { with_genres: genreId },
-        });
+      const response: AxiosResponse<TMDBResponse<TMDBTVShow>> = await tmdbAPI.get('/discover/tv', {
+        params: {with_genres: genreId},
+      });
 
       return (response.data.results || []).map(mapTVShowToMediaContent);
     } catch (error) {
-      console.error(
-        `Türe göre diziler alınırken hata (Tür ID: ${genreId}):`,
-        error
-      );
+      console.error(`Türe göre diziler alınırken hata (Tür ID: ${genreId}):`, error);
       throw error;
     }
   },
@@ -557,7 +503,7 @@ export const tmdbService = {
     try {
       return movieGenres.map(mapGenre);
     } catch (error) {
-      console.error("Film türleri alınırken hata:", error);
+      console.error('Film türleri alınırken hata:', error);
       throw error;
     }
   },
@@ -567,7 +513,7 @@ export const tmdbService = {
     try {
       return tvGenres.map(mapGenre);
     } catch (error) {
-      console.error("Dizi türleri alınırken hata:", error);
+      console.error('Dizi türleri alınırken hata:', error);
       throw error;
     }
   },
@@ -596,10 +542,10 @@ export const tmdbService = {
         const turkishContent = await this.getPopularInTurkey(page);
 
         // Kategori filtreleme
-        if (category !== "all") {
-          turkishMedia = turkishContent.filter((item) => {
-            if (category === "movie" && item.type === "movie") return true;
-            if (category === "tv" && item.type === "tv") return true;
+        if (category !== 'all') {
+          turkishMedia = turkishContent.filter(item => {
+            if (category === 'movie' && item.type === 'movie') return true;
+            if (category === 'tv' && item.type === 'tv') return true;
             return false;
           });
         } else {
@@ -608,12 +554,11 @@ export const tmdbService = {
 
         // Tür filtreleme
         if (genreId) {
-          turkishMedia = turkishMedia.filter((item) => {
-            const hasGenre = item.genres?.some((genre) => {
+          turkishMedia = turkishMedia.filter(item => {
+            const hasGenre = item.genres?.some(genre => {
               // genre'nin string olduğunu kontrol edin
-              return typeof genre === "string"
-                ? (genre as string).toLowerCase() ===
-                    genreId.toString().toLowerCase()
+              return typeof genre === 'string'
+                ? (genre as string).toLowerCase() === genreId.toString().toLowerCase()
                 : false;
             });
             return hasGenre;
@@ -628,33 +573,31 @@ export const tmdbService = {
           return turkishMedia.slice(0, MAX_ITEMS_PER_PAGE);
         }
       } catch (error) {
-        console.error("Türkiye içerikleri alınırken hata:", error);
+        console.error('Türkiye içerikleri alınırken hata:', error);
         // Hata durumunda global aramaya geç
       }
 
-      console.log(
-        "Türkiye içerikleri yetersiz, global içerikler getiriliyor..."
-      );
+      console.log('Türkiye içerikleri yetersiz, global içerikler getiriliyor...');
 
       // Tümü seçili ise hem film hem dizi getir
-      if (category === "all") {
+      if (category === 'all') {
         // Tür seçili ise o türde hem film hem dizi getir
         if (genreId) {
           const requests = [
-            tmdbAPI.get("/discover/movie", {
+            tmdbAPI.get('/discover/movie', {
               params: {
                 page,
-                language: "tr-TR",
+                language: 'tr-TR',
                 with_genres: genreId,
-                sort_by: "popularity.desc",
+                sort_by: 'popularity.desc',
               },
             }),
-            tmdbAPI.get("/discover/tv", {
+            tmdbAPI.get('/discover/tv', {
               params: {
                 page,
-                language: "tr-TR",
+                language: 'tr-TR',
                 with_genres: genreId,
-                sort_by: "popularity.desc",
+                sort_by: 'popularity.desc',
               },
             }),
           ];
@@ -662,9 +605,7 @@ export const tmdbService = {
           const [movieResponse, tvResponse] = await Promise.all(requests);
 
           // Sınırlı sayıda film ve dizi al
-          const itemsPerType = Math.floor(
-            (MAX_ITEMS_PER_PAGE - turkishMedia.length) / 2
-          );
+          const itemsPerType = Math.floor((MAX_ITEMS_PER_PAGE - turkishMedia.length) / 2);
 
           const movies = (movieResponse.data.results || [])
             .slice(0, itemsPerType)
@@ -679,28 +620,25 @@ export const tmdbService = {
           );
 
           // Türkçe içerikleri öne çıkar
-          const combinedResults = [...turkishMedia, ...movies, ...tvShows].sort(
-            (a, b) => {
-              // Türk yapımı içerikleri öne al
-              const aTitle = a.originalTitle || "";
-              const bTitle = b.originalTitle || "";
+          const combinedResults = [...turkishMedia, ...movies, ...tvShows].sort((a, b) => {
+            // Türk yapımı içerikleri öne al
+            const aTitle = a.originalTitle || '';
+            const bTitle = b.originalTitle || '';
 
-              const aTurkish = aTitle.match(/[şçğüöıİ]/i) !== null;
-              const bTurkish = bTitle.match(/[şçğüöıİ]/i) !== null;
+            const aTurkish = aTitle.match(/[şçğüöıİ]/i) !== null;
+            const bTurkish = bTitle.match(/[şçğüöıİ]/i) !== null;
 
-              if (aTurkish && !bTurkish) return -1;
-              if (!aTurkish && bTurkish) return 1;
+            if (aTurkish && !bTurkish) return -1;
+            if (!aTurkish && bTurkish) return 1;
 
-              // Puanı yüksek olanlara öncelik ver
-              return (b.rating || 0) - (a.rating || 0);
-            }
-          );
+            // Puanı yüksek olanlara öncelik ver
+            return (b.rating || 0) - (a.rating || 0);
+          });
 
           // Tekrarlayan içerikleri kaldır
           const uniqueResults = combinedResults.filter(
             (item, index, self) =>
-              index ===
-              self.findIndex((t) => t.id === item.id && t.type === item.type)
+              index === self.findIndex(t => t.id === item.id && t.type === item.type)
           );
 
           // Toplam içerik sayısını sınırla
@@ -712,13 +650,13 @@ export const tmdbService = {
         }
       }
       // Film kategorisi seçiliyse
-      else if (category === "movie") {
+      else if (category === 'movie') {
         // Belirli bir tür seçili ise o türdeki filmleri getir
-        const endpoint = genreId ? "/discover/movie" : "/movie/popular";
+        const endpoint = genreId ? '/discover/movie' : '/movie/popular';
         const params: any = {
           page,
-          language: "tr-TR",
-          sort_by: "popularity.desc",
+          language: 'tr-TR',
+          sort_by: 'popularity.desc',
         };
 
         // Tür seçili ise parametre olarak ekle
@@ -726,7 +664,7 @@ export const tmdbService = {
           params.with_genres = genreId;
         }
 
-        const response = await tmdbAPI.get(endpoint, { params });
+        const response = await tmdbAPI.get(endpoint, {params});
 
         // Sayfa başına içerik sayısını sınırla
         const itemsToGet = MAX_ITEMS_PER_PAGE - turkishMedia.length;
@@ -740,15 +678,14 @@ export const tmdbService = {
         // Türkiye'den bulunan filmler ile birleştir ve tekrarları kaldır
         const allMovies = [...turkishMedia, ...movies];
         const uniqueMovies = allMovies.filter(
-          (item, index, self) =>
-            index === self.findIndex((t) => t.id === item.id)
+          (item, index, self) => index === self.findIndex(t => t.id === item.id)
         );
 
         // Önceliği Türk filmlerine ver
         return uniqueMovies
           .sort((a, b) => {
-            const aTitle = a.originalTitle || "";
-            const bTitle = b.originalTitle || "";
+            const aTitle = a.originalTitle || '';
+            const bTitle = b.originalTitle || '';
 
             const aTurkish = aTitle.match(/[şçğüöıİ]/i) !== null;
             const bTurkish = bTitle.match(/[şçğüöıİ]/i) !== null;
@@ -761,13 +698,13 @@ export const tmdbService = {
           .slice(0, MAX_ITEMS_PER_PAGE);
       }
       // Dizi kategorisi seçiliyse
-      else if (category === "tv") {
+      else if (category === 'tv') {
         // Belirli bir tür seçili ise o türdeki dizileri getir
-        const endpoint = genreId ? "/discover/tv" : "/tv/popular";
+        const endpoint = genreId ? '/discover/tv' : '/tv/popular';
         const params: any = {
           page,
-          language: "tr-TR",
-          sort_by: "popularity.desc",
+          language: 'tr-TR',
+          sort_by: 'popularity.desc',
         };
 
         // Tür seçili ise parametre olarak ekle
@@ -775,7 +712,7 @@ export const tmdbService = {
           params.with_genres = genreId;
         }
 
-        const response = await tmdbAPI.get(endpoint, { params });
+        const response = await tmdbAPI.get(endpoint, {params});
 
         // Sayfa başına içerik sayısını sınırla
         const itemsToGet = MAX_ITEMS_PER_PAGE - turkishMedia.length;
@@ -789,15 +726,14 @@ export const tmdbService = {
         // Türkiye'den bulunan diziler ile birleştir ve tekrarları kaldır
         const allTVShows = [...turkishMedia, ...tvShows];
         const uniqueTVShows = allTVShows.filter(
-          (item, index, self) =>
-            index === self.findIndex((t) => t.id === item.id)
+          (item, index, self) => index === self.findIndex(t => t.id === item.id)
         );
 
         // Önceliği Türk dizilerine ver
         return uniqueTVShows
           .sort((a, b) => {
-            const aTitle = a.originalTitle || "";
-            const bTitle = b.originalTitle || "";
+            const aTitle = a.originalTitle || '';
+            const bTitle = b.originalTitle || '';
 
             const aTurkish = aTitle.match(/[şçğüöıİ]/i) !== null;
             const bTurkish = bTitle.match(/[şçğüöıİ]/i) !== null;
@@ -813,7 +749,7 @@ export const tmdbService = {
       // Burada eksik olan kategoriler için varsayılan dönüş
       return [...turkishMedia].slice(0, MAX_ITEMS_PER_PAGE);
     } catch (error) {
-      console.error("İçerik keşfedilirken hata:", error);
+      console.error('İçerik keşfedilirken hata:', error);
       // Hata durumunda boş dizi döndür
       return [];
     }

@@ -1,8 +1,8 @@
-import { ReactNode } from "react";
-import { TouchableOpacityProps } from "react-native";
+import {ReactNode} from 'react';
+import {TouchableOpacityProps} from 'react-native';
 
-export type ButtonVariant = "filled" | "outline";
-export type ButtonSize = "small" | "medium" | "large";
+export type ButtonVariant = 'filled' | 'outline';
+export type ButtonSize = 'small' | 'medium' | 'large';
 
 export interface ButtonProps extends TouchableOpacityProps {
   /**

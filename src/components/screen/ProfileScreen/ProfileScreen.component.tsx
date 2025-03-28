@@ -1,43 +1,32 @@
-import React, { useMemo } from "react";
-import { View, ScrollView } from "react-native";
-import { ScreenContainer, Text } from "../../atom";
-import { StatisticsList } from "../../molecule/StatisticsList";
-import { GenreStats } from "../../molecule/GenreStats";
-import { PersonStats } from "../../molecule/PersonStats";
-import { ProfileMediaList } from "../../organism/ProfileMediaList";
-import { useUserMediaStore } from "../../../store/userMediaStore";
-import { styles } from "./ProfileScreen.style";
-import { ProfileScreenProps } from "./ProfileScreen.type";
-import { LAYOUT } from "../../../helpers/layout";
+import React, {useMemo} from 'react';
+import {View, ScrollView} from 'react-native';
+import {ScreenContainer, Text} from '../../atom';
+import {StatisticsList} from '../../molecule/StatisticsList';
+import {GenreStats} from '../../molecule/GenreStats';
+import {PersonStats} from '../../molecule/PersonStats';
+import {ProfileMediaList} from '../../organism/ProfileMediaList';
+import {useUserMediaStore} from '../../../store/userMediaStore';
+import {styles} from './ProfileScreen.style';
+import {ProfileScreenProps} from './ProfileScreen.type';
+import {LAYOUT} from '../../../helpers/layout';
 import {
   calculateMovieGenreStats,
   calculateSeriesGenreStats,
   calculateDirectorStats,
   calculateActorStats,
-} from "../../../utils/mediaStats";
+} from '../../../utils/mediaStats';
 
 export const ProfileScreen: React.FC<ProfileScreenProps> = ({}) => {
-  const {
-    watchedMovies,
-    watchedSeries,
-    watchlistMovies,
-    watchlistSeries,
-    getStats,
-  } = useUserMediaStore();
+  const {watchedMovies, watchedSeries, watchlistMovies, watchlistSeries, getStats} =
+    useUserMediaStore();
 
   const stats = getStats();
 
   // Film türlerinin istatistiklerini hesapla
-  const movieGenreStats = useMemo(
-    () => calculateMovieGenreStats(watchedMovies),
-    [watchedMovies]
-  );
+  const movieGenreStats = useMemo(() => calculateMovieGenreStats(watchedMovies), [watchedMovies]);
 
   // Dizi türlerinin istatistiklerini hesapla
-  const seriesGenreStats = useMemo(
-    () => calculateSeriesGenreStats(watchedSeries),
-    [watchedSeries]
-  );
+  const seriesGenreStats = useMemo(() => calculateSeriesGenreStats(watchedSeries), [watchedSeries]);
 
   // Yönetmen istatistiklerini hesapla
   const directorStats = useMemo(
@@ -53,7 +42,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({}) => {
 
   const handleMediaPress = (media: any) => {
     // TODO: Medya detay sayfasına yönlendirme yapılacak
-    console.log("Seçilen medya:", media);
+    console.log('Seçilen medya:', media);
   };
 
   return (
@@ -65,12 +54,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({}) => {
         }}
       >
         <View style={styles.header}>
-          <Text
-            size="xxl"
-            weight="bold"
-            color="primary"
-            style={{ fontSize: 32 }}
-          >
+          <Text size="xxl" weight="bold" color="primary" style={{fontSize: 32}}>
             Profilim
           </Text>
         </View>
@@ -93,19 +77,13 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({}) => {
 
         {directorStats.length > 0 && (
           <View style={styles.section}>
-            <PersonStats
-              title="En Çok İzlenen Yönetmenler"
-              persons={directorStats}
-            />
+            <PersonStats title="En Çok İzlenen Yönetmenler" persons={directorStats} />
           </View>
         )}
 
         {actorStats.length > 0 && (
           <View style={styles.section}>
-            <PersonStats
-              title="En Çok İzlenen Oyuncular"
-              persons={actorStats}
-            />
+            <PersonStats title="En Çok İzlenen Oyuncular" persons={actorStats} />
           </View>
         )}
 

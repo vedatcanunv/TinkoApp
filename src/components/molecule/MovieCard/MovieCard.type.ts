@@ -1,4 +1,4 @@
-import { TouchableOpacityProps, ViewProps } from "react-native";
+import {TouchableOpacityProps, ViewProps} from 'react-native';
 
 export interface Genre {
   id: string | number;
@@ -14,7 +14,7 @@ export interface Movie {
   rating?: number;
 }
 
-export interface MovieCardProps extends Omit<TouchableOpacityProps, "onPress"> {
+export interface MovieCardProps extends Omit<TouchableOpacityProps, 'onPress'> {
   /**
    * Film verisi
    */
@@ -29,7 +29,7 @@ export interface MovieCardProps extends Omit<TouchableOpacityProps, "onPress"> {
    * Kart boyutu varyantı
    * @default "medium"
    */
-  size?: "small" | "medium" | "large";
+  size?: 'small' | 'medium' | 'large';
 
   /**
    * Film kartına tıklandığında çalışacak fonksiyon
