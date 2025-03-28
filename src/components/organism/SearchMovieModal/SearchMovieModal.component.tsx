@@ -1,80 +1,31 @@
-import React, {useState, useEffect, useCallback, useMemo, useRef} from 'react';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {
-  View,
   FlatList,
-  Pressable,
   Image,
-  ScrollView,
-  Modal,
-  TouchableHighlight,
-  StatusBar,
   ImageBackground,
-  Platform,
-  Dimensions,
   InteractionManager,
+  Modal,
+  Platform,
+  Pressable,
+  ScrollView,
+  StatusBar,
+  TouchableHighlight,
+  View,
 } from 'react-native';
-import {Input, Text, Button, Loading} from '../../atom';
-import {Modal as CustomModal} from '../../atom/Modal';
-import {MediaCard} from '../../molecule/MediaCard';
-import {styles, detailStyles} from './SearchMovieModal.style';
-import {MovieOrSeries, SearchMovieModalProps} from './SearchMovieModal.type';
 import * as IconModule from 'react-native-vector-icons/Ionicons';
 import {COLORS} from '../../../helpers/colors';
 import {tmdbService} from '../../../services';
+import {useUserMediaStore} from '../../../store/userMediaStore';
+import {Input, Loading, Text} from '../../atom';
+import {Modal as CustomModal} from '../../atom/Modal';
+import {MediaCard} from '../../molecule/MediaCard';
 import {MediaContent} from '../../molecule/MediaCard/MediaCard.type';
 import {StateView} from '../../molecule/StateView';
-import {useUserMediaStore} from '../../../store/userMediaStore';
+import {detailStyles, styles} from './SearchMovieModal.style';
+import {SearchMovieModalProps} from './SearchMovieModal.type';
 
 // Typescript için Cast işlemi
 const Ionicons = IconModule.default as any;
-
-// Genişlik ve yüksekliği al
-const {width, height} = Dimensions.get('window');
-
-// Yeni modern detay kartı stil tanımlamaları - KALDIRILDI, .style.ts'e taşındı
-
-// Yedek örnek veri (API çağrısı başarısız olursa kullanılacak)
-const SAMPLE_MOVIES: MovieOrSeries[] = [
-  {
-    id: 1,
-    title: 'Başlangıç',
-    originalTitle: 'Inception',
-    posterUrl: 'https://picsum.photos/id/1/300/450',
-    year: 2010,
-    rating: 8.8,
-    duration: '2s 28dk',
-    summary:
-      'Dom Cobb, zihinlerin derinliklerine inerek değerli sırları çalmakta usta bir hırsızdır. Bu nadir yetenek, onu kurumsal casusluk dünyasında aranılan biri haline getirmiştir, ancak aynı zamanda uluslararası bir kaçak olmasına ve sevdiği her şeyi kaybetmesine neden olmuştur.',
-    genres: [
-      {id: 1, name: 'Bilim Kurgu'},
-      {id: 2, name: 'Aksiyon'},
-      {id: 3, name: 'Gerilim'},
-    ],
-    director: 'Christopher Nolan',
-    cast: ['Leonardo DiCaprio', 'Joseph Gordon-Levitt', 'Ellen Page'],
-    type: 'movie',
-  },
-  {
-    id: 2,
-    title: 'Breaking Bad',
-    originalTitle: 'Breaking Bad',
-    posterUrl: 'https://picsum.photos/id/2/300/450',
-    year: 2008,
-    rating: 9.5,
-    duration: '5 Sezon',
-    summary:
-      'Kanser teşhisi konulan bir kimya öğretmeni, ailesinin geleceğini güvence altına almak için metamfetamin üretip satmaya başlar ve suç dünyasında hızla yükselir.',
-    genres: [
-      {id: 4, name: 'Dram'},
-      {id: 5, name: 'Suç'},
-      {id: 6, name: 'Gerilim'},
-    ],
-    director: 'Vince Gilligan',
-    cast: ['Bryan Cranston', 'Aaron Paul', 'Anna Gunn'],
-    type: 'series',
-  },
-  // Diğer örnek veriler buradan kaldırıldı
-];
 
 export const SearchMovieModal: React.FC<SearchMovieModalProps> = ({visible, onClose, style}) => {
   // State tanımlamaları
@@ -83,14 +34,14 @@ export const SearchMovieModal: React.FC<SearchMovieModalProps> = ({visible, onCl
   const [movies, setMovies] = useState<MediaContent[]>([]);
   const [tvShows, setTvShows] = useState<MediaContent[]>([]);
   const [loading, setLoading] = useState(false);
-  const [loadingMore, setLoadingMore] = useState(false); // Daha fazla içerik yüklenirken
+  const [loadingMore, setLoadingMore] = useState(false);
   const [detailLoading, setDetailLoading] = useState(false);
   const [detailCardVisible, setDetailCardVisible] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [contentReady, setContentReady] = useState(false);
   const [modalReady, setModalReady] = useState(false);
-  const [page, setPage] = useState(1); // Sayfa numarası
-  const [hasMoreData, setHasMoreData] = useState(true); // Daha fazla veri var mı
+  const [page, setPage] = useState(1);
+  const [hasMoreData, setHasMoreData] = useState(true);
   const isClosingRef = useRef(false);
 
   // Store'dan fonksiyonları al
@@ -100,10 +51,9 @@ export const SearchMovieModal: React.FC<SearchMovieModalProps> = ({visible, onCl
   // Modal görünür olduğunda bir kere çalışacak ve içerik hazırlığını yapacak
   useEffect(() => {
     if (visible && !modalReady) {
-      // Önce modal animasyonunun tamamlanmasını bekleyelim
       const timer = setTimeout(() => {
         setModalReady(true);
-      }, 300); // 300ms tipik bir modal açılma animasyonu süresi
+      }, 300);
 
       return () => clearTimeout(timer);
     }
@@ -118,31 +68,25 @@ export const SearchMovieModal: React.FC<SearchMovieModalProps> = ({visible, onCl
 
         try {
           console.log('SearchMovieModal: İçerik yükleniyor...');
-          // İçerik yükleme işlemini etkileşimlerin ardından yap
           InteractionManager.runAfterInteractions(async () => {
             try {
-              // Türkiye'de popüler içerikleri getir
               const turkishContent = await tmdbService.getPopularInTurkey(1);
 
               if (!isClosingRef.current) {
-                // Film ve dizi olarak ayır
                 const popularMovies = turkishContent.filter(item => item.type === 'movie');
                 const popularTVShows = turkishContent.filter(item => item.type === 'tv');
 
                 setMovies(popularMovies);
                 setTvShows(popularTVShows);
                 setContentReady(true);
-                setPage(2); // Bir sonraki sayfa için
+                setPage(2);
                 setError(null);
                 console.log("SearchMovieModal: Türkiye'de popüler içerik başarıyla yüklendi");
               }
             } catch (err) {
               if (!isClosingRef.current) {
                 console.error('İçerik yüklenirken hata:', err);
-                setError('İçerik yüklenemedi. Örnek veriler gösteriliyor.');
-                // Hata durumunda örnek verileri göster
-                setMovies(SAMPLE_MOVIES.filter(m => m.type === 'movie') as MediaContent[]);
-                setTvShows(SAMPLE_MOVIES.filter(m => m.type === 'series') as MediaContent[]);
+                setError('İçerik yüklenemedi.');
                 setContentReady(true);
               }
             } finally {
@@ -439,7 +383,20 @@ export const SearchMovieModal: React.FC<SearchMovieModalProps> = ({visible, onCl
             {/* Poster ve Temel Bilgiler */}
             <View style={detailStyles.posterAndInfoContainer}>
               <View style={detailStyles.posterContainer}>
-                {selectedMedia.posterUrl ? (
+                {detailLoading ? (
+                  <View
+                    style={[
+                      detailStyles.poster,
+                      {
+                        backgroundColor: COLORS.grayLight,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      },
+                    ]}
+                  >
+                    <Loading size="large" color="primary" />
+                  </View>
+                ) : selectedMedia.posterUrl ? (
                   <Image
                     source={{
                       uri: selectedMedia.posterUrl,
@@ -455,180 +412,195 @@ export const SearchMovieModal: React.FC<SearchMovieModalProps> = ({visible, onCl
               </View>
 
               <View style={detailStyles.infoContainer}>
-                <Text style={detailStyles.title} numberOfLines={2}>
-                  {selectedMedia.title}
-                </Text>
-
-                <View style={detailStyles.basicInfo}>
-                  <Text style={detailStyles.infoText}>{selectedMedia.year}</Text>
-                  <View style={detailStyles.dot} />
-                  <Text style={detailStyles.infoText}>{selectedMedia.duration}</Text>
-                  {selectedMedia.rating && (
-                    <>
-                      <View style={detailStyles.dot} />
-                      <View style={detailStyles.rating}>
-                        <Ionicons name="star" size={14} color={COLORS.warning} />
-                        <Text style={detailStyles.ratingText}>
-                          {selectedMedia.rating.toFixed(1)}
-                        </Text>
-                      </View>
-                    </>
-                  )}
-                </View>
-
-                {/* Türler */}
-                <ScrollView
-                  horizontal
-                  showsHorizontalScrollIndicator={false}
-                  style={detailStyles.genresScrollContainer}
-                >
-                  {selectedMedia.genres.map(genre => (
-                    <View key={genre.id.toString()} style={detailStyles.genreItem}>
-                      <Text style={detailStyles.genreText}>{genre.name}</Text>
-                    </View>
-                  ))}
-                </ScrollView>
-              </View>
-            </View>
-
-            {/* Özet Bölümü - Her zaman görünsün */}
-            <View style={[detailStyles.summaryContainer, {marginBottom: 15}]}>
-              <Text style={detailStyles.summaryTitle}>Özet</Text>
-              <Text style={detailStyles.summaryText}>
-                {selectedMedia.summary ? (
-                  selectedMedia.summary
+                {detailLoading ? (
+                  <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                    <Loading size="small" color="primary" />
+                    <Text style={[detailStyles.infoText, {marginTop: 8}]}>
+                      Detaylar yükleniyor...
+                    </Text>
+                  </View>
                 ) : (
                   <>
-                    {`${selectedMedia.title}, `}
-                    {selectedMedia.type === 'tv' ? 'Pembe Dizi' : ''}
-                    {` ${selectedMedia.genres?.map(g => g.name).join(' ve ')} türlerinde `}
-                    {selectedMedia.type === 'movie' ? 'bir film' : 'bir dizi'}
-                    {'. '}
-                    {selectedMedia.director &&
-                      `Yapımın yönetmenliğini ${selectedMedia.director} üstleniyor. `}
-                    {selectedMedia.cast &&
-                      selectedMedia.cast.length > 0 &&
-                      `Başrollerinde ${selectedMedia.cast.join(', ')} gibi ünlü isimler yer alıyor.`}
+                    <Text style={detailStyles.title} numberOfLines={2}>
+                      {selectedMedia.title}
+                    </Text>
+
+                    <View style={detailStyles.basicInfo}>
+                      <Text style={detailStyles.infoText}>{selectedMedia.year}</Text>
+                      <View style={detailStyles.dot} />
+                      <Text style={detailStyles.infoText}>{selectedMedia.duration}</Text>
+                      {selectedMedia.rating && (
+                        <>
+                          <View style={detailStyles.dot} />
+                          <View style={detailStyles.rating}>
+                            <Ionicons name="star" size={14} color={COLORS.warning} />
+                            <Text style={detailStyles.ratingText}>
+                              {selectedMedia.rating.toFixed(1)}
+                            </Text>
+                          </View>
+                        </>
+                      )}
+                    </View>
+
+                    {/* Türler */}
+                    <ScrollView
+                      horizontal
+                      showsHorizontalScrollIndicator={false}
+                      style={detailStyles.genresScrollContainer}
+                    >
+                      {selectedMedia.genres.map(genre => (
+                        <View key={genre.id.toString()} style={detailStyles.genreItem}>
+                          <Text style={detailStyles.genreText}>{genre.name}</Text>
+                        </View>
+                      ))}
+                    </ScrollView>
                   </>
                 )}
-              </Text>
+              </View>
             </View>
 
-            {/* Yapım Bilgileri */}
-            <View style={[detailStyles.sectionContainer, {marginBottom: 70}]}>
-              <Text style={detailStyles.sectionTitle}>Yapım Bilgileri</Text>
-
-              {/* Yönetmen */}
-              {selectedMedia.director && (
-                <View style={detailStyles.infoRow}>
-                  <Text style={detailStyles.infoLabel}>Yönetmen:</Text>
-                  <Text style={detailStyles.infoValue}>{selectedMedia.director}</Text>
-                </View>
-              )}
-
-              {/* Türler */}
-              <View style={detailStyles.infoRow}>
-                <Text style={detailStyles.infoLabel}>Türler:</Text>
-                <Text style={detailStyles.infoValue}>
-                  {selectedMedia.genres.map(g => g.name).join(', ')}
+            {/* Özet Bölümü - Loading durumunda gösterilmesin */}
+            {!detailLoading && (
+              <View style={[detailStyles.summaryContainer, {marginBottom: 15}]}>
+                <Text style={detailStyles.summaryTitle}>Özet</Text>
+                <Text style={detailStyles.summaryText}>
+                  {selectedMedia.summary ? (
+                    selectedMedia.summary
+                  ) : (
+                    <>
+                      {`${selectedMedia.title}, `}
+                      {selectedMedia.type === 'tv' ? 'Pembe Dizi' : ''}
+                      {` ${selectedMedia.genres?.map(g => g.name).join(' ve ')} türlerinde `}
+                      {selectedMedia.type === 'movie' ? 'bir film' : 'bir dizi'}
+                      {'. '}
+                      {selectedMedia.director &&
+                        `Yapımın yönetmenliğini ${selectedMedia.director} üstleniyor. `}
+                      {selectedMedia.cast &&
+                        selectedMedia.cast.length > 0 &&
+                        `Başrollerinde ${selectedMedia.cast.join(', ')} gibi ünlü isimler yer alıyor.`}
+                    </>
+                  )}
                 </Text>
               </View>
+            )}
 
-              {/* Oyuncular */}
-              {selectedMedia.cast && selectedMedia.cast.length > 0 && (
+            {/* Yapım Bilgileri - Loading durumunda gösterilmesin */}
+            {!detailLoading && (
+              <View style={[detailStyles.sectionContainer, {marginBottom: 70}]}>
+                <Text style={detailStyles.sectionTitle}>Yapım Bilgileri</Text>
+
+                {/* Yönetmen */}
+                {selectedMedia.director && (
+                  <View style={detailStyles.infoRow}>
+                    <Text style={detailStyles.infoLabel}>Yönetmen:</Text>
+                    <Text style={detailStyles.infoValue}>{selectedMedia.director}</Text>
+                  </View>
+                )}
+
+                {/* Türler */}
                 <View style={detailStyles.infoRow}>
-                  <Text style={detailStyles.infoLabel}>Oyuncular:</Text>
-                  <Text style={detailStyles.infoValue}>{selectedMedia.cast.join(', ')}</Text>
-                </View>
-              )}
-
-              {/* Yıl */}
-              <View style={detailStyles.infoRow}>
-                <Text style={detailStyles.infoLabel}>Yıl:</Text>
-                <Text style={detailStyles.infoValue}>{selectedMedia.year}</Text>
-              </View>
-
-              {/* Süre */}
-              {selectedMedia.duration && (
-                <View style={detailStyles.infoRow}>
-                  <Text style={detailStyles.infoLabel}>Süre:</Text>
-                  <Text style={detailStyles.infoValue}>{selectedMedia.duration}</Text>
-                </View>
-              )}
-
-              {/* IMDB Puanı */}
-              {selectedMedia.rating && (
-                <View style={detailStyles.infoRow}>
-                  <Text style={detailStyles.infoLabel}>IMDB Puanı:</Text>
-                  <Text style={detailStyles.infoValue}>{selectedMedia.rating.toFixed(1)}/10</Text>
-                </View>
-              )}
-
-              {/* Orijinal Dil */}
-              {selectedMedia.originalLanguage && (
-                <View style={detailStyles.infoRow}>
-                  <Text style={detailStyles.infoLabel}>Orijinal Dil:</Text>
+                  <Text style={detailStyles.infoLabel}>Türler:</Text>
                   <Text style={detailStyles.infoValue}>
-                    {(() => {
-                      switch (selectedMedia.originalLanguage) {
-                        case 'en':
-                          return 'İngilizce';
-                        case 'tr':
-                          return 'Türkçe';
-                        case 'ja':
-                          return 'Japonca';
-                        case 'ko':
-                          return 'Korece';
-                        case 'fr':
-                          return 'Fransızca';
-                        case 'de':
-                          return 'Almanca';
-                        case 'es':
-                          return 'İspanyolca';
-                        case 'it':
-                          return 'İtalyanca';
-                        case 'ru':
-                          return 'Rusça';
-                        case 'pt':
-                          return 'Portekizce';
-                        default:
-                          return selectedMedia.originalLanguage.toUpperCase();
-                      }
-                    })()}
+                    {selectedMedia.genres.map(g => g.name).join(', ')}
                   </Text>
                 </View>
-              )}
 
-              {/* Sezon ve Bölüm Sayısı - Sadece diziler için */}
-              {selectedMedia.type === 'tv' && (
-                <>
-                  {selectedMedia.numberOfSeasons && (
-                    <View style={detailStyles.infoRow}>
-                      <Text style={detailStyles.infoLabel}>Sezon Sayısı:</Text>
-                      <Text style={detailStyles.infoValue}>{selectedMedia.numberOfSeasons}</Text>
-                    </View>
-                  )}
+                {/* Oyuncular */}
+                {selectedMedia.cast && selectedMedia.cast.length > 0 && (
+                  <View style={detailStyles.infoRow}>
+                    <Text style={detailStyles.infoLabel}>Oyuncular:</Text>
+                    <Text style={detailStyles.infoValue}>{selectedMedia.cast.join(', ')}</Text>
+                  </View>
+                )}
 
-                  {selectedMedia.numberOfEpisodes && (
-                    <View style={detailStyles.infoRow}>
-                      <Text style={detailStyles.infoLabel}>Bölüm Sayısı:</Text>
-                      <Text style={detailStyles.infoValue}>{selectedMedia.numberOfEpisodes}</Text>
-                    </View>
-                  )}
-                </>
-              )}
+                {/* Yıl */}
+                <View style={detailStyles.infoRow}>
+                  <Text style={detailStyles.infoLabel}>Yıl:</Text>
+                  <Text style={detailStyles.infoValue}>{selectedMedia.year}</Text>
+                </View>
 
-              {/* Yapım Ülkeleri */}
-              {selectedMedia.productionCountries &&
-                selectedMedia.productionCountries.length > 0 && (
-                  <View style={[detailStyles.infoRow, {marginBottom: 20}]}>
-                    <Text style={detailStyles.infoLabel}>Yapım Ülkesi:</Text>
+                {/* Süre */}
+                {selectedMedia.duration && (
+                  <View style={detailStyles.infoRow}>
+                    <Text style={detailStyles.infoLabel}>Süre:</Text>
+                    <Text style={detailStyles.infoValue}>{selectedMedia.duration}</Text>
+                  </View>
+                )}
+
+                {/* IMDB Puanı */}
+                {selectedMedia.rating && (
+                  <View style={detailStyles.infoRow}>
+                    <Text style={detailStyles.infoLabel}>IMDB Puanı:</Text>
+                    <Text style={detailStyles.infoValue}>{selectedMedia.rating.toFixed(1)}/10</Text>
+                  </View>
+                )}
+
+                {/* Orijinal Dil */}
+                {selectedMedia.originalLanguage && (
+                  <View style={detailStyles.infoRow}>
+                    <Text style={detailStyles.infoLabel}>Orijinal Dil:</Text>
                     <Text style={detailStyles.infoValue}>
-                      {selectedMedia.productionCountries.map(country => country.name).join(', ')}
+                      {(() => {
+                        switch (selectedMedia.originalLanguage) {
+                          case 'en':
+                            return 'İngilizce';
+                          case 'tr':
+                            return 'Türkçe';
+                          case 'ja':
+                            return 'Japonca';
+                          case 'ko':
+                            return 'Korece';
+                          case 'fr':
+                            return 'Fransızca';
+                          case 'de':
+                            return 'Almanca';
+                          case 'es':
+                            return 'İspanyolca';
+                          case 'it':
+                            return 'İtalyanca';
+                          case 'ru':
+                            return 'Rusça';
+                          case 'pt':
+                            return 'Portekizce';
+                          default:
+                            return selectedMedia.originalLanguage.toUpperCase();
+                        }
+                      })()}
                     </Text>
                   </View>
                 )}
-            </View>
+
+                {/* Sezon ve Bölüm Sayısı - Sadece diziler için */}
+                {selectedMedia.type === 'tv' && (
+                  <>
+                    {selectedMedia.numberOfSeasons && (
+                      <View style={detailStyles.infoRow}>
+                        <Text style={detailStyles.infoLabel}>Sezon Sayısı:</Text>
+                        <Text style={detailStyles.infoValue}>{selectedMedia.numberOfSeasons}</Text>
+                      </View>
+                    )}
+
+                    {selectedMedia.numberOfEpisodes && (
+                      <View style={detailStyles.infoRow}>
+                        <Text style={detailStyles.infoLabel}>Bölüm Sayısı:</Text>
+                        <Text style={detailStyles.infoValue}>{selectedMedia.numberOfEpisodes}</Text>
+                      </View>
+                    )}
+                  </>
+                )}
+
+                {/* Yapım Ülkeleri */}
+                {selectedMedia.productionCountries &&
+                  selectedMedia.productionCountries.length > 0 && (
+                    <View style={[detailStyles.infoRow, {marginBottom: 20}]}>
+                      <Text style={detailStyles.infoLabel}>Yapım Ülkesi:</Text>
+                      <Text style={detailStyles.infoValue}>
+                        {selectedMedia.productionCountries.map(country => country.name).join(', ')}
+                      </Text>
+                    </View>
+                  )}
+              </View>
+            )}
           </ScrollView>
 
           {/* Alt Butonlar - Scroll view dışına taşındı */}
