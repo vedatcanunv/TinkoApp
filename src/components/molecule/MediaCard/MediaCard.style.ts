@@ -112,4 +112,35 @@ export const styles = StyleSheet.create({
     fontSize: TYPOGRAPHY.FONT_SIZE.SMALL,
     fontWeight: TYPOGRAPHY.FONT_WEIGHT.BOLD,
   },
+  // Başlık stilleri
+  title: {
+    color: COLORS.white,
+    fontSize: TYPOGRAPHY.FONT_SIZE.MEDIUM,
+    fontWeight: TYPOGRAPHY.FONT_WEIGHT.BOLD,
+    flexShrink: 1,
+  },
+  year: {
+    color: COLORS.white,
+    fontSize: TYPOGRAPHY.FONT_SIZE.SMALL,
+    marginLeft: 8,
+    fontWeight: TYPOGRAPHY.FONT_WEIGHT.MEDIUM,
+  },
+  // Genre ScrollView stilleri
+  genreScrollView: {
+    flex: 1,
+    marginLeft: 5,
+  },
+  genreScrollViewContent: {
+    paddingRight: 10,
+  },
+  // Resim yok durumu için stil
+  noImageContainer: {
+    backgroundColor: COLORS.grayLight,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  noImageText: {
+    color: COLORS.white,
+    textAlign: 'center',
+  },
 });

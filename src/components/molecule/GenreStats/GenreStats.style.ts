@@ -1,36 +1,31 @@
 import {StyleSheet} from 'react-native';
 import {COLORS} from '../../../helpers/colors';
-import {SPACING} from '../../../helpers/styleKit';
+import {SPACING, VISUAL} from '../../../helpers/styleKit';
 
 export const styles = StyleSheet.create({
   container: {
     padding: SPACING.MEDIUM,
   },
   title: {
-    marginBottom: SPACING.SMALL,
+    marginBottom: SPACING.MEDIUM,
   },
   genreItem: {
-    marginBottom: SPACING.SMALL,
+    marginBottom: SPACING.MEDIUM,
   },
   genreBar: {
-    height: 6,
-    backgroundColor: COLORS.grayLight,
-    borderRadius: 16,
+    height: 8,
+    backgroundColor: COLORS.backgroundDark,
+    borderRadius: VISUAL.RADIUS.SMALL,
     overflow: 'hidden',
+    marginBottom: SPACING.TINY,
   },
   genreBarFill: {
     height: '100%',
     backgroundColor: COLORS.primary,
-    borderRadius: 16,
-    elevation: 2,
-    shadowColor: COLORS.black,
-    shadowOffset: {width: 0, height: 1},
-    shadowOpacity: 0.2,
-    shadowRadius: 1.5,
   },
   genreInfo: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: SPACING.TINY,
+    alignItems: 'center',
   },
 });

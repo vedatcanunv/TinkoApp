@@ -1,11 +1,12 @@
 import {StyleSheet} from 'react-native';
 import {COLORS} from '../../../helpers/colors';
+import {SPACING} from '../../../helpers/styleKit';
 
 export const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: 'row',
-    padding: 16,
-    marginBottom: 16,
+    padding: SPACING.MEDIUM,
+    marginBottom: SPACING.MEDIUM,
   },
   poster: {
     width: 120,
@@ -14,19 +15,19 @@ export const styles = StyleSheet.create({
   },
   titleContainer: {
     flex: 1,
-    marginLeft: 16,
+    marginLeft: SPACING.MEDIUM,
     justifyContent: 'center',
   },
   title: {
     fontSize: 22,
     fontWeight: 'bold',
     color: COLORS.white,
-    marginBottom: 8,
+    marginBottom: SPACING.SMALL,
   },
   infoRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 4,
+    marginTop: SPACING.TINY,
   },
   infoText: {
     fontSize: 14,

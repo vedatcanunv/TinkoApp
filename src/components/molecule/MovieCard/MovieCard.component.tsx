@@ -3,7 +3,7 @@ import {View, TouchableOpacity, Image} from 'react-native';
 import {Text} from '../../atom/Text';
 import {Tag} from '../../atom/Tag';
 import {styles} from './MovieCard.style';
-import {Movie, MovieCardProps} from './MovieCard.type';
+import {MovieCardProps} from './MovieCard.type';
 
 export const MovieCard: React.FC<MovieCardProps> = ({
   movie,
@@ -13,11 +13,6 @@ export const MovieCard: React.FC<MovieCardProps> = ({
   style,
   ...props
 }) => {
-  // İlk harfi almak için
-  const getFirstLetter = (title: string) => {
-    return title.charAt(0).toUpperCase();
-  };
-
   // Karta tıklandığında
   const handlePress = () => {
     if (onPress) {

@@ -28,4 +28,9 @@ export interface StateViewProps {
    * Hata metni
    */
   errorText?: string;
+
+  /**
+   * Hata durumunda yeniden deneme fonksiyonu
+   */
+  onRetry?: () => void;
 }

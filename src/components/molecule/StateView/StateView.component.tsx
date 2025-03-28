@@ -1,6 +1,6 @@
 import React from 'react';
 import {View} from 'react-native';
-import {Loading, Text} from '../../../components/atom';
+import {Loading, Text, Error} from '../../../components/atom';
 import {styles} from './StateView.style';
 import {StateViewProps} from './StateView.type';
 
@@ -11,6 +11,7 @@ export const StateView: React.FC<StateViewProps> = ({
   emptyText = 'Görüntülenecek içerik bulunamadı.',
   loadingText = 'İçerik yükleniyor...',
   errorText,
+  onRetry,
 }) => {
   if (loading) {
     return (
@@ -26,9 +27,7 @@ export const StateView: React.FC<StateViewProps> = ({
   if (error) {
     return (
       <View style={styles.errorContainer}>
-        <Text size="m" color="danger" style={styles.errorText}>
-          {errorText || error}
-        </Text>
+        <Error message={errorText || error} onRetry={onRetry} />
       </View>
     );
   }

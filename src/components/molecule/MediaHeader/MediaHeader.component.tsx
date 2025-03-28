@@ -3,11 +3,20 @@ import {View, Image} from 'react-native';
 import {Text} from '../../atom/Text';
 import {Ionicons} from '@expo/vector-icons';
 import {COLORS} from '../../../helpers/colors';
+import {SPACING} from '../../../helpers/styleKit';
 import {styles} from './MediaHeader.style';
 import {MediaHeaderProps} from './MediaHeader.type';
 
 export const MediaHeader = memo<MediaHeaderProps>(({media, insets}) => (
-  <View style={styles.headerContainer}>
+  <View
+    style={[
+      styles.headerContainer,
+      {
+        paddingTop: insets.top + SPACING.MEDIUM,
+        paddingBottom: insets.bottom + SPACING.MEDIUM,
+      },
+    ]}
+  >
     {media.posterUrl && (
       <Image source={{uri: media.posterUrl}} style={styles.poster} resizeMode="cover" />
     )}

@@ -72,37 +72,18 @@ export const MediaCard = ({
             resizeMode="cover"
           />
         ) : (
-          <View style={[styles.poster, {backgroundColor: COLORS.grayLight}]}>
-            <Text style={{color: COLORS.white, textAlign: 'center'}}>Resim Yok</Text>
+          <View style={[styles.poster, styles.noImageContainer]}>
+            <Text style={styles.noImageText}>Resim Yok</Text>
           </View>
         )}
       </View>
 
       <View style={styles.content}>
         <View style={styles.titleContainer}>
-          <Text
-            style={{
-              color: COLORS.white,
-              fontSize: TYPOGRAPHY.FONT_SIZE.MEDIUM,
-              fontWeight: TYPOGRAPHY.FONT_WEIGHT.BOLD,
-              flexShrink: 1,
-            }}
-            numberOfLines={1}
-          >
+          <Text style={styles.title} numberOfLines={1}>
             {getTitle()}
           </Text>
-          {media?.year && (
-            <Text
-              style={{
-                color: COLORS.white,
-                fontSize: TYPOGRAPHY.FONT_SIZE.SMALL,
-                marginLeft: 8,
-                fontWeight: TYPOGRAPHY.FONT_WEIGHT.MEDIUM,
-              }}
-            >
-              {media.year}
-            </Text>
-          )}
+          {media?.year && <Text style={styles.year}>{media.year}</Text>}
         </View>
 
         <View style={styles.tagsContainer}>
@@ -116,15 +97,12 @@ export const MediaCard = ({
             <ScrollView
               horizontal
               showsHorizontalScrollIndicator={false}
-              style={{
-                flex: 1,
-                marginLeft: 5,
-              }}
-              contentContainerStyle={{
-                paddingRight: 10,
-              }}
+              style={styles.genreScrollView}
+              contentContainerStyle={styles.genreScrollViewContent}
               nestedScrollEnabled={true}
-              pointerEvents="box-none"
+              scrollEnabled={true}
+              bounces={false}
+              overScrollMode="never"
               onTouchStart={e => {
                 // ScrollView'a dokunulduğunda olayın yukarı yayılmasını engelle
                 e.stopPropagation();

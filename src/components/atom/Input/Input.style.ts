@@ -88,4 +88,11 @@ export const styles = StyleSheet.create({
   rightIcon: {
     marginLeft: SPACING.SMALL,
   },
+  // Şifre görünürlük butonu için hitSlop
+  passwordButtonHitSlop: {
+    top: 10,
+    right: 10,
+    bottom: 10,
+    left: 10,
+  },
 });
