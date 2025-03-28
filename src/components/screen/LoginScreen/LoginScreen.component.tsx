@@ -92,7 +92,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({onLogin, onSignUpPress}
                 loading={isLoading}
                 style={styles.loginButton}
                 size="large"
-                variant="primary"
+                variant="filled"
               />
             </View>
           )}

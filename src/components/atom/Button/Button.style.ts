@@ -13,19 +13,13 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   // Button variants
-  primary: {
+  filled: {
     backgroundColor: COLORS.primary,
-  },
-  secondary: {
-    backgroundColor: COLORS.secondary,
   },
   outline: {
     backgroundColor: 'transparent',
     borderWidth: 1,
     borderColor: COLORS.primary,
-  },
-  transparent: {
-    backgroundColor: 'transparent',
   },
   // Button sizes
   small: {
@@ -49,16 +43,10 @@ export const styles = StyleSheet.create({
     fontWeight: TYPOGRAPHY.FONT_WEIGHT.MEDIUM,
   },
   // Text colors based on button variant
-  primaryText: {
-    color: COLORS.white,
-  },
-  secondaryText: {
+  filledText: {
     color: COLORS.white,
   },
   outlineText: {
-    color: COLORS.primary,
-  },
-  transparentText: {
     color: COLORS.primary,
   },
   // Icon styles

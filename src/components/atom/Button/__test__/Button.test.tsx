@@ -29,16 +29,16 @@ describe('Button Component', () => {
 
   it('renders with different variants', () => {
     const {toJSON: primary} = render(
-      <Button title="Primary" onPress={() => {}} variant="primary" />
+      <Button title="Primary" onPress={() => {}} variant="outline" />
     );
     const {toJSON: secondary} = render(
-      <Button title="Secondary" onPress={() => {}} variant="secondary" />
+      <Button title="Secondary" onPress={() => {}} variant="filled" />
     );
     const {toJSON: outline} = render(
       <Button title="Outline" onPress={() => {}} variant="outline" />
     );
     const {toJSON: transparent} = render(
-      <Button title="Transparent" onPress={() => {}} variant="transparent" />
+      <Button title="Transparent" onPress={() => {}} variant="filled" />
     );
 
     expect(primary()).toMatchSnapshot('primary variant');

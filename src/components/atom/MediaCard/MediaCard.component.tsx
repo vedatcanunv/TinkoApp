@@ -3,7 +3,6 @@ import {Image, Pressable, View} from 'react-native';
 import {Text} from '../Text';
 import {styles} from './MediaCard.style';
 import {MediaCardProps} from './MediaCard.type';
-import {COLORS} from '../../../helpers/colors';
 
 export const MediaCard: React.FC<MediaCardProps> = ({
   title,
@@ -24,15 +23,15 @@ export const MediaCard: React.FC<MediaCardProps> = ({
           {title}
         </Text>
         <View style={styles.footer}>
-          <Text size="xs" color="white" style={styles.type}>
+          <Text size="s" color="white" style={styles.type}>
             {type === 'movie' ? 'Film' : 'Dizi'}
           </Text>
           {rating && (
             <View style={styles.ratingContainer}>
-              <Text size="xs" color="white">
+              <Text size="s" color="white">
                 {rating.toFixed(1)}
               </Text>
-              <Text size="xs" color="primary">
+              <Text size="s" color="primary">
                 ★
               </Text>
             </View>

@@ -23,7 +23,7 @@ export interface ButtonProps extends TouchableOpacityProps {
 
   /**
    * Butonun görünüm varyantı
-   * @default 'primary'
+   * @default 'filled'
    */
   variant?: ButtonVariant;
 

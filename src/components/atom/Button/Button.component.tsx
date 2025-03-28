@@ -10,7 +10,7 @@ export const Button: React.FC<ButtonProps> = memo(
     title,
     onPress,
     disabled = false,
-    variant = 'primary',
+    variant = 'filled',
     size = 'medium',
     loading = false,
     style,
@@ -21,16 +21,10 @@ export const Button: React.FC<ButtonProps> = memo(
     // Text stili için varyant adını belirleyerek doğru stil referansını al
     const getVariantTextStyle = (variant: ButtonVariant) => {
       switch (variant) {
-        case 'primary':
-          return styles.primaryText;
-        case 'secondary':
-          return styles.secondaryText;
         case 'outline':
           return styles.outlineText;
-        case 'transparent':
-          return styles.transparentText;
         default:
-          return styles.primaryText;
+          return styles.filledText;
       }
     };
 
@@ -38,7 +32,6 @@ export const Button: React.FC<ButtonProps> = memo(
     const getLoadingColor = (variant: ButtonVariant) => {
       switch (variant) {
         case 'outline':
-        case 'transparent':
           return COLORS.primary;
         default:
           return COLORS.white;
