@@ -58,6 +58,7 @@ export const MediaDetailCard = memo<MediaDetailCardProps>(
               <MediaDetailView
                 media={media}
                 insets={insets}
+                onClose={handleClosePress}
                 onMarkAsWatched={onMarkAsWatched}
                 onAddToWatchlist={onAddToWatchlist}
               />
