@@ -1,24 +1,31 @@
 import {MediaContent} from '../../molecule/MediaCard/MediaCard.type';
-import {EdgeInsets} from 'react-native-safe-area-context';
 
 export interface MediaDetailViewProps {
   /**
-   * Gösterilecek medya içeriği
+   * Gösterilecek medya detayları
    */
   media: MediaContent;
 
   /**
    * Güvenli alan kenar boşlukları
    */
-  insets: EdgeInsets;
+  insets: {
+    top: number;
+    bottom: number;
+  };
 
   /**
-   * İzlendi olarak işaretlemek için fonksiyon
+   * Sayfayı kapatma fonksiyonu
    */
-  onMarkAsWatched?: () => void;
+  onClose: () => void;
+
+  /**
+   * Medyayı izlendi olarak işaretleme fonksiyonu
+   */
+  onMarkAsWatched: () => void;
 
   /**
    * İzleme listesine eklemek için fonksiyon
    */
-  onAddToWatchlist?: () => void;
+  onAddToWatchlist: () => void;
 }

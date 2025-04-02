@@ -7,7 +7,7 @@ import {
   TMDBTVShowDetails,
   TMDBCredits,
   TMDBGenre,
-} from './tmdb.types';
+} from '../types/tmdb.types';
 import {MediaContent, Genre} from '../components/molecule/MediaCard/MediaCard.type';
 import {TMDB_API_KEY} from '@env';
 
